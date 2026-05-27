@@ -26,3 +26,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# 10xDEVS
+.agents
+AGENTS.md
+CLAUDE.md
