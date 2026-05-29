@@ -2,58 +2,70 @@
 
 ## Summary
 
-- Use the current Astro 6 + @astrojs/cloudflare Workers path for the first production deployment. Do not use Cloudflare Pages.
-- Publish manually to a workers.dev URL first, with hosted Supabase kept external and wired only through secrets.
-- Defer CI auto-deploy and custom-domain setup until after the first production smoke pass succeeds.
+- Deploy this Astro 6 app to Cloudflare Workers with Wrangler, not Cloudflare Pages.
+- First release is a manual production deploy to a workers.dev URL.
+- Hosted Supabase stays external and is wired into the Worker only through runtime secrets.
+
+## Pre-Execution Steps You Must Do Yourself
+
+- Cloudflare account access: Log into the target Cloudflare account and confirm you can deploy Workers there. This cannot be
+  delegated because it depends on your account ownership and billing scope.
+
+- Enable or confirm workers.dev: In Cloudflare, make sure the account has a workers.dev subdomain configured. The first deployment
+  URL will be https://<worker-name>.<your-account-subdomain>.workers.dev.
+
+- Cloudflare authentication for CLI: Run npx wrangler login on your machine and confirm access with npx wrangler whoami. This is
+  your authorization step for deploys.
+
+- Production secrets: In Cloudflare, create Worker secrets for SUPABASE_URL and SUPABASE_KEY. These must be entered by you because
+  they are production credentials.
+
+- Supabase URL configuration: In Supabase Auth settings, set the production Site URL to the final workers.dev URL and add any
+  additional redirect URLs only if you introduce non-default auth redirects later. This matters for email confirmation and auth
+  redirects.
+
+- Human approval gate: Before running npx wrangler deploy, review the exact Worker name and target account. Publishing production
+  traffic is a human-owned action for this rollout.
 
 ## Key Changes
 
-- Update wrangler.jsonc name from the starter default to preptoclimb so the public Worker URL is product-specific.
-- Add "preview_urls": false in wrangler.jsonc for this rollout to avoid accidental public preview surfaces before CI/branch preview
-  policy exists.
-
-- Add "secrets": { "required": ["SUPABASE_URL", "SUPABASE_KEY"] } in wrangler.jsonc so local dev and deploy fail clearly when
-  runtime secrets are missing.
-
-- Leave Astro adapter, output: "server", assets binding, and current compatibility_date unchanged for the first release.
-- Correct the stale cloudflare-pages wording in context/foundation/tech-stack.md so repo docs match the actual Workers deployment
-  target.
+- Update wrangler.jsonc name from 10x-astro-starter to preptoclimb so the Worker URL is product-specific.
+- Add preview_urls: false in wrangler.jsonc for the first rollout to avoid unmanaged public previews.
+- Add required secret declarations for SUPABASE_URL and SUPABASE_KEY in wrangler.jsonc so missing runtime config fails early.
+- Leave the Astro adapter, server output, assets binding, and current compatibility settings unchanged.
+- Correct the stale cloudflare-pages wording in context/foundation/tech-stack.md so the docs match the real deployment target.
 
 ## Deployment Flow
 
-- Prepare local secrets in .dev.vars from .env.example using the hosted Supabase SUPABASE_URL and SUPABASE_KEY.
+- Prepare local .dev.vars from .env.example with the same two Supabase values used in production.
 - Run npm ci, npx astro sync, npm run lint, and npm run build.
-- Smoke locally with npm run dev and verify /, /auth/signin, /auth/signup, and unauthenticated /dashboard redirect behavior.
-- Authenticate Cloudflare locally with npx wrangler login, then confirm access with npx wrangler whoami.
-- In the Cloudflare dashboard, ensure the target account has a workers.dev subdomain enabled for Workers.
-- In the Cloudflare dashboard, add production Worker secrets SUPABASE_URL and SUPABASE_KEY before the first publish. Do not store
-  production secrets in source-controlled config.
-
-- In Supabase, keep email/password auth enabled and add the final https://preptoclimb.<your-workers-subdomain>.workers.dev URL to
-  auth/site URL settings if confirmation emails or future redirect-based flows are used.
-
-- Deploy manually with npx wrangler deploy.
-- Capture the returned workers.dev URL and use that as the only public endpoint for this first rollout.
+- Smoke locally with npm run dev and verify /, /auth/signin, /auth/signup, and the unauthenticated redirect from /dashboard.
+- After the manual setup steps above are complete, deploy with npx wrangler deploy.
+- Capture the returned workers.dev URL and use it as the only public endpoint for this first release.
+- Verify sign-up, sign-in, protected-route access, and sign-out against the deployed URL.
+- Inspect runtime behavior with npx wrangler tail during the auth smoke test.
 
 ## Test Plan
 
-- Anonymous request to / returns 200.
-- Anonymous request to /dashboard redirects to /auth/signin.
-- Sign-up flow returns the user to /auth/confirm-email without server errors.
-- Existing confirmed user can sign in, reach /dashboard, and see their email rendered.
+- / loads successfully as an anonymous user.
+- Anonymous access to /dashboard redirects to /auth/signin.
+- Sign-up reaches /auth/confirm-email without runtime errors.
+- A confirmed user can sign in and reach /dashboard.
 - Sign-out returns to /.
-- Runtime verification uses npx wrangler tail during the auth smoke test and shows no unhandled exceptions.
+- wrangler tail shows no unhandled exceptions during the deploy smoke pass.
 
 ## Assumptions And Defaults
 
-- Hosted Supabase already exists and is the production auth backend.
-- First launch uses only the default workers.dev hostname; no custom domain is included.
-- First rollout is manual-only; GitHub or Cloudflare auto-deploy is a follow-up.
-- Cloudflare Workers is the source-of-truth target even though older repo notes still mention Pages.
+- Hosted Supabase already exists.
+- First release uses only workers.dev; no custom domain is included.
+- CI auto-deploy is intentionally deferred until after the first production rollout succeeds.
+- Cloudflare Workers is the source-of-truth path as of May 29, 2026, even though older repo notes still mention Pages.
 
 ## References
 
-- Astro Cloudflare deploy guide (https://docs.astro.build/en/guides/deploy/cloudflare/)
-- Astro @astrojs/cloudflare adapter guide (https://docs.astro.build/en/guides/integrations-guide/cloudflare/)
-- Cloudflare Workers secrets docs (https://developers.cloudflare.com/workers/configuration/secrets/)
-- Cloudflare Workers preview URLs docs (https://developers.cloudflare.com/workers/configuration/previews/)
+- Astro: Deploy to Cloudflare Workers (https://docs.astro.build/en/guides/deploy/cloudflare/)
+- Cloudflare: workers.dev (https://developers.cloudflare.com/workers/configuration/routing/workers-dev/)
+- Cloudflare: Secrets (https://developers.cloudflare.com/workers/configuration/secrets/)
+- Cloudflare: Wrangler commands (https://developers.cloudflare.com/workers/wrangler/commands/general/)
+- Supabase: Redirect URLs (https://supabase.com/docs/guides/auth/redirect-urls)
+- Supabase: Auth general configuration (https://supabase.com/docs/guides/auth/general-configuration)
