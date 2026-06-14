@@ -1,6 +1,10 @@
 import type { APIRoute } from "astro";
 import { isInjuryOptionId } from "@/lib/injury-options";
+import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
+import { generateWeeklyPlan } from "@/lib/plan-generator";
 import type { PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
+import { createClient } from "@/lib/supabase";
+import type { QuestionnaireResponseInput } from "@/lib/plan-types";
 
 export const POST: APIRoute = async (context) => {
   if (!context.locals.user) {
@@ -42,14 +46,42 @@ export const POST: APIRoute = async (context) => {
     );
   }
 
-  return jsonResponse<PlanQuestionnaireResponse>(
-    {
-      ok: false,
-      error:
-        "Plan generation is not enabled yet. The request contract is live, and the real generated response lands in the next phase.",
-    },
-    501,
-  );
+  const supabase = createClient(context.request.headers, context.cookies);
+  if (!supabase) {
+    return jsonResponse({ error: "Supabase is not configured" }, 503);
+  }
+
+  const questionnaire = readQuestionnaire(payload);
+  const persistence = createPlanPersistence(supabase);
+
+  try {
+    const plan = generateWeeklyPlan(questionnaire);
+    const savedPlan = await persistence.saveCurrentPlan(context.locals.user.id, {
+      questionnaire,
+      weeklyPlan: plan,
+    });
+
+    return jsonResponse<PlanQuestionnaireResponse>(
+      {
+        ok: true,
+        plan: savedPlan,
+      },
+      200,
+    );
+  } catch (error) {
+    const message =
+      error instanceof PlanPersistenceError || error instanceof Error
+        ? error.message
+        : "Plan generation failed unexpectedly.";
+
+    return jsonResponse<PlanQuestionnaireResponse>(
+      {
+        ok: false,
+        error: message,
+      },
+      500,
+    );
+  }
 };
 
 function validateQuestionnaireRequest(payload: unknown): string | null {
@@ -92,4 +124,14 @@ function jsonResponse(body: PlanQuestionnaireResponse | { error: string }, statu
     status,
     headers: { "content-type": "application/json" },
   });
+}
+
+function readQuestionnaire(payload: unknown): QuestionnaireResponseInput {
+  const payloadRecord = payload as Record<string, unknown>;
+  const questionnaireRecord = payloadRecord.questionnaire as Record<string, unknown>;
+
+  return {
+    climbingGrade: questionnaireRecord.climbingGrade as QuestionnaireResponseInput["climbingGrade"],
+    injuryLimitations: questionnaireRecord.injuryLimitations as QuestionnaireResponseInput["injuryLimitations"],
+  };
 }

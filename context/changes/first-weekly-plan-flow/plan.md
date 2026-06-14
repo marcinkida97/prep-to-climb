@@ -434,30 +434,30 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [x] 3.1 Astro types refresh successfully after the real plan-generation route lands: `npx astro sync`
-- [x] 3.2 Lint passes with the new route and dashboard submission integration: `npm run lint`
-- [x] 3.3 Build passes after the dashboard flow stops depending on the smoke payload route: `npm run build`
+- [x] 3.1 Astro types refresh successfully after the real plan-generation route lands: `npx astro sync` — 07f6378
+- [x] 3.2 Lint passes with the new route and dashboard submission integration: `npm run lint` — 07f6378
+- [x] 3.3 Build passes after the dashboard flow stops depending on the smoke payload route: `npm run build` — 07f6378
 
 #### Manual
 
-- [x] 3.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
-- [x] 3.5 Invalid submissions return inline-displayable JSON errors without persisting partial state
-- [x] 3.6 Anonymous requests to the new route still receive the current unauthorized JSON shape
+- [x] 3.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard — 07f6378
+- [x] 3.5 Invalid submissions return inline-displayable JSON errors without persisting partial state — 07f6378
+- [x] 3.6 Anonymous requests to the new route still receive the current unauthorized JSON shape — 07f6378
 
 ### Phase 4: Implement deterministic weekly-plan generation with injury-safe substitutions
 
 #### Automated
 
-- [ ] 4.1 Astro types refresh successfully after the generator modules are added: `npx astro sync`
-- [ ] 4.2 Lint passes with the new generator and rule modules: `npm run lint`
-- [ ] 4.3 Build passes with deterministic generation and persistence wired into the protected route: `npm run build`
+- [x] 4.1 Astro types refresh successfully after the generator modules are added: `npx astro sync`
+- [x] 4.2 Lint passes with the new generator and rule modules: `npm run lint`
+- [x] 4.3 Build passes with deterministic generation and persistence wired into the protected route: `npm run build`
 
 #### Manual
 
-- [ ] 4.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
-- [ ] 4.5 The generated plan contains exactly seven days with visible focus areas and recommended exercises
-- [ ] 4.6 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that body part and injury type/severity
-- [ ] 4.7 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
+- [x] 4.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
+- [x] 4.5 The generated plan contains exactly seven days with visible focus areas and recommended exercises
+- [x] 4.6 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that body part and injury type/severity
+- [x] 4.7 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
 
 ### Phase 5: Render the full saved weekly plan and regenerate path on the dashboard
 
