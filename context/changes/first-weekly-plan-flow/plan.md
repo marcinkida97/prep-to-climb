@@ -463,28 +463,28 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [x] 5.1 Astro types refresh successfully after the saved-plan presentation components are added: `npx astro sync`
-- [x] 5.2 Lint passes with the full plan view and regenerate state logic: `npm run lint`
-- [x] 5.3 Build passes with the completed dashboard flow: `npm run build`
+- [x] 5.1 Astro types refresh successfully after the saved-plan presentation components are added: `npx astro sync` — 06882ba
+- [x] 5.2 Lint passes with the full plan view and regenerate state logic: `npm run lint` — 06882ba
+- [x] 5.3 Build passes with the completed dashboard flow: `npm run build` — 06882ba
 
 #### Manual
 
-- [x] 5.4 A successful first-run submission replaces the questionnaire view with the full saved weekly plan on `/dashboard`
-- [x] 5.5 A returning signed-in user sees the saved plan first and can intentionally regenerate it from the same page
-- [x] 5.6 The dashboard no longer presents the smoke-test flow as the main user action
+- [x] 5.4 A successful first-run submission replaces the questionnaire view with the full saved weekly plan on `/dashboard` — 06882ba
+- [x] 5.5 A returning signed-in user sees the saved plan first and can intentionally regenerate it from the same page — 06882ba
+- [x] 5.6 The dashboard no longer presents the smoke-test flow as the main user action — 06882ba
 
 ### Phase 6: Verify the end-to-end protected flow and repo gates
 
 #### Automated
 
-- [ ] 6.1 Astro types refresh successfully on the final integrated slice: `npx astro sync`
-- [ ] 6.2 Lint passes on the full repo: `npm run lint`
-- [ ] 6.3 Build passes on the full repo: `npm run build`
+- [x] 6.1 Astro types refresh successfully on the final integrated slice: `npx astro sync`
+- [x] 6.2 Lint passes on the full repo: `npm run lint`
+- [x] 6.3 Build passes on the full repo: `npm run build`
 
 #### Manual
 
-- [ ] 6.4 A first-time authenticated user can submit climbing grade and injury limitations and immediately see a full 7-day saved plan
-- [ ] 6.5 A returning authenticated user sees the saved plan first and can regenerate it intentionally
-- [ ] 6.6 A failed generation attempt keeps the questionnaire values visible and allows retry from the same page
-- [ ] 6.7 Anonymous `/dashboard` access still redirects to `/auth/signin`
-- [ ] 6.8 Anonymous requests to the real plan-generation API still return `401` with the current unauthorized JSON shape
+- [x] 6.4 A first-time authenticated user can submit climbing grade and injury limitations and immediately see a full 7-day saved plan
+- [x] 6.5 A returning authenticated user sees the saved plan first and can regenerate it intentionally
+- [x] 6.6 A failed generation attempt keeps the questionnaire values visible and allows retry from the same page
+- [x] 6.7 Anonymous `/dashboard` access still redirects to `/auth/signin`
+- [x] 6.8 Anonymous requests to the real plan-generation API still return `401` with the current unauthorized JSON shape
