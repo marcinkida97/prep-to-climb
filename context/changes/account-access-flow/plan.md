@@ -243,27 +243,27 @@ No schema or data migration is required. This slice stays within the existing au
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes after sync: `npx astro sync && npm run build`
+- [x] 1.1 Lint passes: `npm run lint` — 381b2c6
+- [x] 1.2 Build passes after sync: `npx astro sync && npm run build` — 381b2c6
 
 #### Manual
 
-- [x] 1.3 Successful sign-in from `/auth/signin` lands on `/dashboard`
-- [x] 1.4 Successful sign-out from the protected surface returns the user to the public entry surface
+- [x] 1.3 Successful sign-in from `/auth/signin` lands on `/dashboard` — 381b2c6
+- [x] 1.4 Successful sign-out from the protected surface returns the user to the public entry surface — 381b2c6
 
 ### Phase 2: Reframe the protected and public auth surfaces around PrepToClimb
 
 #### Automated
 
-- [ ] 2.1 Lint passes after UI copy updates: `npm run lint`
-- [ ] 2.2 Build passes with updated auth and page copy: `npx astro sync && npm run build`
+- [x] 2.1 Lint passes after UI copy updates: `npm run lint`
+- [x] 2.2 Build passes with updated auth and page copy: `npx astro sync && npm run build`
 
 #### Manual
 
-- [ ] 2.3 `/dashboard` reads as the signed-in starting point for planning rather than a technical smoke-test page
-- [ ] 2.4 The public landing page hero, feature-card copy, and default page title present PrepToClimb rather than the generic starter
-- [ ] 2.5 The confirm-email page clearly explains what the user should do next after sign-up
-- [ ] 2.6 The sign-in and sign-up screens read as PrepToClimb account-entry pages rather than generic starter auth screens
+- [x] 2.3 `/dashboard` reads as the signed-in starting point for planning rather than a technical smoke-test page
+- [x] 2.4 The public landing page hero, feature-card copy, and default page title present PrepToClimb rather than the generic starter
+- [x] 2.5 The confirm-email page clearly explains what the user should do next after sign-up
+- [x] 2.6 The sign-in and sign-up screens read as PrepToClimb account-entry pages rather than generic starter auth screens
 
 ### Phase 3: Verify the end-to-end account access journey and guardrails
 

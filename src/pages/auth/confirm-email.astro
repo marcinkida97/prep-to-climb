@@ -6,14 +6,15 @@ const isAutoConfirmed = import.meta.env.DEV;
 const content = isAutoConfirmed
   ? {
       emoji: "✅",
-      heading: "Registration successful",
-      description: "Your account has been created. You can now sign in.",
+      heading: "Account ready",
+      description: "Your PrepToClimb account is ready. Sign in to enter the protected planning area and continue.",
       linkText: "Go to sign in",
     }
   : {
       emoji: "📧",
-      heading: "Check your email",
-      description: "We've sent a confirmation link to your email address. Click it to activate your account.",
+      heading: "Confirm your email to unlock planning",
+      description:
+        "We've sent a confirmation link to your email address. Open it to activate your account, then sign in to reach your protected planning area.",
       linkText: "Back to sign in",
     };
 ---
