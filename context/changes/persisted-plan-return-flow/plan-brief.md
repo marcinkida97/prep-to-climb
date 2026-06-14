@@ -14,6 +14,8 @@ Today, sign-in already redirects to `/dashboard`, the dashboard already loads th
 
 When this plan is done, a user can generate a weekly plan, sign out, sign back in, and immediately return to that saved plan on `/dashboard`. If the saved plan cannot be loaded safely, the dashboard falls back to the questionnaire with clear recovery messaging and lets the user regenerate from the same page instead of leaving them in a broken return state.
 
+The retained proof for that boundary lives in [verification.md](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/context/changes/persisted-plan-return-flow/verification.md), which is the canonical evidence artifact for the real sign-out/sign-in return path and anonymous guard checks.
+
 ## Key Decisions Made
 
 | Decision | Choice | Why (1 sentence) | Source |
@@ -23,6 +25,8 @@ When this plan is done, a user can generate a weekly plan, sign out, sign back i
 | Freshness policy | Persist until explicit regenerate | The current one-active-plan model has no freshness rules and does not need them for MVP | Plan |
 | Failure handling | Fallback to questionnaire with recovery messaging | This keeps the user unblocked and stays inside the single-page dashboard model | Plan |
 | Completion boundary | Manual cross-session proof plus repo gates | The roadmap promise is behavioral, so it needs retained evidence with `astro sync`, lint, and build | Plan |
+
+This means `S-03` should be read as a hardening-and-proof slice layered on top of `S-02`, not as a second implementation of the weekly-plan feature.
 
 ## Scope
 

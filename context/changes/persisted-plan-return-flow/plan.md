@@ -260,27 +260,27 @@ No schema change is planned. `S-03` relies on the existing one-active-plan-per-u
 
 #### Automated
 
-- [x] 2.1 Astro types refresh successfully on the integrated return-flow slice: `npx astro sync`
-- [x] 2.2 Lint passes after verification-target adjustments or copy changes: `npm run lint`
-- [x] 2.3 Build passes on the full repo: `npm run build`
+- [x] 2.1 Astro types refresh successfully on the integrated return-flow slice: `npx astro sync` — df7c42d
+- [x] 2.2 Lint passes after verification-target adjustments or copy changes: `npm run lint` — df7c42d
+- [x] 2.3 Build passes on the full repo: `npm run build` — df7c42d
 
 #### Manual
 
-- [x] 2.4 The same user can generate a plan, sign out, sign back in, and see the saved plan first on `/dashboard`
-- [x] 2.5 The returning user can intentionally regenerate the plan from the same page after re-entering the app
-- [x] 2.6 Anonymous `/dashboard` access redirects to `/auth/signin`
-- [x] 2.7 Anonymous `POST /api/plans/generate` returns `401` with the current unauthorized JSON shape
+- [x] 2.4 The same user can generate a plan, sign out, sign back in, and see the saved plan first on `/dashboard` — df7c42d
+- [x] 2.5 The returning user can intentionally regenerate the plan from the same page after re-entering the app — df7c42d
+- [x] 2.6 Anonymous `/dashboard` access redirects to `/auth/signin` — df7c42d
+- [x] 2.7 Anonymous `POST /api/plans/generate` returns `401` with the current unauthorized JSON shape — df7c42d
 
 ### Phase 3: Align artifacts and close the roadmap boundary
 
 #### Automated
 
-- [ ] 3.1 Astro types refresh successfully on the final documented slice: `npx astro sync`
-- [ ] 3.2 Lint passes on the full repo: `npm run lint`
-- [ ] 3.3 Build passes on the full repo: `npm run build`
+- [x] 3.1 Astro types refresh successfully on the final documented slice: `npx astro sync`
+- [x] 3.2 Lint passes on the full repo: `npm run lint`
+- [x] 3.3 Build passes on the full repo: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 The `S-03` change folder contains retained evidence for the real cross-session saved-plan return flow
-- [ ] 3.5 The relationship between `S-02` and `S-03` is explicit enough that future readers will not mistake `S-03` for a duplicate feature build
-- [ ] 3.6 The documented completion boundary matches the actual verified behavior and no longer depends on the retired smoke-path proof
+- [x] 3.4 The `S-03` change folder contains retained evidence for the real cross-session saved-plan return flow
+- [x] 3.5 The relationship between `S-02` and `S-03` is explicit enough that future readers will not mistake `S-03` for a duplicate feature build
+- [x] 3.6 The documented completion boundary matches the actual verified behavior and no longer depends on the retired smoke-path proof
