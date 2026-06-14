@@ -1,6 +1,6 @@
 import { useState } from "react";
 import QuestionnaireForm from "@/components/plans/QuestionnaireForm";
-import type { PlanQuestionnaireRequest } from "@/lib/plan-flow-types";
+import type { PlanQuestionnaireRequest, PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
 import type { PersistedCurrentPlan } from "@/lib/plan-types";
 
 interface DashboardPlanShellProps {
@@ -9,7 +9,8 @@ interface DashboardPlanShellProps {
 }
 
 export default function DashboardPlanShell({ initialPlan, userEmail }: DashboardPlanShellProps) {
-  const hasSavedPlan = Boolean(initialPlan);
+  const [currentPlan, setCurrentPlan] = useState(initialPlan);
+  const hasSavedPlan = Boolean(currentPlan);
   const [draftQuestionnaire, setDraftQuestionnaire] = useState<PlanQuestionnaireRequest["questionnaire"]>({
     climbingGrade: initialPlan?.questionnaire.climbingGrade ?? "",
     injuryLimitations: initialPlan?.questionnaire.injuryLimitations ?? [],
@@ -22,14 +23,32 @@ export default function DashboardPlanShell({ initialPlan, userEmail }: Dashboard
     setIsSubmitting(true);
     setSubmissionError(null);
 
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, 700);
-    });
+    try {
+      const response = await fetch("/api/plans/generate", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          questionnaire: nextQuestionnaire,
+        } satisfies PlanQuestionnaireRequest),
+      });
 
-    setIsSubmitting(false);
-    setSubmissionError(
-      "The protected generation endpoint is not wired yet. Your answers are still here, so you can retry once the route lands in the next phase.",
-    );
+      const data: unknown = await response.json();
+
+      if (response.ok && isPlanQuestionnaireSuccessResponse(data)) {
+        setCurrentPlan(data.plan);
+        return;
+      }
+
+      const errorMessage = getPlanRouteErrorMessage(data);
+
+      setSubmissionError(errorMessage);
+    } catch {
+      setSubmissionError("The protected plan route could not be reached. Please retry.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -55,8 +74,8 @@ export default function DashboardPlanShell({ initialPlan, userEmail }: Dashboard
         </div>
 
         <aside className="rounded-[1.5rem] border border-white/10 bg-slate-950/25 p-5">
-          {hasSavedPlan && initialPlan ? (
-            <SavedPlanSnapshot plan={initialPlan} />
+          {hasSavedPlan && currentPlan ? (
+            <SavedPlanSnapshot plan={currentPlan} />
           ) : (
             <QuestionnaireForm
               error={submissionError}
@@ -121,4 +140,24 @@ function formatGeneratedAt(value: string) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);
+}
+
+function isPlanQuestionnaireSuccessResponse(data: unknown): data is Extract<PlanQuestionnaireResponse, { ok: true }> {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+
+  return "ok" in data && data.ok === true && "plan" in data;
+}
+
+function getPlanRouteErrorMessage(data: unknown) {
+  if (data && typeof data === "object" && "ok" in data && data.ok === false && "error" in data) {
+    return typeof data.error === "string" ? data.error : "The protected plan route returned an invalid error payload.";
+  }
+
+  if (data && typeof data === "object" && "error" in data) {
+    return typeof data.error === "string" ? data.error : "The protected plan route returned an invalid error payload.";
+  }
+
+  return "The protected plan route returned an unexpected response.";
 }

@@ -419,30 +419,30 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [x] 2.1 Astro types refresh successfully after the questionnaire island is added: `npx astro sync`
-- [x] 2.2 Lint passes with the new client-side questionnaire state logic: `npm run lint`
-- [x] 2.3 Build passes with the dashboard shell and questionnaire island wired together: `npm run build`
+- [x] 2.1 Astro types refresh successfully after the questionnaire island is added: `npx astro sync` — 17baa86
+- [x] 2.2 Lint passes with the new client-side questionnaire state logic: `npm run lint` — 17baa86
+- [x] 2.3 Build passes with the dashboard shell and questionnaire island wired together: `npm run build` — 17baa86
 
 #### Manual
 
-- [x] 2.4 The questionnaire exposes only climbing grade and selectable injury limitations
-- [x] 2.5 Each selected injury limitation clearly captures both a body part and an injury type/severity
-- [x] 2.6 Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
-- [x] 2.7 A server-side failure leaves the entered values visible and shows an inline retryable error message
+- [x] 2.4 The questionnaire exposes only climbing grade and selectable injury limitations — 17baa86
+- [x] 2.5 Each selected injury limitation clearly captures both a body part and an injury type/severity — 17baa86
+- [x] 2.6 Submitting the questionnaire shows an inline loading state without leaving `/dashboard` — 17baa86
+- [x] 2.7 A server-side failure leaves the entered values visible and shows an inline retryable error message — 17baa86
 
 ### Phase 3: Replace the smoke route with a real authenticated plan-generation endpoint
 
 #### Automated
 
-- [ ] 3.1 Astro types refresh successfully after the real plan-generation route lands: `npx astro sync`
-- [ ] 3.2 Lint passes with the new route and dashboard submission integration: `npm run lint`
-- [ ] 3.3 Build passes after the dashboard flow stops depending on the smoke payload route: `npm run build`
+- [x] 3.1 Astro types refresh successfully after the real plan-generation route lands: `npx astro sync`
+- [x] 3.2 Lint passes with the new route and dashboard submission integration: `npm run lint`
+- [x] 3.3 Build passes after the dashboard flow stops depending on the smoke payload route: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
-- [ ] 3.5 Invalid submissions return inline-displayable JSON errors without persisting partial state
-- [ ] 3.6 Anonymous requests to the new route still receive the current unauthorized JSON shape
+- [x] 3.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
+- [x] 3.5 Invalid submissions return inline-displayable JSON errors without persisting partial state
+- [x] 3.6 Anonymous requests to the new route still receive the current unauthorized JSON shape
 
 ### Phase 4: Implement deterministic weekly-plan generation with injury-safe substitutions
 
