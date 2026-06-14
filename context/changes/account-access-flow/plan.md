@@ -255,28 +255,28 @@ No schema or data migration is required. This slice stays within the existing au
 
 #### Automated
 
-- [x] 2.1 Lint passes after UI copy updates: `npm run lint`
-- [x] 2.2 Build passes with updated auth and page copy: `npx astro sync && npm run build`
+- [x] 2.1 Lint passes after UI copy updates: `npm run lint` — cbbd1a0
+- [x] 2.2 Build passes with updated auth and page copy: `npx astro sync && npm run build` — cbbd1a0
 
 #### Manual
 
-- [x] 2.3 `/dashboard` reads as the signed-in starting point for planning rather than a technical smoke-test page
-- [x] 2.4 The public landing page hero, feature-card copy, and default page title present PrepToClimb rather than the generic starter
-- [x] 2.5 The confirm-email page clearly explains what the user should do next after sign-up
-- [x] 2.6 The sign-in and sign-up screens read as PrepToClimb account-entry pages rather than generic starter auth screens
+- [x] 2.3 `/dashboard` reads as the signed-in starting point for planning rather than a technical smoke-test page — cbbd1a0
+- [x] 2.4 The public landing page hero, feature-card copy, and default page title present PrepToClimb rather than the generic starter — cbbd1a0
+- [x] 2.5 The confirm-email page clearly explains what the user should do next after sign-up — cbbd1a0
+- [x] 2.6 The sign-in and sign-up screens read as PrepToClimb account-entry pages rather than generic starter auth screens — cbbd1a0
 
 ### Phase 3: Verify the end-to-end account access journey and guardrails
 
 #### Automated
 
-- [ ] 3.1 Astro types are refreshed successfully: `npx astro sync`
-- [ ] 3.2 Lint passes on the full repo: `npm run lint`
-- [ ] 3.3 Build passes on the full repo: `npm run build`
+- [x] 3.1 Astro types are refreshed successfully: `npx astro sync`
+- [x] 3.2 Lint passes on the full repo: `npm run lint`
+- [x] 3.3 Build passes on the full repo: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 New-user sign-up reaches the confirm-email screen with product-oriented next-step messaging
-- [ ] 3.5 Anonymous access to `/dashboard` redirects to `/auth/signin`
-- [ ] 3.6 Anonymous `POST /api/plans/smoke` returns `401` with the current unauthorized JSON shape
-- [ ] 3.7 Signed-in access reaches `/dashboard` after login and remains usable until sign-out
-- [ ] 3.8 Sign-out removes access to the protected dashboard until the user signs in again
+- [x] 3.4 New-user sign-up reaches the confirm-email screen with product-oriented next-step messaging
+- [x] 3.5 Anonymous access to `/dashboard` redirects to `/auth/signin`
+- [x] 3.6 Anonymous `POST /api/plans/smoke` returns `401` with the current unauthorized JSON shape
+- [x] 3.7 Signed-in access reaches `/dashboard` after login and remains usable until sign-out
+- [x] 3.8 Sign-out removes access to the protected dashboard until the user signs in again
