@@ -62,6 +62,8 @@ Create the first application-owned Supabase schema for questionnaire inputs and 
 
 **Contract**: Ensure the migration path remains compatible with the existing local workflow and does not assume schema files outside the migrations flow already enabled in this repo.
 
+**Implementation addendum**: `supabase/config.toml` already had migrations enabled and `db.seed.sql_paths` pointed at `./seed.sql`, so Phase 1 did not need a config edit. The implementation added `supabase/seed.sql` instead to keep `npx supabase db reset` aligned with the documented local workflow.
+
 #### 3. Project documentation for local development
 
 **File**: `README.md`

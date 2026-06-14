@@ -33,10 +33,6 @@ interface RecommendedExerciseRow {
   notes: string | null;
 }
 
-interface ActivePlanIdRow {
-  id: string;
-}
-
 export class PlanPersistenceError extends Error {
   public readonly causeDetail?: string;
 
@@ -104,119 +100,35 @@ export async function saveCurrentPlan(
   input: SaveCurrentPlanInput,
 ): Promise<PersistedCurrentPlan> {
   validateCurrentPlanInput(input);
-
-  const previousQuestionnaire = await getQuestionnaireRow(supabase, userId);
-  const previousActivePlanIds = await getActivePlanIds(supabase, userId);
-
-  let newPlanId: string | null = null;
-
-  try {
-    const { error: questionnaireError } = await supabase.from("questionnaire_responses").upsert({
-      user_id: userId,
-      climbing_grade: input.questionnaire.climbingGrade,
-      injury_limitations: input.questionnaire.injuryLimitations,
-    });
-
-    if (questionnaireError) {
-      throw new PlanPersistenceError("Failed to save questionnaire responses", questionnaireError);
-    }
-
-    if (previousActivePlanIds.length > 0) {
-      const { error: deactivateError } = await supabase
-        .from("weekly_plans")
-        .update({ is_active: false })
-        .eq("user_id", userId)
-        .eq("is_active", true);
-
-      if (deactivateError) {
-        throw new PlanPersistenceError("Failed to deactivate the previous weekly plan", deactivateError);
-      }
-    }
-
-    const { data: insertedPlanData, error: weeklyPlanError } = await supabase
-      .from("weekly_plans")
-      .insert({
-        user_id: userId,
-        questionnaire_response_user_id: userId,
-        is_active: true,
-        summary: toNullableText(input.weeklyPlan.summary),
-      })
-      .select("id")
-      .single();
-
-    if (weeklyPlanError) {
-      throw new PlanPersistenceError("Failed to create the current weekly plan", weeklyPlanError);
-    }
-
-    newPlanId = getRequiredStringField(insertedPlanData, "id");
-
-    const { data: insertedDays, error: dayError } = await supabase
-      .from("plan_days")
-      .insert(
-        input.weeklyPlan.days.map((day) => ({
-          weekly_plan_id: newPlanId,
-          day_number: day.dayNumber,
-          day_label: day.dayLabel,
-          focus_area: day.focusArea,
-          notes: toNullableText(day.notes),
-        })),
-      )
-      .select("id, day_number");
-
-    if (dayError) {
-      throw new PlanPersistenceError("Failed to create weekly plan days", dayError);
-    }
-
-    const insertedDayRows = insertedDays as { id: string; day_number: number }[];
-    const dayIdByNumber = new Map(insertedDayRows.map((row) => [row.day_number, row.id]));
-
-    const exerciseRows = input.weeklyPlan.days.flatMap((day) =>
-      day.recommendedExercises.map((exercise, index) => ({
-        plan_day_id: dayIdByNumber.get(day.dayNumber),
-        exercise_order: index + 1,
-        exercise_name: exercise.exerciseName,
+  const { error } = await supabase.rpc("replace_current_plan", {
+    p_climbing_grade: input.questionnaire.climbingGrade.trim(),
+    p_injury_limitations: input.questionnaire.injuryLimitations,
+    p_summary: toNullableText(input.weeklyPlan.summary),
+    p_days: input.weeklyPlan.days.map((day) => ({
+      dayNumber: day.dayNumber,
+      dayLabel: day.dayLabel.trim(),
+      focusArea: day.focusArea.trim(),
+      notes: toNullableText(day.notes),
+      recommendedExercises: day.recommendedExercises.map((exercise, index) => ({
+        exerciseOrder: index + 1,
+        exerciseName: exercise.exerciseName.trim(),
         sets: toNullableText(exercise.sets),
         reps: toNullableText(exercise.reps),
         notes: toNullableText(exercise.notes),
       })),
-    );
+    })),
+  });
 
-    if (exerciseRows.some((row) => !row.plan_day_id)) {
-      throw new PlanPersistenceError("Failed to map weekly plan days to recommended exercises");
-    }
-
-    if (exerciseRows.length > 0) {
-      const { error: exerciseError } = await supabase.from("recommended_exercises").insert(
-        exerciseRows as {
-          plan_day_id: string;
-          exercise_order: number;
-          exercise_name: string;
-          sets: string | null;
-          reps: string | null;
-          notes: string | null;
-        }[],
-      );
-
-      if (exerciseError) {
-        throw new PlanPersistenceError("Failed to create recommended exercises", exerciseError);
-      }
-    }
-
-    const persistedPlan = await getCurrentPlan(supabase, userId);
-    if (!persistedPlan) {
-      throw new PlanPersistenceError("Weekly plan was saved but could not be read back");
-    }
-
-    return persistedPlan;
-  } catch (error) {
-    await rollbackSaveCurrentPlan(supabase, userId, previousQuestionnaire, previousActivePlanIds, newPlanId);
-
-    if (error instanceof PlanPersistenceError) {
-      throw error;
-    }
-
-    throw new PlanPersistenceError("Failed to save the current plan", error as Error);
+  if (error) {
+    throw new PlanPersistenceError("Failed to save the current plan", error);
   }
+
+  const persistedPlan = await getCurrentPlan(supabase, userId);
+  if (!persistedPlan) {
+    throw new PlanPersistenceError("Weekly plan was saved but could not be read back");
+  }
+
+  return persistedPlan;
 }
 
 async function getQuestionnaireRow(supabase: SupabaseServerClient, userId: string): Promise<QuestionnaireRow | null> {
@@ -231,39 +143,6 @@ async function getQuestionnaireRow(supabase: SupabaseServerClient, userId: strin
   }
 
   return data;
-}
-
-async function getActivePlanIds(supabase: SupabaseServerClient, userId: string): Promise<string[]> {
-  const { data, error } = await supabase.from("weekly_plans").select("id").eq("user_id", userId).eq("is_active", true);
-
-  if (error) {
-    throw new PlanPersistenceError("Failed to load active weekly plan ids", error);
-  }
-
-  return (data as ActivePlanIdRow[]).map((row) => row.id);
-}
-
-async function rollbackSaveCurrentPlan(
-  supabase: SupabaseServerClient,
-  userId: string,
-  previousQuestionnaire: QuestionnaireRow | null,
-  previousActivePlanIds: string[],
-  newPlanId: string | null,
-) {
-  if (newPlanId) {
-    await supabase.from("weekly_plans").delete().eq("id", newPlanId);
-  }
-
-  if (previousActivePlanIds.length > 0) {
-    await supabase.from("weekly_plans").update({ is_active: true }).in("id", previousActivePlanIds);
-  }
-
-  if (previousQuestionnaire) {
-    await supabase.from("questionnaire_responses").upsert(previousQuestionnaire);
-    return;
-  }
-
-  await supabase.from("questionnaire_responses").delete().eq("user_id", userId);
 }
 
 function validateCurrentPlanInput(input: SaveCurrentPlanInput) {
@@ -334,18 +213,4 @@ function toNullableText(value: string | null | undefined): string | null {
   }
 
   return trimmedValue;
-}
-
-function getRequiredStringField(value: unknown, fieldName: string): string {
-  if (typeof value !== "object" || value === null || !(fieldName in value)) {
-    throw new PlanPersistenceError(`Expected Supabase to return a string ${fieldName} field`);
-  }
-
-  const record = value as Record<string, unknown>;
-  const fieldValue = record[fieldName];
-  if (typeof fieldValue !== "string" || fieldValue.length === 0) {
-    throw new PlanPersistenceError(`Expected Supabase to return a non-empty string ${fieldName} field`);
-  }
-
-  return fieldValue;
 }
