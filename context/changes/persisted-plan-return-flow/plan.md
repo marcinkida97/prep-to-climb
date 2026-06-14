@@ -246,30 +246,30 @@ No schema change is planned. `S-03` relies on the existing one-active-plan-per-u
 
 #### Automated
 
-- [x] 1.1 Astro types refresh successfully after the return-state contract is updated: `npx astro sync`
-- [x] 1.2 Lint passes with the recovery-state additions: `npm run lint`
-- [x] 1.3 Build passes with the hardened dashboard return flow: `npm run build`
+- [x] 1.1 Astro types refresh successfully after the return-state contract is updated: `npx astro sync` — 9000008
+- [x] 1.2 Lint passes with the recovery-state additions: `npm run lint` — 9000008
+- [x] 1.3 Build passes with the hardened dashboard return flow: `npm run build` — 9000008
 
 #### Manual
 
-- [x] 1.4 A returning signed-in user with a valid saved plan still lands on the saved-plan-first dashboard state
-- [x] 1.5 If the saved plan cannot be loaded safely, the dashboard falls back to the questionnaire with explicit recovery messaging
-- [x] 1.6 The recovery fallback stays on `/dashboard` and allows the user to regenerate a plan from the same page
+- [x] 1.4 A returning signed-in user with a valid saved plan still lands on the saved-plan-first dashboard state — 9000008
+- [x] 1.5 If the saved plan cannot be loaded safely, the dashboard falls back to the questionnaire with explicit recovery messaging — 9000008
+- [x] 1.6 The recovery fallback stays on `/dashboard` and allows the user to regenerate a plan from the same page — 9000008
 
 ### Phase 2: Prove the real cross-session return path
 
 #### Automated
 
-- [ ] 2.1 Astro types refresh successfully on the integrated return-flow slice: `npx astro sync`
-- [ ] 2.2 Lint passes after verification-target adjustments or copy changes: `npm run lint`
-- [ ] 2.3 Build passes on the full repo: `npm run build`
+- [x] 2.1 Astro types refresh successfully on the integrated return-flow slice: `npx astro sync`
+- [x] 2.2 Lint passes after verification-target adjustments or copy changes: `npm run lint`
+- [x] 2.3 Build passes on the full repo: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 The same user can generate a plan, sign out, sign back in, and see the saved plan first on `/dashboard`
-- [ ] 2.5 The returning user can intentionally regenerate the plan from the same page after re-entering the app
-- [ ] 2.6 Anonymous `/dashboard` access redirects to `/auth/signin`
-- [ ] 2.7 Anonymous `POST /api/plans/generate` returns `401` with the current unauthorized JSON shape
+- [x] 2.4 The same user can generate a plan, sign out, sign back in, and see the saved plan first on `/dashboard`
+- [x] 2.5 The returning user can intentionally regenerate the plan from the same page after re-entering the app
+- [x] 2.6 Anonymous `/dashboard` access redirects to `/auth/signin`
+- [x] 2.7 Anonymous `POST /api/plans/generate` returns `401` with the current unauthorized JSON shape
 
 ### Phase 3: Align artifacts and close the roadmap boundary
 
