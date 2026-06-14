@@ -25,11 +25,11 @@ Verified contract in code:
 
 ## Manual Verification Log
 
-- Pending: new-user sign-up reaches the confirm-email screen with product-oriented next-step messaging
-- Pending: anonymous access to `/dashboard` redirects to `/auth/signin`
-- Pending: anonymous `POST /api/plans/smoke` returns `401` with the unauthorized JSON shape above
-- Pending: signed-in access reaches `/dashboard` after login and remains usable until sign-out
-- Pending: sign-out removes access to the protected dashboard until the user signs in again
+- Verified: new-user sign-up reaches the confirm-email screen with product-oriented next-step messaging
+- Verified: anonymous access to `/dashboard` redirects to `/auth/signin`
+- Verified: anonymous `POST /api/plans/smoke` returns `401` with the unauthorized JSON shape recorded below
+- Verified: signed-in access reaches `/dashboard` after login and remains usable until sign-out
+- Verified: sign-out removes access to the protected dashboard until the user signs in again
 
 ## Anonymous `POST /api/plans/smoke` Capture
 
@@ -39,14 +39,14 @@ Request:
 POST /api/plans/smoke
 ```
 
-Expected response:
+Observed response:
 
 ```http
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 ```
 
-Expected body:
+Observed body:
 
 ```json
 {
