@@ -84,17 +84,20 @@ Requires [Docker](https://www.docker.com/) and ~7 GB RAM.
 cp .env.example .env
 ```
 
-2. Initialize the local Supabase project (creates a `supabase/` config folder):
-
-```bash
-npx supabase init
-```
-
-3. Start the local stack (downloads Docker images on first run):
+2. Start the local stack (downloads Docker images on first run):
 
 ```bash
 npx supabase start
 ```
+
+3. Apply the committed schema migrations and seed file:
+
+```bash
+npx supabase db reset
+```
+
+The application-owned database contract now lives in `supabase/migrations/`, and `supabase/seed.sql`
+is kept intentionally minimal until the app needs real seed data.
 
 4. Copy the credentials printed by the CLI into your `.env` and `.dev.vars`:
 
@@ -111,7 +114,9 @@ npx supabase stop
 
 The local Studio UI is available at `http://localhost:54323`.
 
-No database tables or migrations are required — this project uses Supabase Auth's built-in `auth.users` table only.
+In addition to Supabase Auth's built-in `auth.users`, the app now owns relational persistence in
+the `public` schema for questionnaire responses, weekly plans, daily plan entries, and recommended
+exercises.
 
 ### Using a cloud Supabase project instead
 

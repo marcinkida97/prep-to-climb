@@ -231,15 +231,15 @@ This is the repo's first application-owned database contract, so rollout and rol
 
 #### Automated
 
-- [ ] 1.1 Migration files exist and are syntactically valid for the Supabase CLI workflow
-- [ ] 1.2 Astro types refresh successfully after the persistence contract lands
-- [ ] 1.3 Lint passes
-- [ ] 1.4 Build passes
+- [x] 1.1 Migration files exist and are syntactically valid for the Supabase CLI workflow
+- [x] 1.2 Astro types refresh successfully after the persistence contract lands
+- [x] 1.3 Lint passes
+- [x] 1.4 Build passes
 
 #### Manual
 
-- [ ] 1.5 Schema review confirms the tables support one user's latest questionnaire plus one active weekly plan with seven-day child records
-- [ ] 1.6 README instructions are accurate for a developer bringing up the local Supabase stack after this change
+- [x] 1.5 Schema review confirms the tables support one user's latest questionnaire plus one active weekly plan with seven-day child records
+- [x] 1.6 README instructions are accurate for a developer bringing up the local Supabase stack after this change
 
 ### Phase 2: Add the server persistence boundary
 
