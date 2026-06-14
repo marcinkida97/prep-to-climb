@@ -405,15 +405,15 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [ ] 1.1 Astro types refresh successfully after the new dashboard shell is added: `npx astro sync`
-- [ ] 1.2 Lint passes with the new protected flow container: `npm run lint`
-- [ ] 1.3 Build passes with server-side plan loading on `/dashboard`: `npm run build`
+- [x] 1.1 Astro types refresh successfully after the new dashboard shell is added: `npx astro sync`
+- [x] 1.2 Lint passes with the new protected flow container: `npm run lint`
+- [x] 1.3 Build passes with server-side plan loading on `/dashboard`: `npm run build`
 
 #### Manual
 
-- [ ] 1.4 A signed-in user with no saved plan sees the questionnaire entry state on `/dashboard`
-- [ ] 1.5 A signed-in user with an existing saved plan sees the saved-plan-first dashboard state instead of the questionnaire by default
-- [ ] 1.6 Anonymous access to `/dashboard` still redirects to `/auth/signin`
+- [x] 1.4 A signed-in user with no saved plan sees the questionnaire entry state on `/dashboard`
+- [x] 1.5 A signed-in user with an existing saved plan sees the saved-plan-first dashboard state instead of the questionnaire by default
+- [x] 1.6 Anonymous access to `/dashboard` still redirects to `/auth/signin`
 
 ### Phase 2: Add the minimal questionnaire and inline page-state behavior
 

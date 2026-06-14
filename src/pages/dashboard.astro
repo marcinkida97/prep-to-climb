@@ -1,8 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
+import DashboardPlanShell from "@/components/plans/DashboardPlanShell";
+import { createPlanPersistence } from "@/lib/plan-persistence";
+import { createClient } from "@/lib/supabase";
 
 const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const persistence = supabase ? createPlanPersistence(supabase) : null;
+const initialPlan = user && persistence ? await persistence.getCurrentPlan(user.id) : null;
 ---
 
 <Layout title="Planning dashboard | PrepToClimb">
@@ -10,40 +16,8 @@ const { user } = Astro.locals;
     <div class="relative z-10 mx-auto max-w-5xl">
       <Topbar />
     </div>
-    <div class="mx-auto flex max-w-xl items-center justify-center py-6">
-      <div class="w-full rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
-        <h1
-          class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-3xl font-bold text-transparent"
-        >
-          Planning dashboard
-        </h1>
-        <p class="text-center text-blue-100/80">
-          Welcome, <span class="font-semibold text-white">{user?.email}</span>
-        </p>
-        <p class="mt-2 text-center text-sm leading-6 text-blue-100/60">
-          This is your current signed-in starting point while the first full weekly-plan flow is being finalized.
-        </p>
-
-        <div class="mt-8 rounded-xl border border-white/10 bg-slate-950/20 p-5">
-          <h2 class="text-lg font-semibold text-white">Next step: protected planning flow</h2>
-          <p class="mt-2 text-sm leading-6 text-blue-100/75">
-            The MVP planning experience will live behind this protected area. For now, this page confirms that your
-            account can reach the authenticated part of PrepToClimb successfully.
-          </p>
-          <p class="mt-3 text-sm leading-6 text-blue-100/60">
-            The temporary persistence check from `F-01` stays available here while the questionnaire flow and weekly
-            plan experience are built in the next slice.
-          </p>
-          <form method="POST" action="/api/plans/smoke" class="mt-4">
-            <button
-              type="submit"
-              class="rounded-lg border border-emerald-300/30 bg-emerald-400/15 px-4 py-2 text-sm font-medium text-emerald-100 transition-colors hover:bg-emerald-400/25"
-            >
-              Run the temporary persistence check
-            </button>
-          </form>
-        </div>
-      </div>
+    <div class="mx-auto max-w-5xl py-6">
+      <DashboardPlanShell client:load initialPlan={initialPlan} userEmail={user?.email ?? null} />
     </div>
   </div>
 </Layout>
