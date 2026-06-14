@@ -246,15 +246,15 @@ No schema change is planned. `S-03` relies on the existing one-active-plan-per-u
 
 #### Automated
 
-- [ ] 1.1 Astro types refresh successfully after the return-state contract is updated: `npx astro sync`
-- [ ] 1.2 Lint passes with the recovery-state additions: `npm run lint`
-- [ ] 1.3 Build passes with the hardened dashboard return flow: `npm run build`
+- [x] 1.1 Astro types refresh successfully after the return-state contract is updated: `npx astro sync`
+- [x] 1.2 Lint passes with the recovery-state additions: `npm run lint`
+- [x] 1.3 Build passes with the hardened dashboard return flow: `npm run build`
 
 #### Manual
 
-- [ ] 1.4 A returning signed-in user with a valid saved plan still lands on the saved-plan-first dashboard state
-- [ ] 1.5 If the saved plan cannot be loaded safely, the dashboard falls back to the questionnaire with explicit recovery messaging
-- [ ] 1.6 The recovery fallback stays on `/dashboard` and allows the user to regenerate a plan from the same page
+- [x] 1.4 A returning signed-in user with a valid saved plan still lands on the saved-plan-first dashboard state
+- [x] 1.5 If the saved plan cannot be loaded safely, the dashboard falls back to the questionnaire with explicit recovery messaging
+- [x] 1.6 The recovery fallback stays on `/dashboard` and allows the user to regenerate a plan from the same page
 
 ### Phase 2: Prove the real cross-session return path
 

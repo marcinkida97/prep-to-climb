@@ -2,13 +2,97 @@
 import Layout from "@/layouts/Layout.astro";
 import Topbar from "@/components/Topbar.astro";
 import DashboardPlanShell from "@/components/plans/DashboardPlanShell";
-import { createPlanPersistence } from "@/lib/plan-persistence";
+import type { DashboardInitialState } from "@/lib/plan-flow-types";
+import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
+import type { PersistedCurrentPlan, QuestionnaireDraftInput } from "@/lib/plan-types";
 import { createClient } from "@/lib/supabase";
 
 const { user } = Astro.locals;
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const persistence = supabase ? createPlanPersistence(supabase) : null;
-const initialPlan = user && persistence ? await persistence.getCurrentPlan(user.id) : null;
+const initialState = user && persistence ? await loadDashboardInitialState(user.id) : createFirstRunState();
+
+async function loadDashboardInitialState(userId: string): Promise<DashboardInitialState> {
+  if (!persistence) {
+    return createFirstRunState();
+  }
+
+  try {
+    const currentPlan = await persistence.getCurrentPlan(userId);
+
+    if (!currentPlan) {
+      return createFirstRunState();
+    }
+
+    if (!isUsableSavedPlan(currentPlan)) {
+      return createRecoveryState(
+        currentPlan.questionnaire,
+        "We couldn't safely reopen your saved weekly plan. Review your answers and regenerate it from this dashboard.",
+      );
+    }
+
+    return {
+      mode: "saved-plan",
+      draftQuestionnaire: currentPlan.questionnaire,
+      plan: currentPlan,
+    };
+  } catch (error) {
+    if (error instanceof PlanPersistenceError || error instanceof Error) {
+      return createRecoveryState(
+        createEmptyQuestionnaireDraft(),
+        "We couldn't load your saved weekly plan just now. Review your answers and regenerate it from this dashboard.",
+      );
+    }
+
+    throw error;
+  }
+}
+
+function createFirstRunState(): DashboardInitialState {
+  return {
+    mode: "first-run",
+    draftQuestionnaire: createEmptyQuestionnaireDraft(),
+  };
+}
+
+function createRecoveryState(
+  draftQuestionnaire: QuestionnaireDraftInput,
+  recoveryMessage: string,
+): DashboardInitialState {
+  return {
+    mode: "recovery",
+    draftQuestionnaire,
+    recoveryMessage,
+  };
+}
+
+function createEmptyQuestionnaireDraft(): QuestionnaireDraftInput {
+  return {
+    climbingGrade: "",
+    injuryLimitations: [],
+  };
+}
+
+function isUsableSavedPlan(plan: PersistedCurrentPlan) {
+  if (!plan.questionnaire.climbingGrade.trim()) {
+    return false;
+  }
+
+  if (plan.weeklyPlan.days.length !== 7) {
+    return false;
+  }
+
+  return plan.weeklyPlan.days.every((day) => {
+    return (
+      Number.isInteger(day.dayNumber) &&
+      day.dayNumber >= 1 &&
+      day.dayNumber <= 7 &&
+      day.dayLabel.trim() !== "" &&
+      day.focusArea.trim() !== "" &&
+      day.recommendedExercises.every((exercise) => exercise.exerciseName.trim() !== "")
+    );
+  });
+}
 ---
 
 <Layout title="Planning dashboard | PrepToClimb">
@@ -24,7 +108,7 @@ const initialPlan = user && persistence ? await persistence.getCurrentPlan(user.
           week, and regenerate the plan from the same place when your training context changes.
         </p>
       </div>
-      <DashboardPlanShell client:load initialPlan={initialPlan} userEmail={user?.email ?? null} />
+      <DashboardPlanShell client:load initialState={initialState} userEmail={user?.email ?? null} />
     </div>
   </div>
 </Layout>

@@ -14,7 +14,7 @@ export default function WeeklyPlanView({ plan }: WeeklyPlanViewProps) {
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">Your current seven-day structure</h2>
             <p className="max-w-2xl text-sm leading-6 text-emerald-50/85">
               {plan.weeklyPlan.summary ??
-                "A full seven-day climbing week built from your current grade and limitations."}
+                "Your dashboard reopens on this saved seven-day week until you explicitly regenerate it from the questionnaire."}
             </p>
           </div>
           <dl className="grid gap-3 rounded-2xl border border-white/10 bg-slate-950/25 p-4 text-sm text-blue-50/90 sm:grid-cols-2">

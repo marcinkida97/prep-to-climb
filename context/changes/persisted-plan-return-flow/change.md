@@ -1,7 +1,7 @@
 ---
 change_id: persisted-plan-return-flow
 title: Harden and verify the saved weekly plan return flow across sessions
-status: planned
+status: implementing
 created: 2026-06-14
 updated: 2026-06-14
 archived_at: null
