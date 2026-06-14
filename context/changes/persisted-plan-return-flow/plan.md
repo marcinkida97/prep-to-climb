@@ -275,12 +275,12 @@ No schema change is planned. `S-03` relies on the existing one-active-plan-per-u
 
 #### Automated
 
-- [x] 3.1 Astro types refresh successfully on the final documented slice: `npx astro sync`
-- [x] 3.2 Lint passes on the full repo: `npm run lint`
-- [x] 3.3 Build passes on the full repo: `npm run build`
+- [x] 3.1 Astro types refresh successfully on the final documented slice: `npx astro sync` — 8064db1
+- [x] 3.2 Lint passes on the full repo: `npm run lint` — 8064db1
+- [x] 3.3 Build passes on the full repo: `npm run build` — 8064db1
 
 #### Manual
 
-- [x] 3.4 The `S-03` change folder contains retained evidence for the real cross-session saved-plan return flow
-- [x] 3.5 The relationship between `S-02` and `S-03` is explicit enough that future readers will not mistake `S-03` for a duplicate feature build
-- [x] 3.6 The documented completion boundary matches the actual verified behavior and no longer depends on the retired smoke-path proof
+- [x] 3.4 The `S-03` change folder contains retained evidence for the real cross-session saved-plan return flow — 8064db1
+- [x] 3.5 The relationship between `S-02` and `S-03` is explicit enough that future readers will not mistake `S-03` for a duplicate feature build — 8064db1
+- [x] 3.6 The documented completion boundary matches the actual verified behavior and no longer depends on the retired smoke-path proof — 8064db1
