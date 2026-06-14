@@ -17,7 +17,7 @@ After this plan is complete, `/dashboard` behaves like the MVP product entry poi
 - The current protected entry page is still explicitly framed as a placeholder around the temporary persistence check in [src/pages/dashboard.astro](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/pages/dashboard.astro:8).
 - The only existing plan route persists a fixed smoke payload rather than real questionnaire input in [src/pages/api/plans/smoke.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/pages/api/plans/smoke.ts:5).
 - The persistence seam already exposes exactly the two server methods this slice needs: `getCurrentPlan(...)` and `saveCurrentPlan(...)` in [src/lib/plan-persistence.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/lib/plan-persistence.ts:46).
-- The persisted questionnaire contract is already narrowed to `climbingGrade` plus `injuryLimitations` in [src/lib/plan-types.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/lib/plan-types.ts:1).
+- The persisted questionnaire contract is currently narrowed to `climbingGrade` plus `injuryLimitations`, but `injuryLimitations` is still only `string[]`, so this slice needs to define the first canonical selectable injury shape before the generator can safely depend on it in [src/lib/plan-types.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/lib/plan-types.ts:1).
 - The persistence validator requires exactly seven plan days with non-empty focus areas and exercise names in [src/lib/plan-persistence.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/lib/plan-persistence.ts:148).
 - The protected-route boundary already covers `/dashboard` and `/api/plans`, so the new flow can stay inside the existing auth model in [src/middleware.ts](/Users/marcin.kida/Downloads/10xDEVS/prep-to-climb/src/middleware.ts:4).
 
@@ -43,6 +43,10 @@ The generator must produce a payload that already matches the persistence valida
 ### User experience spec
 
 The page stays on `/dashboard` throughout the flow. Submission shows inline loading in the questionnaire container, server failures keep the user-entered answers visible for retry, and a successful submission replaces the questionnaire view with the persisted saved-plan view instead of navigating to a second page.
+
+### Request/response transport
+
+The protected dashboard flow uses client-side JSON submission rather than a redirect-based form POST. `DashboardPlanShell` sends `fetch("/api/plans/generate", { method: "POST", headers: { "content-type": "application/json" } })` with the typed questionnaire payload, and the route responds with a machine-usable JSON envelope: success returns `{ ok: true, plan: PersistedCurrentPlan }`, while failure returns `{ ok: false, error: string }` with status codes that preserve unauthorized vs validation vs server-failure paths.
 
 ## Phase 1: Branch the protected dashboard by saved-plan state
 
@@ -100,7 +104,7 @@ Introduce the real `S-02` questionnaire UX on the protected page, including clie
 
 **Intent**: Provide the minimal interactive questionnaire the PRD and persistence contract already define, without broadening the input model.
 
-**Contract**: Collect `climbingGrade` as a required field and `injuryLimitations` as the only limitation input surface. Preserve entered values across failed submissions and expose submission state back to the dashboard shell.
+**Contract**: Collect `climbingGrade` as a required field and `injuryLimitations` as the only limitation input surface. Injury entries are selected, not free-typed: each selected limitation captures a canonical body part plus injury type/severity combination shared with the rest of the flow. Preserve entered values across failed submissions and expose submission state back to the dashboard shell.
 
 #### 2. Shared questionnaire request/response types
 
@@ -108,9 +112,17 @@ Introduce the real `S-02` questionnaire UX on the protected page, including clie
 
 **Intent**: Keep the dashboard UI and the new plan-generation route aligned on the questionnaire payload and response envelope, rather than letting the client infer server shapes ad hoc.
 
-**Contract**: Define the minimal request shape for questionnaire submission and the response shape for success/error cases that return the saved persisted plan or an inline-displayable error.
+**Contract**: Define the minimal JSON request shape for questionnaire submission and the JSON response envelope for success/error cases that return the saved persisted plan or an inline-displayable error.
 
-#### 3. Dashboard inline state handling
+#### 3. Canonical injury option model
+
+**File**: `src/lib/injury-options.ts`
+
+**Intent**: Prevent the UI, route validation, persistence mapping, and injury-rule logic from inventing different meanings for the same limitation.
+
+**Contract**: Define one canonical selectable injury vocabulary for the MVP. Each option combines a body part with an injury type/severity label, and the questionnaire, route validation, and generator all consume that same source of truth.
+
+#### 4. Dashboard inline state handling
 
 **File**: `src/components/plans/DashboardPlanShell.tsx`
 
@@ -128,7 +140,8 @@ Introduce the real `S-02` questionnaire UX on the protected page, including clie
 
 #### Manual Verification:
 
-- The questionnaire exposes only climbing grade and injury limitations
+- The questionnaire exposes only climbing grade and selectable injury limitations
+- Each selected injury limitation clearly captures both a body part and an injury type/severity
 - Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
 - A server-side failure leaves the entered values visible and shows an inline retryable error message
 
@@ -140,7 +153,7 @@ Introduce the real `S-02` questionnaire UX on the protected page, including clie
 
 ### Overview
 
-Add the first real server seam for `S-02`: accept questionnaire input from the dashboard, validate it, generate a plan, persist it, and return the persisted current plan.
+Add the first real server seam for `S-02`: accept questionnaire input from the dashboard, validate it, and establish the authenticated request/response contract that Phase 4 will complete with real generation and persistence.
 
 ### Changes Required:
 
@@ -150,7 +163,7 @@ Add the first real server seam for `S-02`: accept questionnaire input from the d
 
 **Intent**: Provide the real protected submit endpoint for the dashboard flow instead of persisting a fixed smoke payload.
 
-**Contract**: Accept only authenticated requests under `/api/plans`, parse the minimal questionnaire payload, reject invalid requests with machine-usable JSON errors, generate the weekly plan, persist it with `saveCurrentPlan(...)`, and return the saved persisted plan on success.
+**Contract**: Accept only authenticated requests under `/api/plans`, parse the minimal questionnaire payload, reject invalid requests with machine-usable JSON errors, and expose the route contract that the dashboard shell will call once Phase 4 wires in real generation and persistence.
 
 #### 2. Temporary smoke-route retirement
 
@@ -164,9 +177,9 @@ Add the first real server seam for `S-02`: accept questionnaire input from the d
 
 **File**: `src/components/plans/DashboardPlanShell.tsx`
 
-**Intent**: Connect the protected page to the real generation endpoint and saved-plan response contract.
+**Intent**: Connect the protected page to the real generation endpoint and response contract.
 
-**Contract**: Submit questionnaire answers to the new authenticated route, reconcile success/error responses using the shared flow types, and update the visible dashboard state without a full-page navigation.
+**Contract**: Submit questionnaire answers as JSON to the new authenticated route, reconcile success/error responses using the shared flow types, and update the visible dashboard state without a full-page navigation once the route returns real persisted-plan responses in Phase 4.
 
 ### Success Criteria:
 
@@ -178,8 +191,8 @@ Add the first real server seam for `S-02`: accept questionnaire input from the d
 
 #### Manual Verification:
 
-- Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
-- Invalid submissions return inline-displayable JSON errors without persisting partial state
+- Valid questionnaire submissions reach the authenticated route contract and receive the defined JSON success/error envelope the dashboard can reconcile
+- Invalid submissions return inline-displayable JSON errors before any generation or persistence work runs
 - Anonymous requests to the new route still receive the current unauthorized JSON shape
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase. Phase blocks use plain bullets — the corresponding `- [ ]` checkboxes for these items live in the `## Progress` section at the bottom of the plan.
@@ -190,7 +203,7 @@ Add the first real server seam for `S-02`: accept questionnaire input from the d
 
 ### Overview
 
-Introduce the narrow generation logic that turns the two questionnaire inputs into a full persisted weekly plan that satisfies the existing validator and product guardrails.
+Introduce the narrow generation logic that turns the two questionnaire inputs into a full persisted weekly plan that satisfies the existing validator and product guardrails, then wire that real generated output through the route contract from Phase 3.
 
 ### Changes Required:
 
@@ -208,7 +221,7 @@ Introduce the narrow generation logic that turns the two questionnaire inputs in
 
 **Intent**: Encode the MVP safety promise in one explicit source of truth instead of scattering exercise exclusions across route handlers or components.
 
-**Contract**: Declare blocked or substitution rules by injury-limitation value so the generator can remove or swap exercises that directly conflict with the declared area while still preserving a usable weekly plan.
+**Contract**: Declare blocked or substitution rules against the canonical injury-option model so the generator can reason over body part plus injury type/severity and remove or swap exercises that directly conflict with the declared limitation while still preserving a usable weekly plan.
 
 #### 3. Plan generation service
 
@@ -224,7 +237,7 @@ Introduce the narrow generation logic that turns the two questionnaire inputs in
 
 **Intent**: Keep the generation route thin so the business rule is reusable and testable outside the API handler.
 
-**Contract**: Delegate template selection and injury filtering to the generator service rather than constructing the weekly plan inline in the route.
+**Contract**: Delegate template selection and injury filtering to the generator service rather than constructing the weekly plan inline in the route, then persist the generated weekly plan with `saveCurrentPlan(...)` and return the saved result to the dashboard.
 
 ### Success Criteria:
 
@@ -232,10 +245,11 @@ Introduce the narrow generation logic that turns the two questionnaire inputs in
 
 - Astro types refresh successfully after the generator modules are added: `npx astro sync`
 - Lint passes with the new generator and rule modules: `npm run lint`
-- Build passes with deterministic generation wired into the protected route: `npm run build`
+- Build passes with deterministic generation and persistence wired into the protected route: `npm run build`
 
 #### Manual Verification:
 
+- Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
 - The generated plan contains exactly seven days with visible focus areas and recommended exercises
 - Declaring an injury limitation removes or substitutes exercises that would directly conflict with that limitation
 - Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
@@ -341,8 +355,8 @@ Lock the slice to a concrete end-to-end verification boundary so “done” mean
 ### Unit Tests:
 
 - Validate pure plan-generation helpers that map climbing grades to templates
-- Validate injury substitution helpers so blocked exercises are removed or replaced predictably
-- Validate request-shape parsing or normalization helpers if the API route extracts them from JSON or form payloads
+- Validate injury substitution helpers so blocked exercises are removed or replaced predictably for each supported body-part and injury-type/severity combination
+- Validate request-shape parsing or normalization helpers for the JSON request body consumed by the API route
 
 ### Integration Tests:
 
@@ -355,7 +369,7 @@ Lock the slice to a concrete end-to-end verification boundary so “done” mean
 
 1. Start the app with valid Supabase configuration and refresh Astro types.
 2. Sign in with a user that has no saved plan and confirm `/dashboard` opens on the questionnaire state.
-3. Submit a valid climbing grade and one injury limitation, then confirm the page shows inline loading and resolves to a full seven-day plan.
+3. Submit a valid climbing grade and one selectable injury limitation, then confirm the page shows inline loading and resolves to a full seven-day plan.
 4. Sign out and sign back in with the same user, then confirm `/dashboard` shows the saved plan first.
 5. Use the regenerate path, change the questionnaire answers, and confirm the saved plan updates.
 6. Trigger a server-side failure path and confirm the questionnaire values remain visible with an inline retryable error.
@@ -411,9 +425,10 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Manual
 
-- [ ] 2.4 The questionnaire exposes only climbing grade and injury limitations
-- [ ] 2.5 Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
-- [ ] 2.6 A server-side failure leaves the entered values visible and shows an inline retryable error message
+- [ ] 2.4 The questionnaire exposes only climbing grade and selectable injury limitations
+- [ ] 2.5 Each selected injury limitation clearly captures both a body part and an injury type/severity
+- [ ] 2.6 Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
+- [ ] 2.7 A server-side failure leaves the entered values visible and shows an inline retryable error message
 
 ### Phase 3: Replace the smoke route with a real authenticated plan-generation endpoint
 
@@ -435,13 +450,14 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 - [ ] 4.1 Astro types refresh successfully after the generator modules are added: `npx astro sync`
 - [ ] 4.2 Lint passes with the new generator and rule modules: `npm run lint`
-- [ ] 4.3 Build passes with deterministic generation wired into the protected route: `npm run build`
+- [ ] 4.3 Build passes with deterministic generation and persistence wired into the protected route: `npm run build`
 
 #### Manual
 
-- [ ] 4.4 The generated plan contains exactly seven days with visible focus areas and recommended exercises
-- [ ] 4.5 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that limitation
-- [ ] 4.6 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
+- [ ] 4.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
+- [ ] 4.5 The generated plan contains exactly seven days with visible focus areas and recommended exercises
+- [ ] 4.6 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that body part and injury type/severity
+- [ ] 4.7 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
 
 ### Phase 5: Render the full saved weekly plan and regenerate path on the dashboard
 
