@@ -245,24 +245,24 @@ This is the repo's first application-owned database contract, so rollout and rol
 
 #### Automated
 
-- [x] 2.1 The persistence module type-checks cleanly through Astro sync and build
-- [x] 2.2 Lint passes with the new server module and types
+- [x] 2.1 The persistence module type-checks cleanly through Astro sync and build — 444a753
+- [x] 2.2 Lint passes with the new server module and types — 444a753
 
 #### Manual
 
-- [x] 2.3 The persistence API is narrow enough that S-02 can call it without knowing table names or join structure
-- [x] 2.4 The ownership contract is clear: every persistence method requires authenticated user context and never exposes cross-user reads
+- [x] 2.3 The persistence API is narrow enough that S-02 can call it without knowing table names or join structure — 444a753
+- [x] 2.4 The ownership contract is clear: every persistence method requires authenticated user context and never exposes cross-user reads — 444a753
 
 ### Phase 3: Prove the contract with one authenticated smoke path
 
 #### Automated
 
-- [ ] 3.1 The smoke path builds and type-checks with the new persistence module
-- [ ] 3.2 Lint passes after the smoke path is added
-- [ ] 3.3 Production build passes with the new persistence surface
+- [x] 3.1 The smoke path builds and type-checks with the new persistence module
+- [x] 3.2 Lint passes after the smoke path is added
+- [x] 3.3 Production build passes with the new persistence surface
 
 #### Manual
 
-- [ ] 3.4 An authenticated user can trigger the smoke path and receive confirmation that questionnaire and weekly-plan state were saved and read back successfully
-- [ ] 3.5 The smoke path is not available to unauthenticated requests
-- [ ] 3.6 The protected placeholder surface remains coherent and clearly tied to authenticated plan persistence, not the full questionnaire experience
+- [x] 3.4 An authenticated user can trigger the smoke path and receive confirmation that questionnaire and weekly-plan state were saved and read back successfully
+- [x] 3.5 The smoke path is not available to unauthenticated requests
+- [x] 3.6 The protected placeholder surface remains coherent and clearly tied to authenticated plan persistence, not the full questionnaire experience
