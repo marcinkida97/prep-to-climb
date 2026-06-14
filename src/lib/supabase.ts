@@ -1,6 +1,9 @@
 import { createServerClient, parseCookieHeader } from "@supabase/ssr";
 import type { AstroCookies } from "astro";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_URL, SUPABASE_KEY } from "astro:env/server";
+
+export type SupabaseServerClient = SupabaseClient;
 
 export function createClient(requestHeaders: Headers, cookies: AstroCookies) {
   if (!SUPABASE_URL || !SUPABASE_KEY) {

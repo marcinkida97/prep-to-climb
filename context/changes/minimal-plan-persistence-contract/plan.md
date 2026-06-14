@@ -231,27 +231,27 @@ This is the repo's first application-owned database contract, so rollout and rol
 
 #### Automated
 
-- [x] 1.1 Migration files exist and are syntactically valid for the Supabase CLI workflow
-- [x] 1.2 Astro types refresh successfully after the persistence contract lands
-- [x] 1.3 Lint passes
-- [x] 1.4 Build passes
+- [x] 1.1 Migration files exist and are syntactically valid for the Supabase CLI workflow — 418036d
+- [x] 1.2 Astro types refresh successfully after the persistence contract lands — 418036d
+- [x] 1.3 Lint passes — 418036d
+- [x] 1.4 Build passes — 418036d
 
 #### Manual
 
-- [x] 1.5 Schema review confirms the tables support one user's latest questionnaire plus one active weekly plan with seven-day child records
-- [x] 1.6 README instructions are accurate for a developer bringing up the local Supabase stack after this change
+- [x] 1.5 Schema review confirms the tables support one user's latest questionnaire plus one active weekly plan with seven-day child records — 418036d
+- [x] 1.6 README instructions are accurate for a developer bringing up the local Supabase stack after this change — 418036d
 
 ### Phase 2: Add the server persistence boundary
 
 #### Automated
 
-- [ ] 2.1 The persistence module type-checks cleanly through Astro sync and build
-- [ ] 2.2 Lint passes with the new server module and types
+- [x] 2.1 The persistence module type-checks cleanly through Astro sync and build
+- [x] 2.2 Lint passes with the new server module and types
 
 #### Manual
 
-- [ ] 2.3 The persistence API is narrow enough that S-02 can call it without knowing table names or join structure
-- [ ] 2.4 The ownership contract is clear: every persistence method requires authenticated user context and never exposes cross-user reads
+- [x] 2.3 The persistence API is narrow enough that S-02 can call it without knowing table names or join structure
+- [x] 2.4 The ownership contract is clear: every persistence method requires authenticated user context and never exposes cross-user reads
 
 ### Phase 3: Prove the contract with one authenticated smoke path
 
