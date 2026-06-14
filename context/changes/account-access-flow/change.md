@@ -1,7 +1,7 @@
 ---
 change_id: account-access-flow
 title: Finalize account sign-up, sign-in, and sign-out flow for protected planning
-status: implementing
+status: implemented
 created: 2026-06-14
 updated: 2026-06-14
 archived_at: null

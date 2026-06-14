@@ -269,14 +269,14 @@ No schema or data migration is required. This slice stays within the existing au
 
 #### Automated
 
-- [x] 3.1 Astro types are refreshed successfully: `npx astro sync`
-- [x] 3.2 Lint passes on the full repo: `npm run lint`
-- [x] 3.3 Build passes on the full repo: `npm run build`
+- [x] 3.1 Astro types are refreshed successfully: `npx astro sync` — b253be6
+- [x] 3.2 Lint passes on the full repo: `npm run lint` — b253be6
+- [x] 3.3 Build passes on the full repo: `npm run build` — b253be6
 
 #### Manual
 
-- [x] 3.4 New-user sign-up reaches the confirm-email screen with product-oriented next-step messaging
-- [x] 3.5 Anonymous access to `/dashboard` redirects to `/auth/signin`
-- [x] 3.6 Anonymous `POST /api/plans/smoke` returns `401` with the current unauthorized JSON shape
-- [x] 3.7 Signed-in access reaches `/dashboard` after login and remains usable until sign-out
-- [x] 3.8 Sign-out removes access to the protected dashboard until the user signs in again
+- [x] 3.4 New-user sign-up reaches the confirm-email screen with product-oriented next-step messaging — b253be6
+- [x] 3.5 Anonymous access to `/dashboard` redirects to `/auth/signin` — b253be6
+- [x] 3.6 Anonymous `POST /api/plans/smoke` returns `401` with the current unauthorized JSON shape — b253be6
+- [x] 3.7 Signed-in access reaches `/dashboard` after login and remains usable until sign-out — b253be6
+- [x] 3.8 Sign-out removes access to the protected dashboard until the user signs in again — b253be6
