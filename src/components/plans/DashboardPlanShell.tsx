@@ -2,7 +2,11 @@ import { useState } from "react";
 import QuestionnaireForm from "@/components/plans/QuestionnaireForm";
 import WeeklyPlanView from "@/components/plans/WeeklyPlanView";
 import { Button } from "@/components/ui/button";
-import type { PlanQuestionnaireRequest, PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
+import type {
+  DashboardQuestionnaireValue,
+  PlanQuestionnaireRequest,
+  PlanQuestionnaireResponse,
+} from "@/lib/plan-flow-types";
 import type { PersistedCurrentPlan } from "@/lib/plan-types";
 
 interface DashboardPlanShellProps {
@@ -14,7 +18,7 @@ export default function DashboardPlanShell({ initialPlan, userEmail }: Dashboard
   const [currentPlan, setCurrentPlan] = useState(initialPlan);
   const hasSavedPlan = Boolean(currentPlan);
   const [showQuestionnaire, setShowQuestionnaire] = useState(!initialPlan);
-  const [draftQuestionnaire, setDraftQuestionnaire] = useState<PlanQuestionnaireRequest["questionnaire"]>({
+  const [draftQuestionnaire, setDraftQuestionnaire] = useState<DashboardQuestionnaireValue["questionnaire"]>({
     climbingGrade: initialPlan?.questionnaire.climbingGrade ?? "",
     injuryLimitations: initialPlan?.questionnaire.injuryLimitations ?? [],
   });

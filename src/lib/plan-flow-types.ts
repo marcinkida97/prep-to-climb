@@ -1,7 +1,11 @@
-import type { PersistedCurrentPlan, QuestionnaireResponseInput } from "@/lib/plan-types";
+import type { PersistedCurrentPlan, QuestionnaireDraftInput, QuestionnaireResponseInput } from "@/lib/plan-types";
 
 export interface PlanQuestionnaireRequest {
   questionnaire: QuestionnaireResponseInput;
+}
+
+export interface DashboardQuestionnaireValue {
+  questionnaire: QuestionnaireDraftInput;
 }
 
 export interface PlanQuestionnaireSuccessResponse {

@@ -483,8 +483,8 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Manual
 
-- [x] 6.4 A first-time authenticated user can submit climbing grade and injury limitations and immediately see a full 7-day saved plan — d8567c6
-- [x] 6.5 A returning authenticated user sees the saved plan first and can regenerate it intentionally — d8567c6
-- [x] 6.6 A failed generation attempt keeps the questionnaire values visible and allows retry from the same page — d8567c6
-- [x] 6.7 Anonymous `/dashboard` access still redirects to `/auth/signin` — d8567c6
-- [x] 6.8 Anonymous requests to the real plan-generation API still return `401` with the current unauthorized JSON shape — d8567c6
+- [ ] 6.4 A first-time authenticated user can submit climbing grade and injury limitations and immediately see a full 7-day saved plan
+- [ ] 6.5 A returning authenticated user sees the saved plan first and can regenerate it intentionally
+- [ ] 6.6 A failed generation attempt keeps the questionnaire values visible and allows retry from the same page
+- [ ] 6.7 Anonymous `/dashboard` access still redirects to `/auth/signin`
+- [ ] 6.8 Anonymous requests to the real plan-generation API still return `401` with the current unauthorized JSON shape

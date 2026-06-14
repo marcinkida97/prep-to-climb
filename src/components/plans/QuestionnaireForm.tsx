@@ -2,15 +2,14 @@ import { AlertTriangle, ChevronDown, Dumbbell, HeartPulse } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { INJURY_OPTIONS, type InjuryOptionId } from "@/lib/injury-options";
-import type { PlanQuestionnaireRequest } from "@/lib/plan-flow-types";
-
-const CLIMBING_GRADES = ["5C", "6A", "6B", "6C", "7A", "7B"] as const;
+import type { DashboardQuestionnaireValue, PlanQuestionnaireRequest } from "@/lib/plan-flow-types";
+import { CLIMBING_GRADES } from "@/lib/plan-types";
 
 interface QuestionnaireFormProps {
   error: string | null;
   pending: boolean;
-  value: PlanQuestionnaireRequest["questionnaire"];
-  onChange: (value: PlanQuestionnaireRequest["questionnaire"]) => void;
+  value: DashboardQuestionnaireValue["questionnaire"];
+  onChange: (value: DashboardQuestionnaireValue["questionnaire"]) => void;
   onSubmit: (value: PlanQuestionnaireRequest["questionnaire"]) => Promise<void>;
 }
 
@@ -53,7 +52,10 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
       return;
     }
 
-    await onSubmit(value);
+    await onSubmit({
+      climbingGrade: value.climbingGrade,
+      injuryLimitations: value.injuryLimitations,
+    });
   }
 
   return (

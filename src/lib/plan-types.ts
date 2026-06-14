@@ -1,7 +1,16 @@
 import type { InjuryOptionId } from "@/lib/injury-options";
 
+export const CLIMBING_GRADES = ["5C", "6A", "6B", "6C", "7A", "7B"] as const;
+
+export type ClimbingGrade = (typeof CLIMBING_GRADES)[number];
+
+export interface QuestionnaireDraftInput {
+  climbingGrade: ClimbingGrade | "";
+  injuryLimitations: InjuryOptionId[];
+}
+
 export interface QuestionnaireResponseInput {
-  climbingGrade: string;
+  climbingGrade: ClimbingGrade;
   injuryLimitations: InjuryOptionId[];
 }
 

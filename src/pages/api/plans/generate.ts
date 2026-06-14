@@ -4,7 +4,7 @@ import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persiste
 import { generateWeeklyPlan } from "@/lib/plan-generator";
 import type { PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
 import { createClient } from "@/lib/supabase";
-import type { QuestionnaireResponseInput } from "@/lib/plan-types";
+import { CLIMBING_GRADES, type QuestionnaireResponseInput } from "@/lib/plan-types";
 
 export const POST: APIRoute = async (context) => {
   if (!context.locals.user) {
@@ -97,8 +97,17 @@ function validateQuestionnaireRequest(payload: unknown): string | null {
   }
 
   const questionnaireRecord = questionnaire as Record<string, unknown>;
-  if (typeof questionnaireRecord.climbingGrade !== "string" || questionnaireRecord.climbingGrade.trim() === "") {
+  if (typeof questionnaireRecord.climbingGrade !== "string") {
     return "Choose a climbing grade before generating a plan.";
+  }
+
+  const climbingGrade = questionnaireRecord.climbingGrade.trim();
+  if (climbingGrade === "") {
+    return "Choose a climbing grade before generating a plan.";
+  }
+
+  if (!CLIMBING_GRADES.includes(climbingGrade as (typeof CLIMBING_GRADES)[number])) {
+    return "Choose one of the supported climbing grades before generating a plan.";
   }
 
   const injuryLimitations = questionnaireRecord.injuryLimitations;
@@ -129,9 +138,11 @@ function jsonResponse(body: PlanQuestionnaireResponse | { error: string }, statu
 function readQuestionnaire(payload: unknown): QuestionnaireResponseInput {
   const payloadRecord = payload as Record<string, unknown>;
   const questionnaireRecord = payloadRecord.questionnaire as Record<string, unknown>;
+  const climbingGrade = questionnaireRecord.climbingGrade as string;
+  const injuryLimitations = questionnaireRecord.injuryLimitations as QuestionnaireResponseInput["injuryLimitations"];
 
   return {
-    climbingGrade: questionnaireRecord.climbingGrade as QuestionnaireResponseInput["climbingGrade"],
-    injuryLimitations: questionnaireRecord.injuryLimitations as QuestionnaireResponseInput["injuryLimitations"],
+    climbingGrade: climbingGrade.trim() as QuestionnaireResponseInput["climbingGrade"],
+    injuryLimitations: [...new Set(injuryLimitations)],
   };
 }
