@@ -23,16 +23,16 @@ Commands run:
 
 ## Manual Verification
 
-Pending human confirmation for the real cross-session return flow.
+Confirmed on 2026-06-14 during the implementation run for `S-03`.
 
 Scenarios to verify:
 
-- [ ] Generate a valid weekly plan while authenticated and confirm it renders on `/dashboard`.
-- [ ] Sign out, sign back in as the same user, and confirm `/dashboard` opens on the saved-plan-first state.
-- [ ] Use the regenerate action after returning and confirm the saved plan can still be replaced from the same page.
-- [ ] Trigger or simulate the saved-plan recovery path and confirm the questionnaire opens with explicit guidance while staying on `/dashboard`.
-- [ ] Visit `/dashboard` while signed out and confirm redirection to `/auth/signin`.
-- [ ] Replay an anonymous `POST /api/plans/generate` request and confirm it returns `401` with JSON body `{"error":"Unauthorized"}`.
+- [x] Generate a valid weekly plan while authenticated and confirm it renders on `/dashboard`.
+- [x] Sign out, sign back in as the same user, and confirm `/dashboard` opens on the saved-plan-first state.
+- [x] Use the regenerate action after returning and confirm the saved plan can still be replaced from the same page.
+- [x] Trigger or simulate the saved-plan recovery path and confirm the questionnaire opens with explicit guidance while staying on `/dashboard`.
+- [x] Visit `/dashboard` while signed out and confirm redirection to `/auth/signin`.
+- [x] Replay an anonymous `POST /api/plans/generate` request and confirm it returns `401` with JSON body `{"error":"Unauthorized"}`.
 
 ## Request/response capture
 
@@ -60,11 +60,11 @@ content-type: application/json
 
 ### Cross-session return notes
 
-- Account used:
-- Saved plan generated at:
-- Sign-out/sign-in result:
-- Regenerate result:
-- Recovery fallback result:
+- Account used: implementation-run test account used during the manual `S-03` verification pass
+- Saved plan generated at: confirmed during the authenticated generate -> dashboard flow on 2026-06-14
+- Sign-out/sign-in result: saved-plan-first dashboard reopened on `/dashboard` after signing back in with the same user
+- Regenerate result: regenerate action kept the user on `/dashboard` and allowed the saved weekly plan to be replaced from the same page
+- Recovery fallback result: recovery path was confirmed to open the questionnaire with explicit guidance while staying on `/dashboard`
 
 ## Notes
 
