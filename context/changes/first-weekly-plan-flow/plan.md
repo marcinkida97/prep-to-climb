@@ -448,30 +448,30 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [x] 4.1 Astro types refresh successfully after the generator modules are added: `npx astro sync`
-- [x] 4.2 Lint passes with the new generator and rule modules: `npm run lint`
-- [x] 4.3 Build passes with deterministic generation and persistence wired into the protected route: `npm run build`
+- [x] 4.1 Astro types refresh successfully after the generator modules are added: `npx astro sync` — cc83120
+- [x] 4.2 Lint passes with the new generator and rule modules: `npm run lint` — cc83120
+- [x] 4.3 Build passes with deterministic generation and persistence wired into the protected route: `npm run build` — cc83120
 
 #### Manual
 
-- [x] 4.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard
-- [x] 4.5 The generated plan contains exactly seven days with visible focus areas and recommended exercises
-- [x] 4.6 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that body part and injury type/severity
-- [x] 4.7 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state
+- [x] 4.4 Valid authenticated questionnaire submissions persist a real plan and return a success response usable by the dashboard — cc83120
+- [x] 4.5 The generated plan contains exactly seven days with visible focus areas and recommended exercises — cc83120
+- [x] 4.6 Declaring an injury limitation removes or substitutes exercises that would directly conflict with that body part and injury type/severity — cc83120
+- [x] 4.7 Re-submitting the questionnaire replaces the current saved plan instead of creating a broken mixed state — cc83120
 
 ### Phase 5: Render the full saved weekly plan and regenerate path on the dashboard
 
 #### Automated
 
-- [ ] 5.1 Astro types refresh successfully after the saved-plan presentation components are added: `npx astro sync`
-- [ ] 5.2 Lint passes with the full plan view and regenerate state logic: `npm run lint`
-- [ ] 5.3 Build passes with the completed dashboard flow: `npm run build`
+- [x] 5.1 Astro types refresh successfully after the saved-plan presentation components are added: `npx astro sync`
+- [x] 5.2 Lint passes with the full plan view and regenerate state logic: `npm run lint`
+- [x] 5.3 Build passes with the completed dashboard flow: `npm run build`
 
 #### Manual
 
-- [ ] 5.4 A successful first-run submission replaces the questionnaire view with the full saved weekly plan on `/dashboard`
-- [ ] 5.5 A returning signed-in user sees the saved plan first and can intentionally regenerate it from the same page
-- [ ] 5.6 The dashboard no longer presents the smoke-test flow as the main user action
+- [x] 5.4 A successful first-run submission replaces the questionnaire view with the full saved weekly plan on `/dashboard`
+- [x] 5.5 A returning signed-in user sees the saved plan first and can intentionally regenerate it from the same page
+- [x] 5.6 The dashboard no longer presents the smoke-test flow as the main user action
 
 ### Phase 6: Verify the end-to-end protected flow and repo gates
 
