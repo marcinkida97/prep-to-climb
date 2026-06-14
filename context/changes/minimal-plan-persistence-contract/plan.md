@@ -257,12 +257,12 @@ This is the repo's first application-owned database contract, so rollout and rol
 
 #### Automated
 
-- [x] 3.1 The smoke path builds and type-checks with the new persistence module
-- [x] 3.2 Lint passes after the smoke path is added
-- [x] 3.3 Production build passes with the new persistence surface
+- [x] 3.1 The smoke path builds and type-checks with the new persistence module — 3ccf02a
+- [x] 3.2 Lint passes after the smoke path is added — 3ccf02a
+- [x] 3.3 Production build passes with the new persistence surface — 3ccf02a
 
 #### Manual
 
-- [x] 3.4 An authenticated user can trigger the smoke path and receive confirmation that questionnaire and weekly-plan state were saved and read back successfully
-- [x] 3.5 The smoke path is not available to unauthenticated requests
-- [x] 3.6 The protected placeholder surface remains coherent and clearly tied to authenticated plan persistence, not the full questionnaire experience
+- [x] 3.4 An authenticated user can trigger the smoke path and receive confirmation that questionnaire and weekly-plan state were saved and read back successfully — 3ccf02a
+- [x] 3.5 The smoke path is not available to unauthenticated requests — 3ccf02a
+- [x] 3.6 The protected placeholder surface remains coherent and clearly tied to authenticated plan persistence, not the full questionnaire experience — 3ccf02a
