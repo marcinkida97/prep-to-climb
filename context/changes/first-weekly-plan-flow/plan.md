@@ -405,30 +405,30 @@ No new schema migration is planned here because `F-01` already introduced the pe
 
 #### Automated
 
-- [x] 1.1 Astro types refresh successfully after the new dashboard shell is added: `npx astro sync`
-- [x] 1.2 Lint passes with the new protected flow container: `npm run lint`
-- [x] 1.3 Build passes with server-side plan loading on `/dashboard`: `npm run build`
+- [x] 1.1 Astro types refresh successfully after the new dashboard shell is added: `npx astro sync` — 118c787
+- [x] 1.2 Lint passes with the new protected flow container: `npm run lint` — 118c787
+- [x] 1.3 Build passes with server-side plan loading on `/dashboard`: `npm run build` — 118c787
 
 #### Manual
 
-- [x] 1.4 A signed-in user with no saved plan sees the questionnaire entry state on `/dashboard`
-- [x] 1.5 A signed-in user with an existing saved plan sees the saved-plan-first dashboard state instead of the questionnaire by default
-- [x] 1.6 Anonymous access to `/dashboard` still redirects to `/auth/signin`
+- [x] 1.4 A signed-in user with no saved plan sees the questionnaire entry state on `/dashboard` — 118c787
+- [x] 1.5 A signed-in user with an existing saved plan sees the saved-plan-first dashboard state instead of the questionnaire by default — 118c787
+- [x] 1.6 Anonymous access to `/dashboard` still redirects to `/auth/signin` — 118c787
 
 ### Phase 2: Add the minimal questionnaire and inline page-state behavior
 
 #### Automated
 
-- [ ] 2.1 Astro types refresh successfully after the questionnaire island is added: `npx astro sync`
-- [ ] 2.2 Lint passes with the new client-side questionnaire state logic: `npm run lint`
-- [ ] 2.3 Build passes with the dashboard shell and questionnaire island wired together: `npm run build`
+- [x] 2.1 Astro types refresh successfully after the questionnaire island is added: `npx astro sync`
+- [x] 2.2 Lint passes with the new client-side questionnaire state logic: `npm run lint`
+- [x] 2.3 Build passes with the dashboard shell and questionnaire island wired together: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 The questionnaire exposes only climbing grade and selectable injury limitations
-- [ ] 2.5 Each selected injury limitation clearly captures both a body part and an injury type/severity
-- [ ] 2.6 Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
-- [ ] 2.7 A server-side failure leaves the entered values visible and shows an inline retryable error message
+- [x] 2.4 The questionnaire exposes only climbing grade and selectable injury limitations
+- [x] 2.5 Each selected injury limitation clearly captures both a body part and an injury type/severity
+- [x] 2.6 Submitting the questionnaire shows an inline loading state without leaving `/dashboard`
+- [x] 2.7 A server-side failure leaves the entered values visible and shows an inline retryable error message
 
 ### Phase 3: Replace the smoke route with a real authenticated plan-generation endpoint
 

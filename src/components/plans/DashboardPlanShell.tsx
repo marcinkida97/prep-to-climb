@@ -1,3 +1,6 @@
+import { useState } from "react";
+import QuestionnaireForm from "@/components/plans/QuestionnaireForm";
+import type { PlanQuestionnaireRequest } from "@/lib/plan-flow-types";
 import type { PersistedCurrentPlan } from "@/lib/plan-types";
 
 interface DashboardPlanShellProps {
@@ -7,6 +10,27 @@ interface DashboardPlanShellProps {
 
 export default function DashboardPlanShell({ initialPlan, userEmail }: DashboardPlanShellProps) {
   const hasSavedPlan = Boolean(initialPlan);
+  const [draftQuestionnaire, setDraftQuestionnaire] = useState<PlanQuestionnaireRequest["questionnaire"]>({
+    climbingGrade: initialPlan?.questionnaire.climbingGrade ?? "",
+    injuryLimitations: initialPlan?.questionnaire.injuryLimitations ?? [],
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+
+  async function handleQuestionnaireSubmit(nextQuestionnaire: PlanQuestionnaireRequest["questionnaire"]) {
+    setDraftQuestionnaire(nextQuestionnaire);
+    setIsSubmitting(true);
+    setSubmissionError(null);
+
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 700);
+    });
+
+    setIsSubmitting(false);
+    setSubmissionError(
+      "The protected generation endpoint is not wired yet. Your answers are still here, so you can retry once the route lands in the next phase.",
+    );
+  }
 
   return (
     <section className="w-full rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8">
@@ -31,31 +55,20 @@ export default function DashboardPlanShell({ initialPlan, userEmail }: Dashboard
         </div>
 
         <aside className="rounded-[1.5rem] border border-white/10 bg-slate-950/25 p-5">
-          {hasSavedPlan && initialPlan ? <SavedPlanSnapshot plan={initialPlan} /> : <QuestionnaireEntryState />}
+          {hasSavedPlan && initialPlan ? (
+            <SavedPlanSnapshot plan={initialPlan} />
+          ) : (
+            <QuestionnaireForm
+              error={submissionError}
+              pending={isSubmitting}
+              value={draftQuestionnaire}
+              onChange={setDraftQuestionnaire}
+              onSubmit={handleQuestionnaireSubmit}
+            />
+          )}
         </aside>
       </div>
     </section>
-  );
-}
-
-function QuestionnaireEntryState() {
-  return (
-    <div className="space-y-4">
-      <p className="text-sm font-medium tracking-[0.24em] text-emerald-200/75 uppercase">First run</p>
-      <h2 className="text-2xl font-semibold text-white">Questionnaire entry state</h2>
-      <p className="text-sm leading-6 text-blue-100/75">
-        No saved weekly plan was found for this account. The questionnaire flow will appear here so a new user can enter
-        a climbing grade and injury limitations without leaving <code>/dashboard</code>.
-      </p>
-      <div className="rounded-2xl border border-dashed border-emerald-300/30 bg-emerald-400/10 p-4">
-        <p className="text-sm font-medium text-emerald-100">Next in this flow</p>
-        <ul className="mt-3 space-y-2 text-sm leading-6 text-emerald-50/85">
-          <li>Choose a current climbing grade</li>
-          <li>Select any injury limitations that need safer substitutions</li>
-          <li>Generate and save a seven-day weekly plan on this page</li>
-        </ul>
-      </div>
-    </div>
   );
 }
 

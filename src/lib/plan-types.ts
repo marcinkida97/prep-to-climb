@@ -1,6 +1,8 @@
+import type { InjuryOptionId } from "@/lib/injury-options";
+
 export interface QuestionnaireResponseInput {
   climbingGrade: string;
-  injuryLimitations: string[];
+  injuryLimitations: InjuryOptionId[];
 }
 
 export interface RecommendedExerciseInput {
