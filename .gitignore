@@ -28,6 +28,6 @@ pnpm-debug.log*
 .idea/
 
 # 10xDEVS
-.agents
+.claude
 AGENTS.md
 CLAUDE.md
