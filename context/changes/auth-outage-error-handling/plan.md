@@ -27,7 +27,7 @@ handler with no user-facing redirect at all.
 - No shared error-handling utility exists anywhere in `src/lib/` or `src/pages/api/` (confirmed in `research.md`) — per the user's confirmed decision, the fix stays as duplicated inline try/catch in each file, matching the existing non-abstracted repo style rather than introducing the first shared abstraction for two call sites.
 - `src/pages/api/auth/signout.ts` has the identical unguarded-await shape but is explicitly out of scope for this change (confirmed decision) since test-plan.md's Risk #7 names only sign-in/sign-up.
 - No test infrastructure exists in the repo at all: no `vitest` (or any test runner) in `package.json`, no `vitest.config.*`, no `test` script, no `*.test.ts` files anywhere (confirmed via `research.md` and a fresh check of `package.json`). The Testing Strategy below specifies a unit test that needs Vitest to exist to ever run — so this plan adds a phase to install and configure it, scoped to exactly what that one test needs (Node environment, no DOM), without authoring the test itself.
-- `astro.config.mjs` has no test-related config; `tsconfig.json` defines the `@/*` → `./src/*` path alias Vitest will need to resolve the same way the app does. Astro ships a `getViteConfig` helper (from `astro/config`) specifically so a `vitest.config.ts` can reuse the project's real Vite pipeline (aliases, plugins) instead of redeclaring them.
+- `astro.config.mjs` has no test-related config; `tsconfig.json` defines the `@/*` → `./src/*` path alias Vitest will need to resolve the same way the app does. Astro ships a `getViteConfig` helper (from `astro/config`) meant for exactly this, but **it does not work in this repo**: reusing the project's real Vite pipeline pulls in the `@astrojs/cloudflare` adapter plugin, which hard-validates SSR environment options and rejects the ones Vitest itself sets — `npm run test` fails at startup (exit 1) before any test runs. Discovered during Phase 1 implementation; see the updated Contract below.
 - `eslint.config.js` sets `"no-console": "warn"` (not `"error"`), and CI's `npm run lint` step (`eslint .`, no `--max-warnings=0`) doesn't fail on warnings — so the `console.error` calls added in the guard fix (Phase 2) won't break the lint gate.
 
 ## Desired End State
@@ -114,20 +114,26 @@ Doing).
 
 **File**: `vitest.config.ts` (new)
 
-**Intent**: Reuse Astro's own Vite pipeline (so the `@/*` alias from `tsconfig.json` resolves identically to the app) rather than redeclaring aliases/plugins by hand, and make the harness pass with zero test files so it's verifiable before Lesson 2 adds any.
+**Intent**: Resolve the `@/*` alias the same way the app does, and make the harness pass with zero test files so it's verifiable before Lesson 2 adds any — without loading `astro.config.mjs` (see Key Discoveries: `getViteConfig` is blocked by the `@astrojs/cloudflare` adapter plugin in this repo).
 
-**Contract**:
+**Contract** (implemented; deviates from the originally planned `getViteConfig` approach — see Key Discoveries):
 ```ts
-/// <reference types="vitest/config" />
-import { getViteConfig } from "astro/config";
+import path from "node:path";
+import { defineConfig } from "vitest/config";
 
-export default getViteConfig({
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "./src"),
+    },
+  },
   test: {
     environment: "node",
     passWithNoTests: true,
   },
 });
 ```
+A plain `defineConfig` from `vitest/config` avoids the triple-slash `/// <reference types="vitest/config" />` some Astro docs use — that comment form trips this repo's `@typescript-eslint/triple-slash-reference` lint rule and isn't needed here since `vitest/config`'s own `defineConfig` already carries the merged `test` field types.
 
 ### Success Criteria:
 
@@ -233,7 +239,7 @@ None — no data model or schema involved.
 - Research: `context/changes/auth-outage-error-handling/research.md`
 - Risk source: `context/foundation/test-plan.md` §2 Risk #7, Risk Response Guidance row #7
 - Incident origin: `context/foundation/improvements.md:6`
-- Astro + Vitest integration pattern: `astro/config`'s `getViteConfig` helper (used in Phase 1's `vitest.config.ts`)
+- Vitest config: plain `defineConfig` from `vitest/config` with a manual `@/*` alias (Phase 1's `vitest.config.ts`) — `astro/config`'s `getViteConfig` helper was tried first but is incompatible with the `@astrojs/cloudflare` adapter in this repo (see Key Discoveries)
 
 ## Progress
 
@@ -243,15 +249,15 @@ None — no data model or schema involved.
 
 #### Automated
 
-- [ ] 1.1 `npm install` completes cleanly with `vitest` added
-- [ ] 1.2 `npx astro sync` runs cleanly
-- [ ] 1.3 Lint passes: `npm run lint`
-- [ ] 1.4 Build passes: `npm run build`
-- [ ] 1.5 `npm run test` exits 0 with zero test files (`passWithNoTests`)
+- [x] 1.1 `npm install` completes cleanly with `vitest` added
+- [x] 1.2 `npx astro sync` runs cleanly
+- [x] 1.3 Lint passes: `npm run lint`
+- [x] 1.4 Build passes: `npm run build`
+- [x] 1.5 `npm run test` exits 0 with zero test files (`passWithNoTests`)
 
 #### Manual
 
-- [ ] 1.6 `npm run test` output confirmed to report zero test files found, not an error
+- [x] 1.6 `npm run test` output confirmed to report zero test files found, not an error
 
 ### Phase 2: Guard both auth handlers against thrown Supabase errors
 
