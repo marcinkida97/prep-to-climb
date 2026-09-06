@@ -17,7 +17,7 @@ export const POST: APIRoute = async (context) => {
       return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
     }
   } catch (err) {
-    console.error("signup: supabase call failed", err);
+    console.error("signup: supabase call failed", err instanceof Error ? err.message : String(err));
     return context.redirect(
       `/auth/signup?error=${encodeURIComponent("Unable to reach the authentication service — please try again shortly.")}`,
     );
