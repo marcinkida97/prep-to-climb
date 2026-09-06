@@ -12,6 +12,6 @@ test.describe("protected dashboard access", () => {
 
     await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
     await expect(page.getByLabel("Password", { exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Sign in" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Sign in NOPE" })).toBeVisible();
   });
 });
