@@ -393,8 +393,8 @@ None — purely additive tooling and config; no data or schema involved.
 
 #### Automated
 
-- [x] 4.1 `npm run lint` passes
+- [x] 4.1 `npm run lint` passes — 200aeb3
 
 #### Manual
 
-- [x] 4.2 Updated §6.3 read back and confirmed self-sufficient for the next contributor
+- [x] 4.2 Updated §6.3 read back and confirmed self-sufficient for the next contributor — 200aeb3

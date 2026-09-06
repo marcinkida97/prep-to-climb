@@ -1,7 +1,7 @@
 ---
 change_id: playwright-e2e-foundation
 title: Stand up Playwright e2e harness with a reference redirect-guard test
-status: implementing
+status: implemented
 created: 2026-09-06
 updated: 2026-09-06
 archived_at: null
