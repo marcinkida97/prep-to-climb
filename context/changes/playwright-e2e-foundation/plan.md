@@ -381,20 +381,20 @@ None — purely additive tooling and config; no data or schema involved.
 
 #### Automated
 
-- [x] 3.1 `.github/workflows/ci.yml` valid YAML with a distinct `e2e` job
-- [x] 3.2 CI run shows the `e2e` job installing browsers and completing `npm run test:e2e`
+- [x] 3.1 `.github/workflows/ci.yml` valid YAML with a distinct `e2e` job — 7d2d78f
+- [x] 3.2 CI run shows the `e2e` job installing browsers and completing `npm run test:e2e` — 7d2d78f
 
 #### Manual
 
-- [x] 3.3 Actions run confirmed: `e2e` job green in parallel with `ci`, no Supabase-secret warnings
-- [x] 3.4 Intentional break confirmed to fail the job and attach the `playwright-report` artifact; reverted
+- [x] 3.3 Actions run confirmed: `e2e` job green in parallel with `ci`, no Supabase-secret warnings — 7d2d78f
+- [x] 3.4 Intentional break confirmed to fail the job and attach the `playwright-report` artifact; reverted — 7d2d78f
 
 ### Phase 4: Update test-plan.md cookbook
 
 #### Automated
 
-- [ ] 4.1 `npm run lint` passes
+- [x] 4.1 `npm run lint` passes
 
 #### Manual
 
-- [ ] 4.2 Updated §6.3 read back and confirmed self-sufficient for the next contributor
+- [x] 4.2 Updated §6.3 read back and confirmed self-sufficient for the next contributor
