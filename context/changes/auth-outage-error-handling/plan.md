@@ -263,13 +263,13 @@ None — no data model or schema involved.
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 `npx astro sync` runs cleanly
+- [x] 2.1 Lint passes: `npm run lint` — 87f53cf
+- [x] 2.2 Build passes: `npm run build` — 87f53cf
+- [x] 2.3 `npx astro sync` runs cleanly — 87f53cf
 
 #### Manual
 
-- [x] 2.4 Simulated Supabase outage on sign-in redirects with generic message, no crash
-- [x] 2.5 Simulated Supabase outage on sign-up redirects with generic message, no crash
-- [x] 2.6 Normal wrong-password sign-in still shows original verbatim Supabase message
-- [x] 2.7 `console.error` line observed in dev server output during simulated outage
+- [x] 2.4 Simulated Supabase outage on sign-in redirects with generic message, no crash — 87f53cf
+- [x] 2.5 Simulated Supabase outage on sign-up redirects with generic message, no crash — 87f53cf
+- [x] 2.6 Normal wrong-password sign-in still shows original verbatim Supabase message — 87f53cf
+- [x] 2.7 `console.error` line observed in dev server output during simulated outage — 87f53cf
