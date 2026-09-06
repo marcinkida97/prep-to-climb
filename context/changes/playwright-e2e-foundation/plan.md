@@ -369,19 +369,19 @@ None — purely additive tooling and config; no data or schema involved.
 
 #### Automated
 
-- [x] 2.1 `npm run test:e2e` passes both test cases
-- [x] 2.2 `npm run lint` passes on the new spec file
-- [x] 2.3 `npm run build` still passes
+- [x] 2.1 `npm run test:e2e` passes both test cases — 07a5527
+- [x] 2.2 `npm run lint` passes on the new spec file — 07a5527
+- [x] 2.3 `npm run build` still passes — 07a5527
 
 #### Manual
 
-- [x] 2.4 HTML report confirmed to show both named test cases passing
+- [x] 2.4 HTML report confirmed to show both named test cases passing — 07a5527
 
 ### Phase 3: Wire CI
 
 #### Automated
 
-- [ ] 3.1 `.github/workflows/ci.yml` valid YAML with a distinct `e2e` job
+- [x] 3.1 `.github/workflows/ci.yml` valid YAML with a distinct `e2e` job
 - [ ] 3.2 CI run shows the `e2e` job installing browsers and completing `npm run test:e2e`
 
 #### Manual
