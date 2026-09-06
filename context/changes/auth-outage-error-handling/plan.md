@@ -331,11 +331,11 @@ None — no data model or schema involved.
 
 #### Automated
 
-- [x] 3.1 `npm run test` exits 0 with `signin.test.ts` / `signup.test.ts` discovered and passing
-- [x] 3.2 Lint passes: `npm run lint`
-- [x] 3.3 Build passes: `npm run build`
-- [x] 3.4 `npx astro sync` runs cleanly
+- [x] 3.1 `npm run test` exits 0 with `signin.test.ts` / `signup.test.ts` discovered and passing — 24b39c5
+- [x] 3.2 Lint passes: `npm run lint` — 24b39c5
+- [x] 3.3 Build passes: `npm run build` — 24b39c5
+- [x] 3.4 `npx astro sync` runs cleanly — 24b39c5
 
 #### Manual
 
-- [x] 3.5 `npm run test` output lists the new test cases by name as passing
+- [x] 3.5 `npm run test` output lists the new test cases by name as passing — 24b39c5

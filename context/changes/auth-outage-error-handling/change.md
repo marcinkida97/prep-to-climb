@@ -17,3 +17,7 @@ sign in/sign up").
 
 Belongs to test-plan.md §3 Phase 3 ("Access-control & resilience
 hardening"), scoped here to the Risk #7 slice only (not #4/#6).
+
+Phase 3 (regression tests for the outage guard) added and completed
+post-review — 24b39c5. Status stays `impl_reviewed`; no re-review needed
+for test-only additions with no production code change.
