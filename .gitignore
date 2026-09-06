@@ -28,6 +28,8 @@ pnpm-debug.log*
 .idea/
 
 # 10xDEVS
-.claude
+.claude/*
+!.claude/settings.json
+!.claude/hooks
 AGENTS.md
 CLAUDE.md
