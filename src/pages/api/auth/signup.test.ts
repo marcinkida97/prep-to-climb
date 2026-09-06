@@ -27,6 +27,15 @@ function buildContext(email: string, password: string) {
 }
 
 describe("POST /api/auth/signup", () => {
+  it("redirects when Supabase is not configured", async () => {
+    const { context, redirect } = buildContext("climber@example.com", "hunter2");
+    vi.mocked(createClient).mockReturnValue(null);
+
+    await POST(context);
+
+    expect(redirect).toHaveBeenCalledWith(`/auth/signup?error=${encodeURIComponent("Supabase is not configured")}`);
+  });
+
   it("redirects with a generic message when Supabase is unreachable", async () => {
     const { context, redirect } = buildContext("climber@example.com", "hunter2");
     vi.mocked(createClient).mockReturnValue({

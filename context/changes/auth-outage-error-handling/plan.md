@@ -236,6 +236,21 @@ case asserts a resolved `{ error }` still redirects with the verbatim
 **Contract**: Same shape as `signin.test.ts`, targeting `signup.ts`'s
 `POST` export and its `signUp` mock.
 
+#### 3. Scope Vitest away from the Playwright suite
+
+**File**: `vitest.config.ts`
+
+**Intent**: `npm run test` failed once real test files existed — Vitest's
+default include glob was also matching the Playwright spec in `e2e/`
+(`test.describe()` from `@playwright/test` throws when invoked outside
+a Playwright run). Discovered during Phase 3 implementation, not
+anticipated when this plan was written.
+
+**Contract**: Add `exclude: [...configDefaults.exclude, "e2e/**"]`
+(importing `configDefaults` from `vitest/config`) to `test` in
+`vitest.config.ts` so Vitest only discovers real Vitest specs while
+keeping Vitest's own default exclusions intact.
+
 ### Success Criteria:
 
 #### Automated Verification:

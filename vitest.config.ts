@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
@@ -10,6 +10,6 @@ export default defineConfig({
   test: {
     environment: "node",
     passWithNoTests: true,
-    exclude: ["node_modules/**", "dist/**", "e2e/**"],
+    exclude: [...configDefaults.exclude, "e2e/**"],
   },
 });
