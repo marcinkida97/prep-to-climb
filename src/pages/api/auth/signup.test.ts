@@ -16,6 +16,7 @@ function buildContext(email: string, password: string) {
 
   const context = {
     request: {
+      url: "https://preptoclimb.example.com/api/auth/signup",
       formData: () => Promise.resolve(form),
       headers: new Headers(),
     },
@@ -49,6 +50,22 @@ describe("POST /api/auth/signup", () => {
     expect(redirect).toHaveBeenCalledWith(
       `/auth/signup?error=${encodeURIComponent("Unable to reach the authentication service — please try again shortly.")}`,
     );
+  });
+
+  it("sends the confirmation email with an origin-derived redirect target", async () => {
+    const { context } = buildContext("climber@example.com", "hunter2");
+    const signUp = vi.fn().mockResolvedValue({ error: null });
+    vi.mocked(createClient).mockReturnValue({
+      auth: { signUp },
+    } as unknown as ReturnType<typeof createClient>);
+
+    await POST(context);
+
+    expect(signUp).toHaveBeenCalledWith({
+      email: "climber@example.com",
+      password: "hunter2",
+      options: { emailRedirectTo: "https://preptoclimb.example.com/api/auth/confirm" },
+    });
   });
 
   it("shows the verbatim Supabase message when signup is rejected normally", async () => {

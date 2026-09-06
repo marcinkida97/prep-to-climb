@@ -11,7 +11,12 @@ export const POST: APIRoute = async (context) => {
     return context.redirect(`/auth/signup?error=${encodeURIComponent("Supabase is not configured")}`);
   }
   try {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const origin = new URL(context.request.url).origin;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: `${origin}/api/auth/confirm` },
+    });
 
     if (error) {
       return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
