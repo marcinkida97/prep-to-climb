@@ -200,6 +200,59 @@ propagating out of the handler.
 
 ---
 
+## Phase 3: Author regression tests for the outage guard
+
+### Overview
+
+Author the unit tests specified in Testing Strategy (below) for the
+Phase 2 guard, now that Lesson 2 (`/10x-tdd`) has been reached. This
+phase was not originally tracked with Progress rows — Phase 2 already
+shipped the production guard, so the tests below are regression
+coverage for existing behavior, authored via `/10x-implement` rather
+than true test-first TDD (the failing-test-leads-code ordering no
+longer applies once the code already exists).
+
+### Changes Required:
+
+#### 1. Sign-in regression tests
+
+**File**: `src/pages/api/auth/signin.test.ts` (new)
+
+**Intent**: Pin the Phase 2 behavior so a future refactor can't silently
+regress it.
+
+**Contract**: Per Testing Strategy below — mock `@/lib/supabase`'s
+`createClient`; one case asserts a rejected `signInWithPassword` call
+redirects to `/auth/signin` with the fixed generic message; a second
+case asserts a resolved `{ error }` still redirects with the verbatim
+`error.message`, proving the resolved-error path is untouched.
+
+#### 2. Sign-up regression tests
+
+**File**: `src/pages/api/auth/signup.test.ts` (new)
+
+**Intent**: Mirror the sign-in tests for the sign-up handler.
+
+**Contract**: Same shape as `signin.test.ts`, targeting `signup.ts`'s
+`POST` export and its `signUp` mock.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- `npm run test` exits `0` with the new test files discovered and passing (no longer relying on `passWithNoTests`)
+- Lint passes: `npm run lint`
+- Build passes: `npm run build`
+- `npx astro sync` runs cleanly
+
+#### Manual Verification:
+
+- Run `npm run test` locally and confirm the output lists the new `signin.test.ts` / `signup.test.ts` test cases by name as passing (not just "no test files found").
+
+**Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding.
+
+---
+
 ## Testing Strategy
 
 Per `AGENTS.md` Module 3 Lesson 1 boundaries, this plan specifies the test
@@ -273,3 +326,16 @@ None — no data model or schema involved.
 - [x] 2.5 Simulated Supabase outage on sign-up redirects with generic message, no crash — 87f53cf
 - [x] 2.6 Normal wrong-password sign-in still shows original verbatim Supabase message — 87f53cf
 - [x] 2.7 `console.error` line observed in dev server output during simulated outage — 87f53cf
+
+### Phase 3: Author regression tests for the outage guard
+
+#### Automated
+
+- [x] 3.1 `npm run test` exits 0 with `signin.test.ts` / `signup.test.ts` discovered and passing
+- [x] 3.2 Lint passes: `npm run lint`
+- [x] 3.3 Build passes: `npm run build`
+- [x] 3.4 `npx astro sync` runs cleanly
+
+#### Manual
+
+- [x] 3.5 `npm run test` output lists the new test cases by name as passing
