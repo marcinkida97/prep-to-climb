@@ -249,27 +249,27 @@ None — no data model or schema involved.
 
 #### Automated
 
-- [x] 1.1 `npm install` completes cleanly with `vitest` added
-- [x] 1.2 `npx astro sync` runs cleanly
-- [x] 1.3 Lint passes: `npm run lint`
-- [x] 1.4 Build passes: `npm run build`
-- [x] 1.5 `npm run test` exits 0 with zero test files (`passWithNoTests`)
+- [x] 1.1 `npm install` completes cleanly with `vitest` added — 297a13d
+- [x] 1.2 `npx astro sync` runs cleanly — 297a13d
+- [x] 1.3 Lint passes: `npm run lint` — 297a13d
+- [x] 1.4 Build passes: `npm run build` — 297a13d
+- [x] 1.5 `npm run test` exits 0 with zero test files (`passWithNoTests`) — 297a13d
 
 #### Manual
 
-- [x] 1.6 `npm run test` output confirmed to report zero test files found, not an error
+- [x] 1.6 `npm run test` output confirmed to report zero test files found, not an error — 297a13d
 
 ### Phase 2: Guard both auth handlers against thrown Supabase errors
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 `npx astro sync` runs cleanly
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 `npx astro sync` runs cleanly
 
 #### Manual
 
-- [ ] 2.4 Simulated Supabase outage on sign-in redirects with generic message, no crash
-- [ ] 2.5 Simulated Supabase outage on sign-up redirects with generic message, no crash
-- [ ] 2.6 Normal wrong-password sign-in still shows original verbatim Supabase message
-- [ ] 2.7 `console.error` line observed in dev server output during simulated outage
+- [x] 2.4 Simulated Supabase outage on sign-in redirects with generic message, no crash
+- [x] 2.5 Simulated Supabase outage on sign-up redirects with generic message, no crash
+- [x] 2.6 Normal wrong-password sign-in still shows original verbatim Supabase message
+- [x] 2.7 `console.error` line observed in dev server output during simulated outage

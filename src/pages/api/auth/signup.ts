@@ -10,10 +10,17 @@ export const POST: APIRoute = async (context) => {
   if (!supabase) {
     return context.redirect(`/auth/signup?error=${encodeURIComponent("Supabase is not configured")}`);
   }
-  const { error } = await supabase.auth.signUp({ email, password });
+  try {
+    const { error } = await supabase.auth.signUp({ email, password });
 
-  if (error) {
-    return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
+    if (error) {
+      return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
+    }
+  } catch (err) {
+    console.error("signup: supabase call failed", err);
+    return context.redirect(
+      `/auth/signup?error=${encodeURIComponent("Unable to reach the authentication service — please try again shortly.")}`,
+    );
   }
 
   return context.redirect("/auth/confirm-email");
