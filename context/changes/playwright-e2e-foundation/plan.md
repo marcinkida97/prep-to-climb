@@ -355,27 +355,27 @@ None — purely additive tooling and config; no data or schema involved.
 
 #### Automated
 
-- [x] 1.1 `npm install` completes cleanly with `@playwright/test` added
-- [x] 1.2 `npx playwright install --with-deps chromium` completes
-- [x] 1.3 `npm run lint` still passes
-- [x] 1.4 `npm run build` still passes
-- [x] 1.5 `npx playwright test --list` reports "Total: 0 tests in 0 files" (adapted — Playwright has no `passWithNoTests` equivalent; `npm run test:e2e` itself exits 1 on zero spec files by design, confirmed exit-0 verification deferred to Phase 2 once a real spec exists)
+- [x] 1.1 `npm install` completes cleanly with `@playwright/test` added — 59ebec4
+- [x] 1.2 `npx playwright install --with-deps chromium` completes — 59ebec4
+- [x] 1.3 `npm run lint` still passes — 59ebec4
+- [x] 1.4 `npm run build` still passes — 59ebec4
+- [x] 1.5 `npx playwright test --list` reports "Total: 0 tests in 0 files" (adapted — Playwright has no `passWithNoTests` equivalent; `npm run test:e2e` itself exits 1 on zero spec files by design, confirmed exit-0 verification deferred to Phase 2 once a real spec exists) — 59ebec4
 
 #### Manual
 
-- [x] 1.6 `npm run test:e2e` confirmed to start/stop the dev server and report "no tests found," not a crash
+- [x] 1.6 `npm run test:e2e` confirmed to start/stop the dev server and report "no tests found," not a crash — 59ebec4
 
 ### Phase 2: Author the reference seed test
 
 #### Automated
 
-- [ ] 2.1 `npm run test:e2e` passes both test cases
-- [ ] 2.2 `npm run lint` passes on the new spec file
-- [ ] 2.3 `npm run build` still passes
+- [x] 2.1 `npm run test:e2e` passes both test cases
+- [x] 2.2 `npm run lint` passes on the new spec file
+- [x] 2.3 `npm run build` still passes
 
 #### Manual
 
-- [ ] 2.4 HTML report confirmed to show both named test cases passing
+- [x] 2.4 HTML report confirmed to show both named test cases passing
 
 ### Phase 3: Wire CI
 
