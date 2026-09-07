@@ -230,14 +230,14 @@ No data migration. The `supabase/config.toml` port correction only affects local
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Full test suite still passes: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint` — 0b2be71
+- [x] 2.2 Build passes: `npm run build` — 0b2be71
+- [x] 2.3 Full test suite still passes: `npm run test` — 0b2be71
 
 #### Manual
 
 - [ ] 2.4 Temporarily enable local email confirmations and confirm a real Inbucket link lands signed-in on `/dashboard`
 - [ ] 2.5 Revert `enable_confirmations` back to `false` afterward
 - [ ] 2.6 Confirm an already-used or malformed confirmation link redirects to `/auth/signin` with a visible error message
-- [x] 2.7 Confirm the updated `confirm-email.astro` copy no longer instructs a separate manual sign-in
-- [x] 2.8 Document the required production Supabase dashboard steps in `verification.md`
+- [x] 2.7 Confirm the updated `confirm-email.astro` copy no longer instructs a separate manual sign-in — 0b2be71
+- [x] 2.8 Document the required production Supabase dashboard steps in `verification.md` — 0b2be71
