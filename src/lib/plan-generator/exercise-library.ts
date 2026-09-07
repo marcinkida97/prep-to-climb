@@ -1,3 +1,4 @@
+import type { PostgrestError } from "@supabase/supabase-js";
 import type { InjuryOptionId } from "@/lib/injury-options";
 import type { ClimbingGrade, EquipmentOption, TrainingAge } from "@/lib/plan-types";
 import type { SupabaseServerClient } from "@/lib/supabase";
@@ -41,13 +42,21 @@ interface ExerciseLibraryDbRow {
   caution_note: string | null;
 }
 
-export class ExerciseLibraryError extends Error {}
+export class ExerciseLibraryError extends Error {
+  public readonly causeDetail?: string;
+
+  constructor(message: string, cause?: PostgrestError | Error | null) {
+    super(message);
+    this.name = "ExerciseLibraryError";
+    this.causeDetail = cause ? JSON.stringify(cause) : undefined;
+  }
+}
 
 export async function getExerciseLibrary(supabase: SupabaseServerClient): Promise<ExerciseLibraryRow[]> {
   const { data, error } = await supabase.from("exercise_library").select("*");
 
   if (error) {
-    throw new ExerciseLibraryError("Failed to load the exercise library");
+    throw new ExerciseLibraryError("Failed to load the exercise library", error);
   }
 
   return (data as ExerciseLibraryDbRow[]).map((row) => ({

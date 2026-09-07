@@ -24,6 +24,8 @@ interface DaySlot {
 // Day 3 (recovery) and day 7 (rest) are always present regardless of the declared session count.
 const SESSION_DAY_PRIORITY = [1, 4, 2, 5, 6];
 
+// Both records below assume `primaryGoal` is already one of PrimaryGoal's 5 values — enforced by
+// generate.ts's validateQuestionnaireRequest before this module ever runs.
 const GOAL_DAY_MODALITIES: Record<PrimaryGoal, { strength: Modality; capacity: Modality; climbDay: Modality }> = {
   send_grade: { strength: "power", capacity: "power_endurance", climbDay: "power" },
   power: { strength: "power", capacity: "power_endurance", climbDay: "power" },
