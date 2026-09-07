@@ -217,27 +217,27 @@ No data migration. The `supabase/config.toml` port correction only affects local
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 `astro sync` runs cleanly: `npx astro sync`
-- [x] 1.4 Full test suite passes: `npm run test`
+- [x] 1.1 Lint passes: `npm run lint` — 162d22e
+- [x] 1.2 Build passes: `npm run build` — 162d22e
+- [x] 1.3 `astro sync` runs cleanly: `npx astro sync` — 162d22e
+- [x] 1.4 Full test suite passes: `npm run test` — 162d22e
 
 #### Manual
 
-- [x] 1.5 Reading `src/pages/api/auth/signup.ts` and `src/pages/api/auth/confirm.ts` side by side confirms the redirect target and callback route agree on the exact path
+- [x] 1.5 Reading `src/pages/api/auth/signup.ts` and `src/pages/api/auth/confirm.ts` side by side confirms the redirect target and callback route agree on the exact path — 162d22e
 
 ### Phase 2: UX copy, real local verification, and production dashboard prerequisite
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Full test suite still passes: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Full test suite still passes: `npm run test`
 
 #### Manual
 
 - [ ] 2.4 Temporarily enable local email confirmations and confirm a real Inbucket link lands signed-in on `/dashboard`
 - [ ] 2.5 Revert `enable_confirmations` back to `false` afterward
 - [ ] 2.6 Confirm an already-used or malformed confirmation link redirects to `/auth/signin` with a visible error message
-- [ ] 2.7 Confirm the updated `confirm-email.astro` copy no longer instructs a separate manual sign-in
-- [ ] 2.8 Document the required production Supabase dashboard steps in `verification.md`
+- [x] 2.7 Confirm the updated `confirm-email.astro` copy no longer instructs a separate manual sign-in
+- [x] 2.8 Document the required production Supabase dashboard steps in `verification.md`
