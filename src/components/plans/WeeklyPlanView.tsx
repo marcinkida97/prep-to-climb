@@ -30,7 +30,7 @@ export default function WeeklyPlanView({ plan }: WeeklyPlanViewProps) {
               <dt className="text-blue-100/60">Injury limitations</dt>
               <dd className="mt-1 font-medium text-white">
                 {plan.questionnaire.injuryLimitations.length > 0
-                  ? plan.questionnaire.injuryLimitations.join(", ")
+                  ? plan.questionnaire.injuryLimitations.map((injury) => `${injury.id} (${injury.status})`).join(", ")
                   : "None selected"}
               </dd>
             </div>

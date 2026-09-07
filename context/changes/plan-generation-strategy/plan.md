@@ -497,28 +497,28 @@ user data — this is a one-way migration.
 
 #### Automated
 
-- [x] 2.1 Build passes with `templates.ts` / `injury-rules.ts` removed: `npm run build` — adapted: deletion deferred to Phase 3 (see mismatch resolution); build, lint, and full vitest suite (43/43) pass with the taxonomy expansion in place and both files still present
-- [x] 2.2 Lint passes: `npm run lint`
-- [x] 2.3 No remaining `PLAN_TEMPLATES` / `INJURY_RULES` references: `grep -r "PLAN_TEMPLATES\|INJURY_RULES" src/` — adapted: intentionally still referenced (deletion deferred to Phase 3); grep confirms only the expected, unchanged references
+- [x] 2.1 Build passes with `templates.ts` / `injury-rules.ts` removed: `npm run build` — adapted: deletion deferred to Phase 3 (see mismatch resolution); build, lint, and full vitest suite (43/43) pass with the taxonomy expansion in place and both files still present — 466c658
+- [x] 2.2 Lint passes: `npm run lint` — 466c658
+- [x] 2.3 No remaining `PLAN_TEMPLATES` / `INJURY_RULES` references: `grep -r "PLAN_TEMPLATES\|INJURY_RULES" src/` — adapted: intentionally still referenced (deletion deferred to Phase 3); grep confirms only the expected, unchanged references — 466c658
 
 #### Manual
 
-- [x] 2.4 `INJURY_OPTIONS` covers all ~8 regions from `research.md` §A
+- [x] 2.4 `INJURY_OPTIONS` covers all ~8 regions from `research.md` §A — 466c658
 
 ### Phase 3: Rule-Based Exercise Assembler
 
 #### Automated
 
-- [ ] 3.1 Unit tests updated and passing for async `generateWeeklyPlan`
-- [ ] 3.2 Typecheck passes: `npm run build`
-- [ ] 3.3 Lint passes: `npm run lint`
+- [x] 3.1 Unit tests updated and passing for async `generateWeeklyPlan` — adapted: `QuestionnaireResponseInput` (trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal + injuryLimitations reshaped to `DeclaredInjury[]`) pulled forward from Phase 4 per user decision, since Phase 3's own filtering contract needs those fields to exist; generate.ts/plan-persistence.ts/QuestionnaireForm.tsx/dashboard.astro/WeeklyPlanView.tsx patched with minimal mechanical wiring (no new validation messages or form UI — that stays Phase 4) to keep everything compiling; `plan-generator/index.test.ts` (7/7) rewritten and passing; `generate.test.ts`'s 2 success/failure-path tests are collateral-red (its fake Supabase doesn't mock the new `exercise_library` query) — that file is explicitly Phase 4's to update
+- [x] 3.2 Typecheck passes: `npm run build`
+- [x] 3.3 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 3.4 Chronic injury never yields a conflicting exercise
-- [ ] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises
-- [ ] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises
-- [ ] 3.7 Missing equipment never yields an exercise requiring it
+- [ ] 3.4 Chronic injury never yields a conflicting exercise — deferred: QuestionnaireForm.tsx has no acute/chronic or equipment/goal controls yet (Phase 4), so a live dashboard walkthrough can't exercise this; covered today only by the automated `plan-generator/index.test.ts` fixture test, per user decision
+- [ ] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises — deferred, same reason as 3.4
+- [ ] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises — deferred, same reason as 3.4
+- [ ] 3.7 Missing equipment never yields an exercise requiring it — deferred, same reason as 3.4
 
 ### Phase 4: Questionnaire & API Surface
 

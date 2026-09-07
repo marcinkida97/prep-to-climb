@@ -1,11 +1,24 @@
 import type { PostgrestError } from "@supabase/supabase-js";
-import type { PersistedCurrentPlan, SaveCurrentPlanInput, WeeklyPlanDay } from "@/lib/plan-types";
+import type { DeclaredInjury } from "@/lib/injury-options";
+import type {
+  ClimbingGrade,
+  EquipmentOption,
+  PersistedCurrentPlan,
+  PrimaryGoal,
+  SaveCurrentPlanInput,
+  TrainingAge,
+  WeeklyPlanDay,
+} from "@/lib/plan-types";
 import type { SupabaseServerClient } from "@/lib/supabase";
 
 interface QuestionnaireRow {
   user_id: string;
-  climbing_grade: string;
-  injury_limitations: string[] | null;
+  climbing_grade: ClimbingGrade;
+  injury_limitations: DeclaredInjury[] | null;
+  training_age: TrainingAge;
+  sessions_per_week: number;
+  equipment_access: EquipmentOption[] | null;
+  primary_goal: PrimaryGoal;
 }
 
 interface WeeklyPlanRow {
@@ -84,6 +97,10 @@ export async function getCurrentPlan(
     questionnaire: {
       climbingGrade: questionnaire.climbing_grade,
       injuryLimitations: questionnaire.injury_limitations ?? [],
+      trainingAge: questionnaire.training_age,
+      sessionsPerWeek: questionnaire.sessions_per_week,
+      equipmentAccess: questionnaire.equipment_access ?? [],
+      primaryGoal: questionnaire.primary_goal,
     },
     weeklyPlan: {
       id: weeklyPlan.id,
@@ -103,6 +120,10 @@ export async function saveCurrentPlan(
   const { error } = await supabase.rpc("replace_current_plan", {
     p_climbing_grade: input.questionnaire.climbingGrade.trim(),
     p_injury_limitations: input.questionnaire.injuryLimitations,
+    p_training_age: input.questionnaire.trainingAge,
+    p_sessions_per_week: input.questionnaire.sessionsPerWeek,
+    p_equipment_access: input.questionnaire.equipmentAccess,
+    p_primary_goal: input.questionnaire.primaryGoal,
     p_summary: toNullableText(input.weeklyPlan.summary),
     p_days: input.weeklyPlan.days.map((day) => ({
       dayNumber: day.dayNumber,
@@ -134,7 +155,9 @@ export async function saveCurrentPlan(
 async function getQuestionnaireRow(supabase: SupabaseServerClient, userId: string): Promise<QuestionnaireRow | null> {
   const { data, error } = await supabase
     .from("questionnaire_responses")
-    .select("user_id, climbing_grade, injury_limitations")
+    .select(
+      "user_id, climbing_grade, injury_limitations, training_age, sessions_per_week, equipment_access, primary_goal",
+    )
     .eq("user_id", userId)
     .maybeSingle();
 

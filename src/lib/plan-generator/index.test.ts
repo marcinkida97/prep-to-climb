@@ -1,265 +1,261 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { generateWeeklyPlan } from "./index";
-import type { ClimbingGrade } from "@/lib/plan-types";
-import type { InjuryOptionId } from "@/lib/injury-options";
-import type { PlanTemplate } from "./templates";
+import type { DeclaredInjury } from "@/lib/injury-options";
+import type { QuestionnaireResponseInput } from "@/lib/plan-types";
+import type { SupabaseServerClient } from "@/lib/supabase";
 
-// Expected values below are hand-authored from the business-rule intent in
-// context/archive/2026-06-14-first-weekly-plan-flow/plan.md plus the
-// template/injury-rule content itself (read once, then typed out here as
-// literals) — never derived by importing PLAN_TEMPLATES/INJURY_RULES and
-// asserting the generator's output matches its own source data.
+// Fixture library rows are hand-authored here, independent of the real seed data in
+// supabase/migrations/20260907120000_plan_generation_v2.sql, so these tests exercise the
+// assembler's rules rather than asserting its output matches its own source data.
+const FIXTURE_LIBRARY_ROWS = [
+  {
+    id: "technique-1",
+    exercise_name: "Footwork ladder",
+    modality: "technique",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: [],
+    injury_exclusion_tags: [],
+    default_sets: "4",
+    default_reps: "4 boulders",
+    caution_note: null,
+  },
+  {
+    id: "power-1",
+    exercise_name: "Campus ladders",
+    modality: "power",
+    min_grade: "6B",
+    max_grade: "7B",
+    training_age_gate: "2_plus_years",
+    equipment_required: ["campus_board"],
+    injury_exclusion_tags: [],
+    default_sets: "4",
+    default_reps: "3 reps",
+    caution_note: "Needs 2+ years of training age before full campus loading.",
+  },
+  {
+    id: "power-2",
+    exercise_name: "Bodyweight power steps",
+    modality: "power",
+    min_grade: "5C",
+    max_grade: "6A",
+    training_age_gate: "under_6_months",
+    equipment_required: [],
+    injury_exclusion_tags: [],
+    default_sets: "3",
+    default_reps: "6 reps",
+    caution_note: null,
+  },
+  {
+    id: "power-endurance-1",
+    exercise_name: "4x4 circuits",
+    modality: "power_endurance",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: ["gym"],
+    injury_exclusion_tags: [],
+    default_sets: "4",
+    default_reps: "4 laps",
+    caution_note: null,
+  },
+  {
+    id: "power-endurance-2",
+    exercise_name: "Bodyweight conditioning circuit",
+    modality: "power_endurance",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: [],
+    injury_exclusion_tags: [],
+    default_sets: "4 rounds",
+    default_reps: "45 sec on / 15 sec off",
+    caution_note: null,
+  },
+  {
+    id: "aerobic-1",
+    exercise_name: "ARC traversing",
+    modality: "aerobic_capacity",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: ["gym"],
+    injury_exclusion_tags: [],
+    default_sets: "1",
+    default_reps: "30 min",
+    caution_note: null,
+  },
+  {
+    id: "finger-1",
+    exercise_name: "Aggressive max hangs",
+    modality: "finger_strength",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: ["hangboard"],
+    injury_exclusion_tags: ["left-fingers-pulley", "right-fingers-pulley"],
+    default_sets: "5",
+    default_reps: "7 sec",
+    caution_note: null,
+  },
+  {
+    id: "finger-2",
+    exercise_name: "Board repeaters",
+    modality: "finger_strength",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: ["hangboard"],
+    injury_exclusion_tags: ["left-fingers-pulley", "right-fingers-pulley"],
+    default_sets: "3",
+    default_reps: "6 reps",
+    caution_note: null,
+  },
+  {
+    id: "finger-3",
+    exercise_name: "Grip recovery squeezes",
+    modality: "finger_strength",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: [],
+    injury_exclusion_tags: [],
+    default_sets: "3",
+    default_reps: "12 reps",
+    caution_note: null,
+  },
+  {
+    id: "antagonist-1",
+    exercise_name: "Scapular stability",
+    modality: "antagonist",
+    min_grade: "5C",
+    max_grade: "7B",
+    training_age_gate: "under_6_months",
+    equipment_required: [],
+    injury_exclusion_tags: [],
+    default_sets: "3",
+    default_reps: "10 reps",
+    caution_note: null,
+  },
+];
 
-describe("generateWeeklyPlan — template selection by grade", () => {
-  it.each<[ClimbingGrade, string, string]>([
-    [
-      "5C",
-      "Technique",
-      "A steady week that builds movement quality, pulling strength, and recovery habits for emerging intermediate climbers.",
-    ],
-    [
-      "6A",
-      "Technique",
-      "A steady week that builds movement quality, pulling strength, and recovery habits for emerging intermediate climbers.",
-    ],
-    [
-      "6B",
-      "Limit bouldering",
-      "A balanced week for intermediate climbers who need structured strength, finger work, and purposeful recovery.",
-    ],
-    [
-      "6C",
-      "Limit bouldering",
-      "A balanced week for intermediate climbers who need structured strength, finger work, and purposeful recovery.",
-    ],
-    [
-      "7A",
-      "Power",
-      "A higher-intensity week that alternates quality power work with finger strength and deliberate recovery.",
-    ],
-    [
-      "7B",
-      "Power",
-      "A higher-intensity week that alternates quality power work with finger strength and deliberate recovery.",
-    ],
-  ])(
-    "grade %s selects its intended template (also the zero-injury baseline)",
-    (climbingGrade, day1FocusArea, summary) => {
-      const result = generateWeeklyPlan({ climbingGrade, injuryLimitations: [] });
+function buildFakeSupabase(rows: unknown[] = FIXTURE_LIBRARY_ROWS): SupabaseServerClient {
+  return {
+    from: (table: string) => {
+      if (table !== "exercise_library") {
+        throw new Error(`Unexpected table queried in test: ${table}`);
+      }
 
-      expect(result.summary).toBe(summary);
-      expect(result.days).toHaveLength(7);
-      expect(result.days[0].dayLabel).toBe("Monday");
-      expect(result.days[0].focusArea).toBe(day1FocusArea);
-    },
-  );
-});
-
-describe("generateWeeklyPlan — zero-injury baseline leaves conflict-eligible exercises untouched", () => {
-  it("does not substitute anything when no injuries are declared", () => {
-    const result = generateWeeklyPlan({ climbingGrade: "6B", injuryLimitations: [] });
-
-    expect(result.summary).toBe(
-      "A balanced week for intermediate climbers who need structured strength, finger work, and purposeful recovery.",
-    );
-    expect(result.days[1].recommendedExercises[0].exerciseName).toBe("Weighted pull-ups");
-    expect(result.days[3].recommendedExercises[0].exerciseName).toBe("Half-crimp repeaters");
-  });
-});
-
-describe("generateWeeklyPlan — single-injury substitution", () => {
-  it("left-shoulder-strain substitutes the base-builder pulling exercise and appends the substitution note", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["left-shoulder-strain"],
-    });
-
-    const strengthDay = result.days[1];
-    expect(strengthDay.recommendedExercises[0]).toEqual({
-      exerciseName: "Scapular wall slides",
-      sets: "3",
-      reps: "10 reps",
-    });
-    expect(strengthDay.recommendedExercises[1].exerciseName).toBe("Tempo goblet squats");
-    expect(strengthDay.notes).toBe(
-      "Build general pulling strength without max intensity. Shoulder strain substitution: replace loaded pulling with lower-risk shoulder stability work.",
-    );
-    expect(result.summary).toBe(
-      "A steady week that builds movement quality, pulling strength, and recovery habits for emerging intermediate climbers. Adjusted for 1 declared injury limitation.",
-    );
-  });
-
-  it("right-shoulder-strain substitutes the same way as left-shoulder-strain", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["right-shoulder-strain"],
-    });
-
-    expect(result.days[1].recommendedExercises[0].exerciseName).toBe("Scapular wall slides");
-  });
-
-  it("left-elbow-tendon substitutes the base-builder pulling exercise with an isometric alternative", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["left-elbow-tendon"],
-    });
-
-    const strengthDay = result.days[1];
-    expect(strengthDay.recommendedExercises[0]).toEqual({
-      exerciseName: "Isometric row holds",
-      sets: "3",
-      reps: "20 sec",
-    });
-    expect(strengthDay.notes).toBe(
-      "Build general pulling strength without max intensity. Elbow tendon substitution: reduce repeated flexion strain with controlled isometrics.",
-    );
-  });
-
-  it("right-elbow-tendon substitutes the same way as left-elbow-tendon", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["right-elbow-tendon"],
-    });
-
-    expect(result.days[1].recommendedExercises[0].exerciseName).toBe("Isometric row holds");
-  });
-
-  it("left-fingers-pulley substitutes the base-builder finger exercise", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["left-fingers-pulley"],
-    });
-
-    const fingerDay = result.days[3];
-    expect(fingerDay.recommendedExercises[0]).toEqual({
-      exerciseName: "Grip recovery squeezes",
-      sets: "3",
-      reps: "12 reps",
-    });
-    expect(fingerDay.recommendedExercises[1].exerciseName).toBe("Scapular pulls");
-    expect(fingerDay.notes).toBe(
-      "Use open-hand grips and avoid pain. Finger pulley substitution: use low-load recovery grip work instead of repeaters.",
-    );
-  });
-
-  it("right-fingers-pulley substitutes the same way as left-fingers-pulley", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["right-fingers-pulley"],
-    });
-
-    expect(result.days[3].recommendedExercises[0].exerciseName).toBe("Grip recovery squeezes");
-  });
-});
-
-describe("generateWeeklyPlan — multi-injury combinations", () => {
-  it("substitutes independently across two different conflict days and pluralizes the summary suffix", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["left-shoulder-strain", "left-fingers-pulley"],
-    });
-
-    expect(result.days[1].recommendedExercises[0].exerciseName).toBe("Scapular wall slides");
-    expect(result.days[3].recommendedExercises[0].exerciseName).toBe("Grip recovery squeezes");
-    expect(result.summary).toBe(
-      "A steady week that builds movement quality, pulling strength, and recovery habits for emerging intermediate climbers. Adjusted for 2 declared injury limitations.",
-    );
-  });
-
-  it("two injuries conflicting with the same exercise still resolve to one substitution", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6A",
-      injuryLimitations: ["left-shoulder-strain", "right-shoulder-strain"],
-    });
-
-    expect(result.days[1].recommendedExercises[0].exerciseName).toBe("Scapular wall slides");
-    expect(result.summary).toContain("Adjusted for 2 declared injury limitations.");
-  });
-
-  it("combines an elbow and a finger substitution on the strength-skill template with exercise-specific note text", () => {
-    const result = generateWeeklyPlan({
-      climbingGrade: "6B",
-      injuryLimitations: ["left-elbow-tendon", "left-fingers-pulley"],
-    });
-
-    const strengthDay = result.days[1];
-    const fingerDay = result.days[3];
-    expect(strengthDay.recommendedExercises[0]).toEqual({
-      exerciseName: "Isometric row holds",
-      sets: "3",
-      reps: "20 sec",
-    });
-    expect(strengthDay.notes).toBe(
-      "Use controlled pulling volume and stop before pain. Elbow tendon substitution: swap heavy pull-ups for lower-load isometric pulling.",
-    );
-    expect(fingerDay.recommendedExercises[0]).toEqual({
-      exerciseName: "Forearm extensors",
-      sets: "3",
-      reps: "15 reps",
-    });
-    expect(fingerDay.notes).toBe(
-      "Maintain quality grips and cut the session if any finger pain appears. Finger pulley substitution: unload high-force finger work and reinforce the antagonist side.",
-    );
-  });
-});
-
-describe("generateWeeklyPlan — known gaps (pinned, not fixed; see plan Phase 1 'What We're NOT Doing')", () => {
-  it("silently falls back to the first template for an out-of-domain grade instead of erroring", () => {
-    // KNOWN GAP: this is the same defect class as the recorded incident in
-    // context/foundation/improvements.md item 1. The live route currently
-    // prevents any real user from reaching this path (see generate.ts's
-    // validateQuestionnaireRequest), but the generator itself still has no
-    // guard. This test pins today's actual (undesirable) behavior so a
-    // future change can't silently reopen this without a test noticing —
-    // it does not endorse the fallback as correct.
-    const result = generateWeeklyPlan({
-      climbingGrade: "9A" as unknown as ClimbingGrade,
-      injuryLimitations: [],
-    });
-
-    expect(result.summary).toBe(
-      "A steady week that builds movement quality, pulling strength, and recovery habits for emerging intermediate climbers.",
-    );
-    expect(result.days[0].focusArea).toBe("Technique");
-  });
-
-  it("throws if a declared conflict references an injury id absent from INJURY_RULES", async () => {
-    // KNOWN GAP: today every InjuryOptionId has a matching INJURY_RULES
-    // entry, so this can only happen if a future template references an
-    // injury id whose rule entry was never added. Pinned via a fixture
-    // template (not the real PLAN_TEMPLATES) so this test doesn't depend on
-    // that gap ever becoming reachable through real content.
-    vi.resetModules();
-    vi.doMock("./templates", () => {
-      const fixtureTemplate: PlanTemplate = {
-        id: "fixture-unknown-injury",
-        title: "Fixture",
-        gradeMatches: ["5C"],
-        summary: "Fixture template for pinning the unknown-injury crash.",
-        days: [
-          {
-            dayNumber: 1,
-            dayLabel: "Monday",
-            focusArea: "Fixture",
-            notes: null,
-            recommendedExercises: [{ exerciseName: "Fixture exercise" }],
-            exerciseInjuryConflicts: { 0: ["not-a-real-injury-id" as unknown as InjuryOptionId] },
-          },
-        ],
+      return {
+        select: () => Promise.resolve({ data: rows, error: null }),
       };
-      return { PLAN_TEMPLATES: [fixtureTemplate] };
-    });
+    },
+  } as unknown as SupabaseServerClient;
+}
 
-    const { generateWeeklyPlan: generateWithFixtureTemplate } = await import("./index");
+function baseQuestionnaire(overrides: Partial<QuestionnaireResponseInput> = {}): QuestionnaireResponseInput {
+  return {
+    climbingGrade: "6A",
+    injuryLimitations: [],
+    trainingAge: "2_plus_years",
+    sessionsPerWeek: 5,
+    equipmentAccess: ["hangboard", "campus_board", "gym"],
+    primaryGoal: "send_grade",
+    ...overrides,
+  };
+}
 
-    expect(() =>
-      generateWithFixtureTemplate({
-        climbingGrade: "5C",
-        injuryLimitations: ["not-a-real-injury-id" as unknown as InjuryOptionId],
-      }),
-    ).toThrow(TypeError);
+describe("generateWeeklyPlan — day structure", () => {
+  it("assembles a 7-day plan with Monday-Sunday labels and a rest-only Sunday", async () => {
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire());
 
-    vi.doUnmock("./templates");
-    vi.resetModules();
+    expect(result.days).toHaveLength(7);
+    expect(result.days.map((day) => day.dayLabel)).toEqual([
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ]);
+    expect(result.days[6].focusArea).toBe("Rest");
+    expect(result.days[6].recommendedExercises).toHaveLength(0);
+  });
+});
+
+describe("generateWeeklyPlan — equipment constraint", () => {
+  it("never selects an exercise requiring equipment the user doesn't have", async () => {
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire({ equipmentAccess: [] }));
+
+    const capacityDay = result.days[4];
+    expect(capacityDay.recommendedExercises[0].exerciseName).toBe("Bodyweight conditioning circuit");
+    expect(result.days.flatMap((day) => day.recommendedExercises.map((ex) => ex.exerciseName))).not.toContain(
+      "4x4 circuits",
+    );
+  });
+});
+
+describe("generateWeeklyPlan — chronic injury exclusion", () => {
+  it("never yields an exercise conflicting with a chronic injury", async () => {
+    const injuryLimitations: DeclaredInjury[] = [{ id: "left-fingers-pulley", status: "chronic" }];
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire({ injuryLimitations }));
+
+    const fingerDay = result.days[3];
+    expect(fingerDay.recommendedExercises[0].exerciseName).toBe("Grip recovery squeezes");
+    expect(result.summary).toContain("Adjusted for 1 declared injury limitation.");
+  });
+});
+
+describe("generateWeeklyPlan — acute injury conservative fallback", () => {
+  it("omits region-specific exercises and adds a conservative disclaimer for an acute injury", async () => {
+    const injuryLimitations: DeclaredInjury[] = [{ id: "left-fingers-pulley", status: "acute" }];
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire({ injuryLimitations }));
+
+    const fingerDay = result.days[3];
+    expect(fingerDay.recommendedExercises[0].exerciseName).toBe("Conservative rest and gentle mobility");
+    expect(fingerDay.notes).toContain("Conservative guidance applied");
+    expect(result.summary).toContain("see a professional");
+  });
+});
+
+describe("generateWeeklyPlan — training-age soft gate", () => {
+  it("keeps a campus/power exercise above the user's training age but attaches its caution note", async () => {
+    const result = await generateWeeklyPlan(
+      buildFakeSupabase(),
+      baseQuestionnaire({ climbingGrade: "6B", primaryGoal: "power", trainingAge: "under_6_months" }),
+    );
+
+    const strengthDay = result.days[1];
+    expect(strengthDay.recommendedExercises[0].exerciseName).toBe("Campus ladders");
+    expect(strengthDay.recommendedExercises[0].notes).toBe(
+      "Needs 2+ years of training age before full campus loading.",
+    );
+  });
+});
+
+describe("generateWeeklyPlan — sessionsPerWeek bounds training days", () => {
+  it("converts lower-priority session days to rest when sessionsPerWeek is small", async () => {
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire({ sessionsPerWeek: 2 }));
+
+    // Priority order is [Monday, Thursday, Tuesday, Friday, Saturday]; only the first 2 stay active.
+    expect(result.days[0].focusArea).not.toBe("Rest");
+    expect(result.days[3].focusArea).not.toBe("Rest");
+    expect(result.days[1].focusArea).toBe("Rest");
+    expect(result.days[4].focusArea).toBe("Rest");
+    expect(result.days[5].focusArea).toBe("Rest");
+    expect(result.days[1].recommendedExercises).toHaveLength(0);
+    // Recovery (Wednesday) and the fixed rest day (Sunday) are unaffected by the session count.
+    expect(result.days[2].focusArea).toBe("Recovery");
+  });
+});
+
+describe("generateWeeklyPlan — skin issue volume note", () => {
+  it("adds a general volume-reduction note to the summary without excluding any exercise", async () => {
+    const injuryLimitations: DeclaredInjury[] = [{ id: "skin-issue", status: "chronic" }];
+    const result = await generateWeeklyPlan(buildFakeSupabase(), baseQuestionnaire({ injuryLimitations }));
+
+    expect(result.summary).toContain("Reduce this week's overall training volume due to a declared skin issue");
   });
 });

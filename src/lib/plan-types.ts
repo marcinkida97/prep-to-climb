@@ -1,17 +1,37 @@
-import type { InjuryOptionId } from "@/lib/injury-options";
+import type { DeclaredInjury } from "@/lib/injury-options";
 
 export const CLIMBING_GRADES = ["5C", "6A", "6B", "6C", "7A", "7B"] as const;
 
 export type ClimbingGrade = (typeof CLIMBING_GRADES)[number];
 
+export const TRAINING_AGES = ["under_6_months", "6_24_months", "2_plus_years"] as const;
+
+export type TrainingAge = (typeof TRAINING_AGES)[number];
+
+export const EQUIPMENT_OPTIONS = ["hangboard", "campus_board", "gym"] as const;
+
+export type EquipmentOption = (typeof EQUIPMENT_OPTIONS)[number];
+
+export const PRIMARY_GOALS = ["send_grade", "endurance", "power", "general_fitness", "return_from_injury"] as const;
+
+export type PrimaryGoal = (typeof PRIMARY_GOALS)[number];
+
 export interface QuestionnaireDraftInput {
   climbingGrade: ClimbingGrade | "";
-  injuryLimitations: InjuryOptionId[];
+  injuryLimitations: DeclaredInjury[];
+  trainingAge: TrainingAge | "";
+  sessionsPerWeek: number | "";
+  equipmentAccess: EquipmentOption[];
+  primaryGoal: PrimaryGoal | "";
 }
 
 export interface QuestionnaireResponseInput {
   climbingGrade: ClimbingGrade;
-  injuryLimitations: InjuryOptionId[];
+  injuryLimitations: DeclaredInjury[];
+  trainingAge: TrainingAge;
+  sessionsPerWeek: number;
+  equipmentAccess: EquipmentOption[];
+  primaryGoal: PrimaryGoal;
 }
 
 export interface RecommendedExerciseInput {

@@ -32,9 +32,12 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
   }
 
   function toggleInjuryOption(optionId: InjuryOptionId) {
-    const nextInjuries = value.injuryLimitations.includes(optionId)
-      ? value.injuryLimitations.filter((injuryId) => injuryId !== optionId)
-      : [...value.injuryLimitations, optionId];
+    const isSelected = value.injuryLimitations.some((injury) => injury.id === optionId);
+    // Defaults to "chronic" (at-risk area, not currently acute) until the acute/chronic toggle
+    // control ships alongside the rest of the extended questionnaire fields.
+    const nextInjuries = isSelected
+      ? value.injuryLimitations.filter((injury) => injury.id !== optionId)
+      : [...value.injuryLimitations, { id: optionId, status: "chronic" as const }];
 
     onChange({
       ...value,
@@ -52,9 +55,16 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
       return;
     }
 
+    // trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal have no form controls yet — the
+    // extended questionnaire UI ships in a later rollout phase. These placeholders keep today's
+    // grade + injuries flow working against the widened questionnaire contract in the meantime.
     await onSubmit({
       climbingGrade: value.climbingGrade,
       injuryLimitations: value.injuryLimitations,
+      trainingAge: value.trainingAge || "under_6_months",
+      sessionsPerWeek: value.sessionsPerWeek || 3,
+      equipmentAccess: value.equipmentAccess,
+      primaryGoal: value.primaryGoal || "general_fitness",
     });
   }
 
@@ -114,7 +124,7 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
         </p>
         <div className="grid gap-3">
           {INJURY_OPTIONS.map((option) => {
-            const selected = value.injuryLimitations.includes(option.id);
+            const selected = value.injuryLimitations.some((injury) => injury.id === option.id);
 
             return (
               <label

@@ -55,7 +55,7 @@ export const POST: APIRoute = async (context) => {
   const persistence = createPlanPersistence(supabase);
 
   try {
-    const plan = generateWeeklyPlan(questionnaire);
+    const plan = await generateWeeklyPlan(supabase, questionnaire);
     const savedPlan = await persistence.saveCurrentPlan(context.locals.user.id, {
       questionnaire,
       weeklyPlan: plan,
@@ -141,8 +141,21 @@ function readQuestionnaire(payload: unknown): QuestionnaireResponseInput {
   const climbingGrade = questionnaireRecord.climbingGrade as string;
   const injuryLimitations = questionnaireRecord.injuryLimitations as QuestionnaireResponseInput["injuryLimitations"];
 
+  // trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal are read through as-is here — real
+  // per-field validation (reject with 400 + a specific message) is a later rollout phase; this
+  // function only needs to keep the questionnaire shape complete for the assembler.
   return {
     climbingGrade: climbingGrade.trim() as QuestionnaireResponseInput["climbingGrade"],
-    injuryLimitations: [...new Set(injuryLimitations)],
+    injuryLimitations: dedupeInjuries(injuryLimitations),
+    trainingAge: questionnaireRecord.trainingAge as QuestionnaireResponseInput["trainingAge"],
+    sessionsPerWeek: questionnaireRecord.sessionsPerWeek as number,
+    equipmentAccess: (questionnaireRecord.equipmentAccess ?? []) as QuestionnaireResponseInput["equipmentAccess"],
+    primaryGoal: questionnaireRecord.primaryGoal as QuestionnaireResponseInput["primaryGoal"],
   };
+}
+
+function dedupeInjuries(
+  injuries: QuestionnaireResponseInput["injuryLimitations"],
+): QuestionnaireResponseInput["injuryLimitations"] {
+  return [...new Map(injuries.map((injury) => [injury.id, injury])).values()];
 }
