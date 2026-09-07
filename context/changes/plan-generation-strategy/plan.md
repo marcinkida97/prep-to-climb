@@ -515,35 +515,35 @@ user data — this is a one-way migration.
 
 #### Manual
 
-- [ ] 3.4 Chronic injury never yields a conflicting exercise — deferred: QuestionnaireForm.tsx has no acute/chronic or equipment/goal controls yet (Phase 4), so a live dashboard walkthrough can't exercise this; covered today only by the automated `plan-generator/index.test.ts` fixture test, per user decision
-- [ ] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises — deferred, same reason as 3.4
-- [ ] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises — deferred, same reason as 3.4
-- [ ] 3.7 Missing equipment never yields an exercise requiring it — deferred, same reason as 3.4
+- [x] 3.4 Chronic injury never yields a conflicting exercise — confirmed by user against the deployed server
+- [x] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises — confirmed by user against the deployed server
+- [x] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises — confirmed by user against the deployed server
+- [x] 3.7 Missing equipment never yields an exercise requiring it — confirmed by user against the deployed server
 
 ### Phase 4: Questionnaire & API Surface
 
 #### Automated
 
-- [x] 4.1 `generate.test.ts` updated and passing — rewrote validation-branch cases for trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal/injury-status shape, added `exercise_library` mocking to the fake Supabase client, updated the 200/500 fixtures to the new questionnaire shape and real assembler summary text (23/23 passing); full suite 42/42
-- [x] 4.2 Typecheck passes: `npm run build`
-- [x] 4.3 Lint passes: `npm run lint`
+- [x] 4.1 `generate.test.ts` updated and passing — rewrote validation-branch cases for trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal/injury-status shape, added `exercise_library` mocking to the fake Supabase client, updated the 200/500 fixtures to the new questionnaire shape and real assembler summary text (23/23 passing); full suite 42/42 — 92652bf
+- [x] 4.2 Typecheck passes: `npm run build` — 92652bf
+- [x] 4.3 Lint passes: `npm run lint` — 92652bf
 
 #### Manual
 
-- [ ] 4.4 Missing new-field submission shows validation message, no API call — pending: sandbox has no SUPABASE_URL/SUPABASE_KEY; user will verify against the deployed server after this phase's commit is pushed
-- [ ] 4.5 Invalid new-field value rejected with 400 server-side — pending, same reason as 4.4
-- [ ] 4.6 Full valid submission reaches dashboard with a matching plan — pending, same reason as 4.4
+- [x] 4.4 Missing new-field submission shows validation message, no API call — confirmed by user against the deployed server; earlier-reported server-side unit test failure was a stale-deploy artifact, resolved now that the server runs commit `92652bf`
+- [x] 4.5 Invalid new-field value rejected with 400 server-side — confirmed by user against the deployed server
+- [x] 4.6 Full valid submission reaches dashboard with a matching plan — confirmed by user against the deployed server
 
 ### Phase 5: Verification & Rollout
 
 #### Automated
 
-- [ ] 5.1 Full lint passes: `npm run lint`
-- [ ] 5.2 Full build passes: `npm run build`
-- [ ] 5.3 Full test suite passes: `npm run test`
+- [x] 5.1 Full lint passes: `npm run lint`
+- [x] 5.2 Full build passes: `npm run build`
+- [x] 5.3 Full test suite passes: `npm run test` — 42/42; documented in `verification.md` alongside CI run 34160245482 on 92652bf
 
 #### Manual
 
-- [ ] 5.4 New signup completes questionnaire, receives matching plan
-- [ ] 5.5 Existing pre-migration user sees questionnaire form, not stale plan
-- [ ] 5.6 Regeneration after changed answers produces a visibly different, correctly-filtered plan
+- [x] 5.4 New signup completes questionnaire, receives matching plan — confirmed by user against the deployed server
+- [x] 5.5 Existing pre-migration user sees questionnaire form, not stale plan — confirmed by user against the deployed server
+- [x] 5.6 Regeneration after changed answers produces a visibly different, correctly-filtered plan — confirmed by user against the deployed server
