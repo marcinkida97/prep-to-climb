@@ -484,24 +484,24 @@ phase's e2e test relies on; no new migration is introduced.
 
 #### Automated
 
-- [x] 2.1 A deliberately broken test (temporary, reverted before merge) causes the `ci` job to fail in a local `act`/PR dry run, confirming the step is wired correctly
-- [x] 2.2 `npm run test`, `npm run lint`, and `npm run build` all pass in the final `ci` job run
+- [x] 2.1 A deliberately broken test (temporary, reverted before merge) causes the `ci` job to fail in a local `act`/PR dry run, confirming the step is wired correctly — d7662d5
+- [x] 2.2 `npm run test`, `npm run lint`, and `npm run build` all pass in the final `ci` job run — d7662d5
 
 #### Manual
 
-- [x] 2.3 Reviewer confirms the new step's position (after lint, before build) matches the intended fail-fast ordering
+- [x] 2.3 Reviewer confirms the new step's position (after lint, before build) matches the intended fail-fast ordering — d7662d5
 
 ### Phase 3: Local Supabase test-user infrastructure
 
 #### Automated
 
-- [ ] 3.1 `npx supabase start` succeeds locally and `supabase/migrations` apply cleanly
-- [ ] 3.2 Running `npm run test:e2e` locally (with `SUPABASE_URL`/`SUPABASE_KEY`/`SUPABASE_SERVICE_ROLE_KEY` exported from `supabase status`) executes global setup without error, confirmed via a temporary log line (removed before merge)
+- [x] 3.1 `npx supabase start` succeeds locally and `supabase/migrations` apply cleanly
+- [x] 3.2 Running `npm run test:e2e` locally (with `SUPABASE_URL`/`SUPABASE_KEY`/`SUPABASE_SERVICE_ROLE_KEY` exported from `supabase status`) executes global setup without error, confirmed via a temporary log line (removed before merge)
 - [ ] 3.3 The `e2e` CI job's new Supabase-start step succeeds and populates `$GITHUB_ENV`
 
 #### Manual
 
-- [ ] 3.4 Reviewer confirms no real/production Supabase credential appears anywhere in the diff — only local-stack values captured at CI runtime
+- [x] 3.4 Reviewer confirms no real/production Supabase credential appears anywhere in the diff — only local-stack values captured at CI runtime
 
 ### Phase 4: Login/session e2e coverage (Risk #3)
 
