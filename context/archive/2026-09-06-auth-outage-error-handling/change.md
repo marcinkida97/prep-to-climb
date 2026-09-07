@@ -1,10 +1,10 @@
 ---
 change_id: auth-outage-error-handling
 title: Guard sign-in/sign-up against Supabase outage producing an opaque error
-status: impl_reviewed
+status: archived
 created: 2026-09-06
-updated: 2026-09-06
-archived_at: null
+updated: 2026-09-07
+archived_at: 2026-09-07T10:08:44Z
 ---
 
 ## Notes
