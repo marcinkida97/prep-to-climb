@@ -3,7 +3,7 @@ project: PrepToClimb
 version: 1
 status: draft
 created: 2026-05-31
-updated: 2026-05-31
+updated: 2026-09-07
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -30,7 +30,7 @@ PrepToClimb is meant to help intermediate climbers stop guessing what to train n
 | ID | Change ID | Outcome (user can ...) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
 | F-01 | minimal-plan-persistence-contract | (foundation) minimal persistence exists for questionnaire answers and generated weekly plans | — | FR-009, NFR persistence, Access Control | ready |
-| S-01 | account-access-flow | create an account, sign in, and sign out to reach the protected planning flow | — | FR-001, FR-002, FR-003, Access Control | ready |
+| S-01 | account-access-flow | create an account, sign in, and sign out to reach the protected planning flow | — | FR-001, FR-002, FR-003, Access Control | done |
 | S-02 | first-weekly-plan-flow | complete the questionnaire and immediately see a weekly plan with recommended exercises | F-01, S-01 | US-01, FR-004, FR-005, FR-006, FR-007, FR-008 | proposed |
 | S-03 | persisted-plan-return-flow | sign back in later and see the saved weekly plan across sessions | F-01, S-02 | US-01, FR-009 | proposed |
 
@@ -82,7 +82,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** This is already largely scaffolded, so taking it first is the fastest way to confirm the auth baseline and avoid reworking the main flow around anonymous users.
-- **Status:** ready
+- **Status:** done
 
 ### S-02: First weekly plan flow
 
@@ -135,4 +135,6 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Advanced exercise video library** — Why parked: PRD Non-Goals defers rich media until after plan recommendation exists.
 
 ## Done
+
+- **S-01: create an account, sign in, and sign out to reach the protected planning flow** — Archived 2026-09-07 → `context/archive/2026-06-14-account-access-flow/`. Lesson: —.
 
