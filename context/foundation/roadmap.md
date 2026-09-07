@@ -29,7 +29,7 @@ PrepToClimb is meant to help intermediate climbers stop guessing what to train n
 
 | ID | Change ID | Outcome (user can ...) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
-| F-01 | minimal-plan-persistence-contract | (foundation) minimal persistence exists for questionnaire answers and generated weekly plans | — | FR-009, NFR persistence, Access Control | ready |
+| F-01 | minimal-plan-persistence-contract | (foundation) minimal persistence exists for questionnaire answers and generated weekly plans | — | FR-009, NFR persistence, Access Control | done |
 | S-01 | account-access-flow | create an account, sign in, and sign out to reach the protected planning flow | — | FR-001, FR-002, FR-003, Access Control | done |
 | S-02 | first-weekly-plan-flow | complete the questionnaire and immediately see a weekly plan with recommended exercises | F-01, S-01 | US-01, FR-004, FR-005, FR-006, FR-007, FR-008 | done |
 | S-03 | persisted-plan-return-flow | sign back in later and see the saved weekly plan across sessions | F-01, S-02 | US-01, FR-009 | proposed |
@@ -68,7 +68,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** If this stays implicit inside the first plan slice, the MVP can generate a plan that disappears after logout and misses the persistence promise.
-- **Status:** ready
+- **Status:** done
 
 ## Slices
 
@@ -138,4 +138,5 @@ Foundations below assume these are present and do NOT re-scaffold them.
 
 - **S-01: create an account, sign in, and sign out to reach the protected planning flow** — Archived 2026-09-07 → `context/archive/2026-06-14-account-access-flow/`. Lesson: —.
 - **S-02: complete the questionnaire and immediately see a weekly plan with recommended exercises** — Archived 2026-09-07 → `context/archive/2026-06-14-first-weekly-plan-flow/`. Lesson: —.
+- **F-01: (foundation) minimal persistence exists for questionnaire answers and generated weekly plans so later slices can save and reload real user data.** — Archived 2026-09-07 → `context/archive/2026-06-14-minimal-plan-persistence-contract/`. Lesson: —.
 
