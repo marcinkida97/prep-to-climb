@@ -495,25 +495,25 @@ phase's e2e test relies on; no new migration is introduced.
 
 #### Automated
 
-- [x] 3.1 `npx supabase start` succeeds locally and `supabase/migrations` apply cleanly
-- [x] 3.2 Running `npm run test:e2e` locally (with `SUPABASE_URL`/`SUPABASE_KEY`/`SUPABASE_SERVICE_ROLE_KEY` exported from `supabase status`) executes global setup without error, confirmed via a temporary log line (removed before merge)
-- [ ] 3.3 The `e2e` CI job's new Supabase-start step succeeds and populates `$GITHUB_ENV`
+- [x] 3.1 `npx supabase start` succeeds locally and `supabase/migrations` apply cleanly — c2a7965
+- [x] 3.2 Running `npm run test:e2e` locally (with `SUPABASE_URL`/`SUPABASE_KEY`/`SUPABASE_SERVICE_ROLE_KEY` exported from `supabase status`) executes global setup without error, confirmed via a temporary log line (removed before merge) — c2a7965
+- [ ] 3.3 The `e2e` CI job's new Supabase-start step succeeds and populates `$GITHUB_ENV` — pending: needs a real CI run after push, cannot be verified locally
 
 #### Manual
 
-- [x] 3.4 Reviewer confirms no real/production Supabase credential appears anywhere in the diff — only local-stack values captured at CI runtime
+- [x] 3.4 Reviewer confirms no real/production Supabase credential appears anywhere in the diff — only local-stack values captured at CI runtime — c2a7965
 
 ### Phase 4: Login/session e2e coverage (Risk #3)
 
 #### Automated
 
-- [ ] 4.1 `npm run test:e2e` passes locally against a `supabase start` instance
-- [ ] 4.2 The `e2e` CI job passes with the new spec included
+- [x] 4.1 `npm run test:e2e` passes locally against a `supabase start` instance
+- [ ] 4.2 The `e2e` CI job passes with the new spec included — pending: needs a real CI run after push, cannot be verified locally
 
 #### Manual
 
-- [ ] 4.3 A human runs `npm run test:e2e` locally at least once against a freshly-started local Supabase instance (not just CI) to confirm the global-setup + login flow works outside CI's environment
-- [ ] 4.4 Reviewer confirms the API-route assertion is genuinely scoped to "not 401" rather than accidentally asserting a full generation success
+- [x] 4.3 A human runs `npm run test:e2e` locally at least once against a freshly-started local Supabase instance (not just CI) to confirm the global-setup + login flow works outside CI's environment
+- [x] 4.4 Reviewer confirms the API-route assertion is genuinely scoped to "not 401" rather than accidentally asserting a full generation success
 
 ### Phase 5: Cookbook and test-plan.md sync
 
