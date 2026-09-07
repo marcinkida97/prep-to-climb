@@ -1,10 +1,10 @@
 ---
 change_id: persisted-plan-return-flow
 title: Harden and verify the saved weekly plan return flow across sessions
-status: impl_reviewed
+status: archived
 created: 2026-06-14
-updated: 2026-06-14
-archived_at: null
+updated: 2026-09-07
+archived_at: 2026-09-07T10:08:44Z
 ---
 
 ## Notes
