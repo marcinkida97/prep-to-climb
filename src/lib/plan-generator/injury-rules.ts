@@ -114,4 +114,24 @@ export const INJURY_RULES: Record<InjuryOptionId, InjuryRule> = {
       },
     },
   },
+  // The entries below cover the injury ids added to INJURY_OPTIONS during the taxonomy
+  // expansion (see research.md). None of today's PLAN_TEMPLATES reference these ids in their
+  // exerciseInjuryConflicts, so no substitution ever fires for them yet — they exist only to
+  // keep INJURY_RULES a total Record over InjuryOptionId. Phase 3 replaces this whole
+  // template+substitution mechanism with the tagged exercise_library exclusion rules, at which
+  // point this file (and these placeholders) is deleted.
+  "left-shoulder-labral": { heading: "Avoid dynamic overhead and campus-style loading.", substitutions: {} },
+  "right-shoulder-labral": { heading: "Avoid dynamic overhead and campus-style loading.", substitutions: {} },
+  "left-fingers-trigger": { heading: "Avoid high-volume repetitive gripping.", substitutions: {} },
+  "right-fingers-trigger": { heading: "Avoid high-volume repetitive gripping.", substitutions: {} },
+  "left-wrist-tfcc": { heading: "Avoid mantling and wrist-extension-loaded moves.", substitutions: {} },
+  "right-wrist-tfcc": { heading: "Avoid mantling and wrist-extension-loaded moves.", substitutions: {} },
+  "left-elbow-lateral": { heading: "Limit heavy gripping and pulling volume.", substitutions: {} },
+  "right-elbow-lateral": { heading: "Limit heavy gripping and pulling volume.", substitutions: {} },
+  "lower-back-strain": { heading: "Reduce steep-overhang volume without core support.", substitutions: {} },
+  "left-knee-meniscus": { heading: "Avoid aggressive heel-hooking and high-ball bouldering.", substitutions: {} },
+  "right-knee-meniscus": { heading: "Avoid aggressive heel-hooking and high-ball bouldering.", substitutions: {} },
+  "left-ankle-sprain": { heading: "Avoid high-ball bouldering and poor-mat landings.", substitutions: {} },
+  "right-ankle-sprain": { heading: "Avoid high-ball bouldering and poor-mat landings.", substitutions: {} },
+  "skin-issue": { heading: "Reduce session volume this week.", substitutions: {} },
 };

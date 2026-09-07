@@ -483,27 +483,27 @@ user data — this is a one-way migration.
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` — adapted: local Docker/Colima stack won't start on this machine (unrelated pre-existing env issue); verified via remote dry-run + push + direct SQL checks instead, per user decision
-- [x] 1.2 Migration applies cleanly to the linked remote project: `npx supabase db push`
-- [x] 1.3 `npx astro sync` runs without error after the schema change
-- [x] 1.4 Lint passes: `npm run lint`
+- [x] 1.1 Migration applies cleanly locally: `npx supabase db reset` — adapted: local Docker/Colima stack won't start on this machine (unrelated pre-existing env issue); verified via remote dry-run + push + direct SQL checks instead, per user decision — 0dd714e
+- [x] 1.2 Migration applies cleanly to the linked remote project: `npx supabase db push` — 0dd714e
+- [x] 1.3 `npx astro sync` runs without error after the schema change — 0dd714e
+- [x] 1.4 Lint passes: `npm run lint` — 0dd714e
 
 #### Manual
 
-- [x] 1.5 `exercise_library` seeded with non-zero rows covering every modality
-- [x] 1.6 Pre-migration test user's full data chain confirmed gone after migration
+- [x] 1.5 `exercise_library` seeded with non-zero rows covering every modality — 0dd714e
+- [x] 1.6 Pre-migration test user's full data chain confirmed gone after migration — 0dd714e
 
 ### Phase 2: Expanded Injury Taxonomy
 
 #### Automated
 
-- [ ] 2.1 Build passes with `templates.ts` / `injury-rules.ts` removed: `npm run build`
-- [ ] 2.2 Lint passes: `npm run lint`
-- [ ] 2.3 No remaining `PLAN_TEMPLATES` / `INJURY_RULES` references: `grep -r "PLAN_TEMPLATES\|INJURY_RULES" src/`
+- [x] 2.1 Build passes with `templates.ts` / `injury-rules.ts` removed: `npm run build` — adapted: deletion deferred to Phase 3 (see mismatch resolution); build, lint, and full vitest suite (43/43) pass with the taxonomy expansion in place and both files still present
+- [x] 2.2 Lint passes: `npm run lint`
+- [x] 2.3 No remaining `PLAN_TEMPLATES` / `INJURY_RULES` references: `grep -r "PLAN_TEMPLATES\|INJURY_RULES" src/` — adapted: intentionally still referenced (deletion deferred to Phase 3); grep confirms only the expected, unchanged references
 
 #### Manual
 
-- [ ] 2.4 `INJURY_OPTIONS` covers all ~8 regions from `research.md` §A
+- [x] 2.4 `INJURY_OPTIONS` covers all ~8 regions from `research.md` §A
 
 ### Phase 3: Rule-Based Exercise Assembler
 
