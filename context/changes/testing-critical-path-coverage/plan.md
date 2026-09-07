@@ -507,21 +507,21 @@ phase's e2e test relies on; no new migration is introduced.
 
 #### Automated
 
-- [x] 4.1 `npm run test:e2e` passes locally against a `supabase start` instance
+- [x] 4.1 `npm run test:e2e` passes locally against a `supabase start` instance — aa70cc0
 - [ ] 4.2 The `e2e` CI job passes with the new spec included — pending: needs a real CI run after push, cannot be verified locally
 
 #### Manual
 
-- [x] 4.3 A human runs `npm run test:e2e` locally at least once against a freshly-started local Supabase instance (not just CI) to confirm the global-setup + login flow works outside CI's environment
-- [x] 4.4 Reviewer confirms the API-route assertion is genuinely scoped to "not 401" rather than accidentally asserting a full generation success
+- [x] 4.3 A human runs `npm run test:e2e` locally at least once against a freshly-started local Supabase instance (not just CI) to confirm the global-setup + login flow works outside CI's environment — aa70cc0
+- [x] 4.4 Reviewer confirms the API-route assertion is genuinely scoped to "not 401" rather than accidentally asserting a full generation success — aa70cc0
 
 ### Phase 5: Cookbook and test-plan.md sync
 
 #### Automated
 
-- [ ] 5.1 `test-plan.md` still renders as valid Markdown (no broken tables)
+- [x] 5.1 `test-plan.md` still renders as valid Markdown (no broken tables)
 
 #### Manual
 
-- [ ] 5.2 A reader who has not seen this change can read §6.1/§6.2/§6.3/§6.4 alone and know where to add the next test of each kind
-- [ ] 5.3 §3/§4/§5 accurately describe what actually shipped, with no stale "see Phase 1" references left for work this phase completed
+- [x] 5.2 A reader who has not seen this change can read §6.1/§6.2/§6.3/§6.4 alone and know where to add the next test of each kind
+- [x] 5.3 §3/§4/§5 accurately describe what actually shipped, with no stale "see Phase 1" references left for work this phase completed

@@ -77,12 +77,12 @@ Each row is a discrete rollout phase that will open its own change folder
 via `/10x-new`. Status moves left-to-right through the values below; the
 orchestrator updates Status as artifacts appear on disk.
 
-| #   | Phase name                                         | Goal (one line)                                                                                                       | Risks covered | Test types            | Status        | Change folder                                     |
-| --- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------- | ------------- | ------------------------------------------------- |
-| 1   | Bootstrap harness + critical failure-path coverage | Stand up a test runner and defend the two confirmed core-flow failures (login, plan generation) at the cheapest layer | #1, #3        | unit + integration    | change opened | `context/changes/testing-critical-path-coverage/` |
-| 2   | Full-flow proof & persistence round-trip           | Prove the login→questionnaire→plan seam holds end-to-end and a generated plan survives a real session boundary        | #2, #5        | integration + one e2e | not started   | —                                                 |
-| 3   | Access-control & resilience hardening              | Close the cross-user data-ownership gap and make dependency-outage errors actionable                                  | #4, #6, #7    | integration + unit    | not started   | —                                                 |
-| 4   | Quality-gates wiring                               | Lock lint, typecheck, and the new suite into CI as required gates                                                     | cross-cutting | gates                 | not started   | —                                                 |
+| #   | Phase name                                         | Goal (one line)                                                                                                       | Risks covered | Test types               | Status        | Change folder                                     |
+| --- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------ | ------------- | ------------------------------------------------- |
+| 1   | Bootstrap harness + critical failure-path coverage | Stand up a test runner and defend the two confirmed core-flow failures (login, plan generation) at the cheapest layer | #1, #3        | unit + integration + e2e | change opened | `context/changes/testing-critical-path-coverage/` |
+| 2   | Full-flow proof & persistence round-trip           | Prove the login→questionnaire→plan seam holds end-to-end and a generated plan survives a real session boundary        | #2, #5        | integration + one e2e    | not started   | —                                                 |
+| 3   | Access-control & resilience hardening              | Close the cross-user data-ownership gap and make dependency-outage errors actionable                                  | #4, #6, #7    | integration + unit       | not started   | —                                                 |
+| 4   | Quality-gates wiring                               | Lock lint, typecheck, and the new suite into CI as required gates                                                     | cross-cutting | gates                    | not started   | —                                                 |
 
 **Status vocabulary** (fixed — parser literals): `not started` → `change
 opened` → `researched` → `planned` → `implementing` → `complete`.
@@ -93,11 +93,11 @@ The classic test base for this project. Recommendations below are grounded
 in local manifests/configs; no docs/search/runtime/provider MCP was
 exposed in the current session, so nothing here is MCP-verified.
 
-| Layer              | Tool       | Version                | Notes                                                                                                                            |
-| ------------------ | ---------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| unit + integration | Vitest     | none yet — see Phase 1 | health-check.md recommends `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom` for this Astro + React stack |
-| API mocking        | MSW        | none yet — see Phase 1 | mock only at the Supabase HTTP boundary; never mock internal modules                                                             |
-| e2e                | Playwright | none yet — see Phase 2 | single smoke test for the login→questionnaire→plan seam; not a per-input-combination tool                                        |
+| Layer              | Tool            | Version                       | Notes                                                                                                                                                                                                                                                                                                                                   |
+| ------------------ | --------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| unit + integration | Vitest          | `^5.0.0` — shipped in Phase 1 | Node environment, no `jsdom`/`@testing-library/*` yet — neither risk in Phase 1 needed DOM rendering; revisit if a future phase does                                                                                                                                                                                                    |
+| API mocking        | — (not adopted) | n/a                           | Phase 1 resolved the Supabase-mocking-boundary need without MSW: route tests fake `createClient()`'s return value directly, and the login/session risk (originally slated for integration) was promoted to a real local-Supabase e2e test instead — see `context/changes/testing-critical-path-coverage/plan.md` "What We're NOT Doing" |
+| e2e                | Playwright      | none yet — see Phase 2        | single smoke test for the login→questionnaire→plan seam; not a per-input-combination tool                                                                                                                                                                                                                                               |
 
 No AI-native row: the current product has no AI-powered logic yet (plan
 generation is deterministic rule-based per PRD Business Logic), and the
@@ -118,16 +118,16 @@ The full set of gates that must pass before a change reaches production.
 "Required for §3 Phase <N>" means the gate is enforced once that rollout
 phase lands; before that, the gate is `planned`.
 
-| Gate                        | Where                | Required?                                                  | Catches                                                      |
-| --------------------------- | -------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| lint                        | local + CI           | required (already wired in `.github/workflows/ci.yml`)     | style/syntax drift                                           |
-| typecheck                   | local + CI           | required after §3 Phase 4                                  | type drift (not yet a dedicated CI step per health-check.md) |
-| unit + integration          | local + CI           | required after §3 Phase 1                                  | logic regressions                                            |
-| e2e on critical flows       | CI on PR             | required after §3 Phase 2                                  | broken login→questionnaire→plan path                         |
-| post-edit hook              | local (agent loop)   | recommended local — out of this rollout's scope (Lesson 3) | regressions at edit time                                     |
-| visual diff (deterministic) | CI on PR             | optional — not scheduled, see §7                           | rendering regressions                                        |
-| multimodal visual review    | CI on PR             | optional — not scheduled, see §7                           | visual issues classic diff misses                            |
-| pre-prod smoke              | between merge + prod | optional                                                   | environment-specific failures                                |
+| Gate                        | Where                | Required?                                                       | Catches                                                      |
+| --------------------------- | -------------------- | --------------------------------------------------------------- | ------------------------------------------------------------ |
+| lint                        | local + CI           | required (already wired in `.github/workflows/ci.yml`)          | style/syntax drift                                           |
+| typecheck                   | local + CI           | required after §3 Phase 4                                       | type drift (not yet a dedicated CI step per health-check.md) |
+| unit + integration          | local + CI           | required (wired in `.github/workflows/ci.yml` as of §3 Phase 1) | logic regressions                                            |
+| e2e on critical flows       | CI on PR             | required after §3 Phase 2                                       | broken login→questionnaire→plan path                         |
+| post-edit hook              | local (agent loop)   | recommended local — out of this rollout's scope (Lesson 3)      | regressions at edit time                                     |
+| visual diff (deterministic) | CI on PR             | optional — not scheduled, see §7                                | rendering regressions                                        |
+| multimodal visual review    | CI on PR             | optional — not scheduled, see §7                                | visual issues classic diff misses                            |
+| pre-prod smoke              | between merge + prod | optional                                                        | environment-specific failures                                |
 
 ## 6. Cookbook Patterns
 
@@ -137,11 +137,33 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.1 Adding a unit test
 
-- TBD — see §3 Phase 1 (error-handling/serialization pattern for Risk #7).
+- **Location**: colocated `*.test.ts` next to the module under test (e.g. `src/lib/plan-generator/index.test.ts`).
+- **Reference test**: `src/lib/plan-generator/index.test.ts` — pure-function
+  tests for business logic with no I/O. Expected values are hand-authored
+  from the relevant business-rule spec (PRD, archived plan, or domain
+  knowledge), never derived by importing the module's own fixture/content
+  data and asserting the function's output matches it — that is the oracle
+  problem this project explicitly avoids (see §1 principle #3 and Risk #1's
+  Risk Response Guidance). To pin a defect that's only reachable through an
+  internal collaborator (not the function's public parameters), use
+  `vi.doMock` + `vi.resetModules()` + a dynamic `import()` scoped to that
+  one test, rather than exporting internals just for testing.
+- **Run command**: `npm run test` (`vitest run`).
 
 ### 6.2 Adding an integration test
 
-- TBD — see §3 Phase 1 (auth-route + middleware pattern for Risks #1, #3).
+- **Location**: colocated `*.test.ts` next to the route (e.g.
+  `src/pages/api/plans/generate.test.ts`).
+- **Reference test**: `src/pages/api/plans/generate.test.ts` — one test per
+  distinct error branch (validation, auth, not-configured) plus a success
+  and a failure path, each asserting the specific status code and error
+  message. Mock only `@/lib/supabase`'s `createClient()` return value (a
+  hand-built fake client object) — this is the Supabase-HTTP-boundary
+  mocking principle from §4, applied without needing MSW. Never mock
+  sibling internal modules (`@/lib/plan-generator`, `@/lib/plan-persistence`)
+  directly; let the route's real collaborators run against the fake
+  Supabase client instead.
+- **Run command**: `npm run test` (`vitest run`).
 
 ### 6.3 Adding an e2e test
 
@@ -165,12 +187,46 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 This entry covers the **harness pattern only**. §3 Phase 2's real target
 — the login→questionnaire→plan seam smoke (Risk #2) — still needs its
-own test and a test-user/Supabase strategy decision (local Supabase
-stack vs. hosted test account), which has not been made yet.
+own test, but can now reuse the test-user/Supabase strategy this phase
+settled (see below) rather than deciding it fresh.
+
+**Authenticated e2e tests (added §3 Phase 1, Risk #3)**: `e2e/login-session.spec.ts`
+is the reference for any test that needs a real logged-in session rather
+than the always-logged-out default above.
+
+- **Test-user strategy**: local Supabase CLI stack (already scaffolded at
+  `supabase/config.toml`), not a hosted test project — settled by this
+  phase, resolving the decision §3 Phase 2's own e2e test previously had
+  left open.
+- **Fixtures**: `e2e/fixtures/test-user.ts` holds the fixed local-only
+  credentials (safe to commit — a local Supabase dev-stack account, not a
+  real secret).
+- **Seeding**: `e2e/global-setup.ts`, wired via `playwright.config.ts`'s
+  `globalSetup`. Idempotently creates the test user via
+  `@supabase/supabase-js`'s `auth.admin.createUser` against
+  `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY`. **Skips gracefully (a
+  warning, not a throw) when those env vars are absent** — this keeps
+  the always-logged-out tests above runnable with zero Supabase
+  configuration; only tests that need a real session will fail on their
+  own if seeding was skipped.
+- **Local run**: `supabase start -x vector,edge-runtime`, then export
+  `SUPABASE_URL`/`SUPABASE_KEY`/`SUPABASE_SERVICE_ROLE_KEY` from
+  `supabase status -o json` before `npm run test:e2e` (see `.env.example`).
+  `vector` and `edge-runtime` are excluded because neither is used by this
+  app (no Edge Functions, no log-shipping consumer).
+- **CI**: the `e2e` job starts the same local Supabase stack and exports
+  its connection details into `$GITHUB_ENV` before `npm run test:e2e` —
+  see `.github/workflows/ci.yml`.
 
 ### 6.4 Adding a test for a new API endpoint
 
-- TBD — see §3 Phase 1.
+- **Location**: colocated `*.test.ts` next to the route file, following
+  §6.2's pattern.
+- **Reference test**: `src/pages/api/plans/generate.test.ts` — build a
+  minimal `APIContext` fake (`locals.user`, `request.headers`,
+  `request.json()`, `cookies`) rather than a real Astro request; assert on
+  `response.status` and the parsed JSON body, not on internal function
+  calls.
 
 ### 6.5 Adding a test for data-ownership / access control
 
