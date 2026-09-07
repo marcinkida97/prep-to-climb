@@ -1,10 +1,10 @@
 ---
 change_id: signup-confirmation-redirect-bug
 title: Sign-up confirmation email redirects to localhost; login reports account not confirmed
-status: impl_reviewed
+status: archived
 created: 2026-09-06
 updated: 2026-09-07
-archived_at: null
+archived_at: 2026-09-07T10:08:44Z
 ---
 
 ## Notes
