@@ -509,9 +509,9 @@ user data — this is a one-way migration.
 
 #### Automated
 
-- [x] 3.1 Unit tests updated and passing for async `generateWeeklyPlan` — adapted: `QuestionnaireResponseInput` (trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal + injuryLimitations reshaped to `DeclaredInjury[]`) pulled forward from Phase 4 per user decision, since Phase 3's own filtering contract needs those fields to exist; generate.ts/plan-persistence.ts/QuestionnaireForm.tsx/dashboard.astro/WeeklyPlanView.tsx patched with minimal mechanical wiring (no new validation messages or form UI — that stays Phase 4) to keep everything compiling; `plan-generator/index.test.ts` (7/7) rewritten and passing; `generate.test.ts`'s 2 success/failure-path tests are collateral-red (its fake Supabase doesn't mock the new `exercise_library` query) — that file is explicitly Phase 4's to update
-- [x] 3.2 Typecheck passes: `npm run build`
-- [x] 3.3 Lint passes: `npm run lint`
+- [x] 3.1 Unit tests updated and passing for async `generateWeeklyPlan` — adapted: `QuestionnaireResponseInput` (trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal + injuryLimitations reshaped to `DeclaredInjury[]`) pulled forward from Phase 4 per user decision, since Phase 3's own filtering contract needs those fields to exist; generate.ts/plan-persistence.ts/QuestionnaireForm.tsx/dashboard.astro/WeeklyPlanView.tsx patched with minimal mechanical wiring (no new validation messages or form UI — that stays Phase 4) to keep everything compiling; `plan-generator/index.test.ts` (7/7) rewritten and passing; `generate.test.ts`'s 2 success/failure-path tests are collateral-red (its fake Supabase doesn't mock the new `exercise_library` query) — that file is explicitly Phase 4's to update — c7edecb
+- [x] 3.2 Typecheck passes: `npm run build` — c7edecb
+- [x] 3.3 Lint passes: `npm run lint` — c7edecb
 
 #### Manual
 
@@ -524,15 +524,15 @@ user data — this is a one-way migration.
 
 #### Automated
 
-- [ ] 4.1 `generate.test.ts` updated and passing
-- [ ] 4.2 Typecheck passes: `npm run build`
-- [ ] 4.3 Lint passes: `npm run lint`
+- [x] 4.1 `generate.test.ts` updated and passing — rewrote validation-branch cases for trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal/injury-status shape, added `exercise_library` mocking to the fake Supabase client, updated the 200/500 fixtures to the new questionnaire shape and real assembler summary text (23/23 passing); full suite 42/42
+- [x] 4.2 Typecheck passes: `npm run build`
+- [x] 4.3 Lint passes: `npm run lint`
 
 #### Manual
 
-- [ ] 4.4 Missing new-field submission shows validation message, no API call
-- [ ] 4.5 Invalid new-field value rejected with 400 server-side
-- [ ] 4.6 Full valid submission reaches dashboard with a matching plan
+- [ ] 4.4 Missing new-field submission shows validation message, no API call — pending: sandbox has no SUPABASE_URL/SUPABASE_KEY; user will verify against the deployed server after this phase's commit is pushed
+- [ ] 4.5 Invalid new-field value rejected with 400 server-side — pending, same reason as 4.4
+- [ ] 4.6 Full valid submission reaches dashboard with a matching plan — pending, same reason as 4.4
 
 ### Phase 5: Verification & Rollout
 

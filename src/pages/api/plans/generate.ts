@@ -1,10 +1,19 @@
 import type { APIRoute } from "astro";
-import { isInjuryOptionId } from "@/lib/injury-options";
+import { isInjuryOptionId, isInjuryStatus } from "@/lib/injury-options";
 import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
 import { generateWeeklyPlan } from "@/lib/plan-generator";
 import type { PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
 import { createClient } from "@/lib/supabase";
-import { CLIMBING_GRADES, type QuestionnaireResponseInput } from "@/lib/plan-types";
+import {
+  CLIMBING_GRADES,
+  EQUIPMENT_OPTIONS,
+  PRIMARY_GOALS,
+  TRAINING_AGES,
+  type EquipmentOption,
+  type PrimaryGoal,
+  type QuestionnaireResponseInput,
+  type TrainingAge,
+} from "@/lib/plan-types";
 
 export const POST: APIRoute = async (context) => {
   if (!context.locals.user) {
@@ -116,13 +125,53 @@ function validateQuestionnaireRequest(payload: unknown): string | null {
   }
 
   for (const injury of injuryLimitations) {
-    if (typeof injury !== "string") {
+    if (!injury || typeof injury !== "object") {
       return "One or more injury limitations are not recognized.";
     }
 
-    if (!isInjuryOptionId(injury)) {
+    const injuryRecord = injury as Record<string, unknown>;
+    if (typeof injuryRecord.id !== "string" || !isInjuryOptionId(injuryRecord.id)) {
       return "One or more injury limitations are not recognized.";
     }
+
+    if (typeof injuryRecord.status !== "string" || !isInjuryStatus(injuryRecord.status)) {
+      return "Each declared injury must be marked acute or chronic.";
+    }
+  }
+
+  if (
+    typeof questionnaireRecord.trainingAge !== "string" ||
+    !TRAINING_AGES.includes(questionnaireRecord.trainingAge as TrainingAge)
+  ) {
+    return "Choose your training age before generating a plan.";
+  }
+
+  const sessionsPerWeek = questionnaireRecord.sessionsPerWeek;
+  if (
+    typeof sessionsPerWeek !== "number" ||
+    !Number.isInteger(sessionsPerWeek) ||
+    sessionsPerWeek < 1 ||
+    sessionsPerWeek > 7
+  ) {
+    return "Choose how many sessions per week you can train (1-7).";
+  }
+
+  const equipmentAccess = questionnaireRecord.equipmentAccess;
+  if (!Array.isArray(equipmentAccess)) {
+    return "Equipment access must be sent as a list.";
+  }
+
+  for (const equipment of equipmentAccess) {
+    if (typeof equipment !== "string" || !EQUIPMENT_OPTIONS.includes(equipment as EquipmentOption)) {
+      return "One or more equipment options are not recognized.";
+    }
+  }
+
+  if (
+    typeof questionnaireRecord.primaryGoal !== "string" ||
+    !PRIMARY_GOALS.includes(questionnaireRecord.primaryGoal as PrimaryGoal)
+  ) {
+    return "Choose your primary training goal before generating a plan.";
   }
 
   return null;
@@ -141,9 +190,8 @@ function readQuestionnaire(payload: unknown): QuestionnaireResponseInput {
   const climbingGrade = questionnaireRecord.climbingGrade as string;
   const injuryLimitations = questionnaireRecord.injuryLimitations as QuestionnaireResponseInput["injuryLimitations"];
 
-  // trainingAge/sessionsPerWeek/equipmentAccess/primaryGoal are read through as-is here — real
-  // per-field validation (reject with 400 + a specific message) is a later rollout phase; this
-  // function only needs to keep the questionnaire shape complete for the assembler.
+  // validateQuestionnaireRequest already rejected anything malformed before this runs, so these
+  // casts just carry the already-validated shape through.
   return {
     climbingGrade: climbingGrade.trim() as QuestionnaireResponseInput["climbingGrade"],
     injuryLimitations: dedupeInjuries(injuryLimitations),
