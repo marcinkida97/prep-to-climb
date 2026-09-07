@@ -519,9 +519,9 @@ phase's e2e test relies on; no new migration is introduced.
 
 #### Automated
 
-- [x] 5.1 `test-plan.md` still renders as valid Markdown (no broken tables)
+- [x] 5.1 `test-plan.md` still renders as valid Markdown (no broken tables) — 5c9406d
 
 #### Manual
 
-- [x] 5.2 A reader who has not seen this change can read §6.1/§6.2/§6.3/§6.4 alone and know where to add the next test of each kind
-- [x] 5.3 §3/§4/§5 accurately describe what actually shipped, with no stale "see Phase 1" references left for work this phase completed
+- [x] 5.2 A reader who has not seen this change can read §6.1/§6.2/§6.3/§6.4 alone and know where to add the next test of each kind — 5c9406d
+- [x] 5.3 §3/§4/§5 accurately describe what actually shipped, with no stale "see Phase 1" references left for work this phase completed — 5c9406d
