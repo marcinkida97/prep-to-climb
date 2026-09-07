@@ -19,6 +19,15 @@ export default async function globalSetup() {
     return;
   }
 
+  const { hostname } = new URL(supabaseUrl);
+  const isLocalSupabaseUrl = hostname === "127.0.0.1" || hostname === "localhost";
+  if (!isLocalSupabaseUrl) {
+    throw new Error(
+      `Refusing to seed the e2e test user against a non-local Supabase URL (${supabaseUrl}). ` +
+        "This script only supports the local `supabase start` stack — never point it at a hosted project.",
+    );
+  }
+
   const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
 
   const { error } = await supabaseAdmin.auth.admin.createUser({
