@@ -1,7 +1,7 @@
 ---
 change_id: plan-generation-strategy
 title: "Smarter weekly-plan generation: expanded injury taxonomy, richer questionnaire, and a bigger exercise/rule engine"
-status: implementing
+status: implemented
 created: 2026-09-07
 updated: 2026-09-07
 archived_at: null

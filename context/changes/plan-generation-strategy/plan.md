@@ -515,10 +515,10 @@ user data — this is a one-way migration.
 
 #### Manual
 
-- [x] 3.4 Chronic injury never yields a conflicting exercise — confirmed by user against the deployed server
-- [x] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises — confirmed by user against the deployed server
-- [x] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises — confirmed by user against the deployed server
-- [x] 3.7 Missing equipment never yields an exercise requiring it — confirmed by user against the deployed server
+- [x] 3.4 Chronic injury never yields a conflicting exercise — confirmed by user against the deployed server — 26cd5cd
+- [x] 3.5 Acute injury yields conservative disclaimer, omits region-specific exercises — confirmed by user against the deployed server — 26cd5cd
+- [x] 3.6 Low training age yields caution-noted (not omitted) campus/power exercises — confirmed by user against the deployed server — 26cd5cd
+- [x] 3.7 Missing equipment never yields an exercise requiring it — confirmed by user against the deployed server — 26cd5cd
 
 ### Phase 4: Questionnaire & API Surface
 
@@ -530,20 +530,20 @@ user data — this is a one-way migration.
 
 #### Manual
 
-- [x] 4.4 Missing new-field submission shows validation message, no API call — confirmed by user against the deployed server; earlier-reported server-side unit test failure was a stale-deploy artifact, resolved now that the server runs commit `92652bf`
-- [x] 4.5 Invalid new-field value rejected with 400 server-side — confirmed by user against the deployed server
-- [x] 4.6 Full valid submission reaches dashboard with a matching plan — confirmed by user against the deployed server
+- [x] 4.4 Missing new-field submission shows validation message, no API call — confirmed by user against the deployed server; earlier-reported server-side unit test failure was a stale-deploy artifact, resolved now that the server runs commit `92652bf` — 26cd5cd
+- [x] 4.5 Invalid new-field value rejected with 400 server-side — confirmed by user against the deployed server — 26cd5cd
+- [x] 4.6 Full valid submission reaches dashboard with a matching plan — confirmed by user against the deployed server — 26cd5cd
 
 ### Phase 5: Verification & Rollout
 
 #### Automated
 
-- [x] 5.1 Full lint passes: `npm run lint`
-- [x] 5.2 Full build passes: `npm run build`
-- [x] 5.3 Full test suite passes: `npm run test` — 42/42; documented in `verification.md` alongside CI run 34160245482 on 92652bf
+- [x] 5.1 Full lint passes: `npm run lint` — 26cd5cd
+- [x] 5.2 Full build passes: `npm run build` — 26cd5cd
+- [x] 5.3 Full test suite passes: `npm run test` — 42/42; documented in `verification.md` alongside CI run 34160245482 on 92652bf — 26cd5cd
 
 #### Manual
 
-- [x] 5.4 New signup completes questionnaire, receives matching plan — confirmed by user against the deployed server
-- [x] 5.5 Existing pre-migration user sees questionnaire form, not stale plan — confirmed by user against the deployed server
-- [x] 5.6 Regeneration after changed answers produces a visibly different, correctly-filtered plan — confirmed by user against the deployed server
+- [x] 5.4 New signup completes questionnaire, receives matching plan — confirmed by user against the deployed server — 26cd5cd
+- [x] 5.5 Existing pre-migration user sees questionnaire form, not stale plan — confirmed by user against the deployed server — 26cd5cd
+- [x] 5.6 Regeneration after changed answers produces a visibly different, correctly-filtered plan — confirmed by user against the deployed server — 26cd5cd
