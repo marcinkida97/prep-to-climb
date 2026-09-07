@@ -471,25 +471,25 @@ phase's e2e test relies on; no new migration is introduced.
 
 #### Automated
 
-- [x] 1.1 `npm run test` passes with the new generator and route test files included
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npx astro sync` runs cleanly (no schema/type drift introduced)
+- [x] 1.1 `npm run test` passes with the new generator and route test files included — 86b02b5
+- [x] 1.2 `npm run lint` passes — 86b02b5
+- [x] 1.3 `npx astro sync` runs cleanly (no schema/type drift introduced) — 86b02b5
 
 #### Manual
 
-- [x] 1.4 Reviewer confirms the grade/injury expected values in the new unit tests were derived from the archived business-rule spec, not copied from `injury-rules.ts`'s current output
-- [x] 1.5 Reviewer confirms the two pinning tests' assertions describe today's actual (imperfect) behavior rather than the desired behavior, and are clearly commented as a known follow-up rather than an endorsed contract
+- [x] 1.4 Reviewer confirms the grade/injury expected values in the new unit tests were derived from the archived business-rule spec, not copied from `injury-rules.ts`'s current output — 86b02b5
+- [x] 1.5 Reviewer confirms the two pinning tests' assertions describe today's actual (imperfect) behavior rather than the desired behavior, and are clearly commented as a known follow-up rather than an endorsed contract — 86b02b5
 
 ### Phase 2: CI wiring for the unit + integration gate
 
 #### Automated
 
-- [ ] 2.1 A deliberately broken test (temporary, reverted before merge) causes the `ci` job to fail in a local `act`/PR dry run, confirming the step is wired correctly
-- [ ] 2.2 `npm run test`, `npm run lint`, and `npm run build` all pass in the final `ci` job run
+- [x] 2.1 A deliberately broken test (temporary, reverted before merge) causes the `ci` job to fail in a local `act`/PR dry run, confirming the step is wired correctly
+- [x] 2.2 `npm run test`, `npm run lint`, and `npm run build` all pass in the final `ci` job run
 
 #### Manual
 
-- [ ] 2.3 Reviewer confirms the new step's position (after lint, before build) matches the intended fail-fast ordering
+- [x] 2.3 Reviewer confirms the new step's position (after lint, before build) matches the intended fail-fast ordering
 
 ### Phase 3: Local Supabase test-user infrastructure
 
