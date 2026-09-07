@@ -88,7 +88,7 @@ points at, so the PKCE exchange can actually complete.
 
 **Intent**: Pass an explicit, request-derived `emailRedirectTo` so Supabase's confirmation email points at this deployment's own `/api/auth/confirm` route instead of the project's dashboard-configured default.
 
-**Contract**: Compute `const origin = new URL(context.request.url).origin;` and pass `{ email, password }` plus a second argument `{ emailRedirectTo: \`${origin}/api/auth/confirm\` }` to `supabase.auth.signUp(...)`. No other behavior in this file changes — the existing not-configured check, try/catch, and error-message passthrough stay exactly as they are.
+**Contract**: Compute `const origin = new URL(context.request.url).origin;` and call `supabase.auth.signUp({ email, password, options: { emailRedirectTo: \`${origin}/api/auth/confirm\` } })` — a single object with a nested `options.emailRedirectTo`, matching the real Supabase JS API signature. No other behavior in this file changes — the existing not-configured check, try/catch, and error-message passthrough stay exactly as they are.
 
 #### 2. Confirmation callback route (new)
 
@@ -104,7 +104,7 @@ points at, so the PKCE exchange can actually complete.
 
 **Intent**: Fix the stale `site_url`/`additional_redirect_urls` values (port `3000`) so they match this project's actual local dev origin, making local confirmation-link testing possible at all.
 
-**Contract**: Change line 154 to `site_url = "http://localhost:4321"` and line 156 to `additional_redirect_urls = ["http://localhost:4321"]` (also correcting the existing `https://` scheme, which doesn't match a local `astro dev` server).
+**Contract**: Change line 154 to `site_url = "http://localhost:4321"` and line 156 to `additional_redirect_urls = ["http://localhost:4321/api/auth/confirm"]` — the exact callback path, not just the bare origin, since Supabase requires an exact string match for allow-listed redirect URLs (also correcting the existing `https://` scheme, which doesn't match a local `astro dev` server).
 
 #### 4. Sign-up test updates
 

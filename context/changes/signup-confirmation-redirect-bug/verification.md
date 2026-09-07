@@ -20,7 +20,12 @@ Configuration**:
 2. Add the **exact** URL `https://<your-production-domain>/api/auth/confirm`
    to the **Redirect URLs** allow-list. A bare origin entry without the
    `/api/auth/confirm` path will NOT match, per Supabase's exact-match
-   redirect-URL rule.
+   redirect-URL rule. Do **not** use a wildcard entry (e.g. `https://<your-
+   production-domain>/**`) here — `emailRedirectTo` is derived from the
+   incoming request's own origin at sign-up time
+   (`src/pages/api/auth/signup.ts:14`), and a wildcard would let that
+   derived value satisfy the allow-list for any path on the domain,
+   widening the redirect surface beyond what this fix actually needs.
 
 Until both of these are set, production sign-ups will continue to fail
 confirmation exactly as originally reported, regardless of this code
