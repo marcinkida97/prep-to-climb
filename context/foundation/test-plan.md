@@ -237,6 +237,28 @@ than the always-logged-out default above.
 (Filled in by `/10x-implement`'s final sub-phase as each rollout phase
 lands.)
 
+**Testing a multi-step client component without `jsdom`/`@testing-library/react`**
+(added by `questionnaire-wizard-flow`, roadmap S-02): this project still has no DOM-testing
+stack (§4 above). Rather than adding one for a single feature, a multi-step form's
+per-step validation logic is extracted into plain, DOM-free functions colocated with the
+step-agnostic types it validates, and unit-tested per §6.1's pattern; the actual
+click-through behavior (blocked/allowed navigation, back-navigation state, full submit) is
+covered by one e2e spec instead of component tests.
+
+- **Reference validation module**: `src/lib/questionnaire-wizard-validation.ts` +
+  `src/lib/questionnaire-wizard-validation.test.ts` — `getStepErrors(step, draft)` returns
+  the same field/message pairs the component would show, hand-authored per §6.1's
+  oracle-problem rule; the component calls it to gate advancing past a step, but the logic
+  itself needs no DOM to test.
+- **Reference e2e spec**: `e2e/questionnaire-wizard.spec.ts` — extends the authenticated
+  pattern from `e2e/login-session.spec.ts` (same test user, same seeding), one
+  `test.describe` block, one behavior per `test()`: a blocked-advance case, a
+  back-navigation-preserves-data case, and a full valid run reaching the generated plan.
+- **When to revisit**: if a future change needs to assert on rendered output or interaction
+  details a pure function and one e2e spec can't reach (e.g. testing many small visual
+  states of one component), that is the trigger to add `jsdom`/`@testing-library/react` via
+  `/10x-test-plan --refresh`, not to bolt it onto a single feature plan.
+
 ## 7. What We Deliberately Don't Test
 
 Exclusions agreed during the rollout (Phase 2 interview, Q5). Future

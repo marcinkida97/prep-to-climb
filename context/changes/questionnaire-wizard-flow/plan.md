@@ -357,9 +357,9 @@ Not applicable — no data model or persisted-data changes.
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Existing unit tests still pass: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint` — a77d7ee
+- [x] 2.2 Build passes: `npm run build` — a77d7ee
+- [x] 2.3 Existing unit tests still pass: `npm run test` — a77d7ee
 
 #### Manual
 
@@ -372,10 +372,10 @@ Not applicable — no data model or persisted-data changes.
 
 #### Automated
 
-- [ ] 3.1 New unit tests pass: `npm run test`
+- [x] 3.1 New unit tests pass: `npm run test`
 - [ ] 3.2 New e2e spec passes: `npm run test:e2e`
-- [ ] 3.3 Lint passes: `npm run lint`
-- [ ] 3.4 Build passes: `npm run build`
+- [x] 3.3 Lint passes: `npm run lint`
+- [x] 3.4 Build passes: `npm run build`
 
 #### Manual
 
