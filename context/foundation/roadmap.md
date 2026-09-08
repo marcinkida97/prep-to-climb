@@ -47,7 +47,7 @@ PrepToClimb turns a short input flow into a usable weekly climbing-training plan
 |---|---|---|---|---|---|
 | S-01 | plan-generation-strategy | receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling | — | MS-05, MS-06 | done |
 | S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | done |
-| S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | in-progress |
+| S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | done |
 | S-04 | plan-deletion-flow | delete their generated weekly plan and be returned to grade/injury selection | — | MS-02 | ready |
 | S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | ready |
 
@@ -118,7 +118,7 @@ than one downstream slice or it's over-engineering).
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Self-service account deletion needs a Supabase service-role admin call that doesn't exist in the codebase yet; scoped inside this slice rather than split into a shared foundation, since no other slice consumes it.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-04: Delete the generated plan and re-onboard
 
@@ -176,3 +176,4 @@ None — the architecture, injury-taxonomy, and gating decisions this milestone 
 - **S-03: sign back in later and see the saved weekly plan across sessions** — Archived 2026-09-07 → `context/archive/2026-06-14-persisted-plan-return-flow/`. Lesson: —.
 - **S-01: receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling** — Archived 2026-09-08 → `context/archive/2026-09-07-plan-generation-strategy/`. Lesson: —.
 - **S-02: user completes the questionnaire through a multi-step flow (grade step, then an injuries step with a searchable, multi-select control) instead of one long single-page form.** — Archived 2026-09-08 → `context/archive/2026-09-08-questionnaire-wizard-flow/`. Lesson: —.
+- **S-03: user can change their password and delete their account from a settings page.** — Archived 2026-09-08 → `context/archive/2026-09-08-account-settings/`. Lesson: —.

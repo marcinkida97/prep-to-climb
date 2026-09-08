@@ -1,7 +1,8 @@
 ---
 change_id: account-settings
 title: "Account settings: password change and self-service account deletion"
-status: impl_reviewed
+status: archived
+archived_at: 2026-09-08T18:04:55Z
 created: 2026-09-08
 updated: 2026-09-08
 ---
