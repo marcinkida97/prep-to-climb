@@ -391,9 +391,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 No remaining literal cosmic-era color classes in `src/components/`
+- [x] 3.1 Lint passes: `npm run lint` — 2dd153a
+- [x] 3.2 Build passes: `npm run build` — 2dd153a
+- [x] 3.3 No remaining literal cosmic-era color classes in `src/components/` — 2dd153a
 
 #### Manual
 
@@ -405,10 +405,10 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Automated
 
-- [ ] 4.1 Lint passes: `npm run lint`
-- [ ] 4.2 Build passes: `npm run build`
-- [ ] 4.3 No remaining `window.confirm`/inline `confirm(` usage
-- [ ] 4.4 Existing account/plan-deletion unit tests still pass
+- [x] 4.1 Lint passes: `npm run lint`
+- [x] 4.2 Build passes: `npm run build`
+- [x] 4.3 No remaining `window.confirm`/inline `confirm(` usage
+- [x] 4.4 Existing account/plan-deletion unit tests still pass
 
 #### Manual
 

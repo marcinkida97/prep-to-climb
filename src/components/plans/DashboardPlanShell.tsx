@@ -2,6 +2,14 @@ import { useState } from "react";
 import QuestionnaireForm from "@/components/plans/QuestionnaireForm";
 import WeeklyPlanView from "@/components/plans/WeeklyPlanView";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type {
   DashboardInitialState,
   DashboardQuestionnaireValue,
@@ -26,6 +34,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [recoveryMessage, setRecoveryMessage] = useState(
     initialState.mode === "recovery" ? initialState.recoveryMessage : null,
@@ -68,10 +77,6 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
   }
 
   async function handleDeletePlan() {
-    if (!window.confirm("Delete your saved weekly plan? You'll need to answer the questionnaire again.")) {
-      return;
-    }
-
     setIsDeleting(true);
 
     try {
@@ -87,6 +92,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
         setShowQuestionnaire(true);
         setRecoveryMessage(null);
         setSubmissionError(null);
+        setIsDeleteDialogOpen(false);
         return;
       }
 
@@ -140,7 +146,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
               }}
               onDelete={() => {
                 setSubmissionError(null);
-                void handleDeletePlan();
+                setIsDeleteDialogOpen(true);
               }}
               isDeleting={isDeleting}
               plan={currentPlan}
@@ -190,6 +196,39 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
           <WeeklyPlanView plan={currentPlan} />
         </div>
       ) : null}
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete this weekly plan?</DialogTitle>
+            <DialogDescription>
+              You&rsquo;ll need to answer the questionnaire again to generate a new plan. This cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isDeleting}
+              onClick={() => {
+                setIsDeleteDialogOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isDeleting}
+              onClick={() => {
+                void handleDeletePlan();
+              }}
+            >
+              Delete this weekly plan
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
