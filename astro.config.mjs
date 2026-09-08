@@ -12,6 +12,11 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      optimizeDeps: {
+        include: ["lucide-react", "astro/env/runtime"],
+      },
+    },
   },
   adapter: cloudflare(),
   env: {
