@@ -319,23 +319,23 @@ permit this via the session-bound client.
 
 #### Manual
 
-- [ ] 1.4 Deleting via the route removes the active `weekly_plans` row and cascaded children, leaving `questionnaire_responses` intact
-- [ ] 1.5 Calling the route twice in a row is idempotent (`{ ok: true }` both times)
-- [ ] 1.6 Calling the route while signed out returns 401 without reaching Supabase
+- [x] 1.4 Deleting via the route removes the active `weekly_plans` row and cascaded children, leaving `questionnaire_responses` intact — 9d28dd8
+- [x] 1.5 Calling the route twice in a row is idempotent (`{ ok: true }` both times) — 9d28dd8
+- [x] 1.6 Calling the route while signed out returns 401 without reaching Supabase — 9d28dd8
 
 ### Phase 2: Delete UX, re-onboarding, and cookbook update
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Existing unit tests still pass: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint` — 028ae36
+- [x] 2.2 Build passes: `npm run build` — 028ae36
+- [x] 2.3 Existing unit tests still pass: `npm run test` — 028ae36
 
 #### Manual
 
-- [ ] 2.4 "Delete this weekly plan" appears below "Regenerate", styled distinctly
-- [ ] 2.5 Cancelling the confirm dialog leaves the saved plan unchanged
-- [ ] 2.6 Confirming deletion clears the saved plan and shows a blank questionnaire with no reload
-- [ ] 2.7 Submitting the blank questionnaire after deletion generates and saves a new plan
-- [ ] 2.8 Delete button is not shown while a regenerate is in progress
-- [ ] 2.9 A failed delete request shows an inline error banner and leaves the saved plan visible
+- [x] 2.4 "Delete this weekly plan" appears below "Regenerate", styled distinctly — 028ae36
+- [x] 2.5 Cancelling the confirm dialog leaves the saved plan unchanged — 028ae36
+- [x] 2.6 Confirming deletion clears the saved plan and shows a blank questionnaire with no reload — 028ae36
+- [x] 2.7 Submitting the blank questionnaire after deletion generates and saves a new plan — 028ae36
+- [x] 2.8 Delete button is not shown while a regenerate is in progress — 028ae36
+- [x] 2.9 A failed delete request shows an inline error banner and leaves the saved plan visible — 028ae36
