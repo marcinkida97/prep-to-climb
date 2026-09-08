@@ -49,7 +49,7 @@ PrepToClimb turns a short input flow into a usable weekly climbing-training plan
 | S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | done |
 | S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | done |
 | S-04 | plan-deletion-flow | delete their generated weekly plan and be returned to grade/injury selection | — | MS-02 | done |
-| S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | ready |
+| S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | in-progress |
 
 ## Streams
 
@@ -142,7 +142,7 @@ than one downstream slice or it's over-engineering).
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** No hard dependency on the other slices, but shares `QuestionnaireForm.tsx` with S-02 — building both at the same time risks overlapping edits to the same component; sequence or coordinate closely if they overlap in time.
-- **Status:** ready
+- **Status:** in-progress
 
 ## Backlog Handoff
 
