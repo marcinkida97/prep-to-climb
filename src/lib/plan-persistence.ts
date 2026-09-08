@@ -60,6 +60,7 @@ export function createPlanPersistence(supabase: SupabaseServerClient) {
   return {
     getCurrentPlan: (userId: string) => getCurrentPlan(supabase, userId),
     saveCurrentPlan: (userId: string, input: SaveCurrentPlanInput) => saveCurrentPlan(supabase, userId, input),
+    deleteCurrentPlan: (userId: string) => deleteCurrentPlan(supabase, userId),
   };
 }
 
@@ -150,6 +151,14 @@ export async function saveCurrentPlan(
   }
 
   return persistedPlan;
+}
+
+export async function deleteCurrentPlan(supabase: SupabaseServerClient, userId: string): Promise<void> {
+  const { error } = await supabase.from("weekly_plans").delete().eq("user_id", userId).eq("is_active", true);
+
+  if (error) {
+    throw new PlanPersistenceError("Failed to delete the current weekly plan", error);
+  }
 }
 
 async function getQuestionnaireRow(supabase: SupabaseServerClient, userId: string): Promise<QuestionnaireRow | null> {

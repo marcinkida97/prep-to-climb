@@ -41,3 +41,14 @@ export interface PlanQuestionnaireErrorResponse {
 }
 
 export type PlanQuestionnaireResponse = PlanQuestionnaireSuccessResponse | PlanQuestionnaireErrorResponse;
+
+export interface PlanDeleteSuccessResponse {
+  ok: true;
+}
+
+export interface PlanDeleteErrorResponse {
+  ok: false;
+  error: string;
+}
+
+export type PlanDeleteResponse = PlanDeleteSuccessResponse | PlanDeleteErrorResponse;
