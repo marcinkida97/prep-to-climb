@@ -436,11 +436,11 @@ migration.
 
 #### Manual
 
-- [ ] 1.4 `/settings` redirects to `/auth/signin` when not logged in
-- [ ] 1.5 "Settings" link appears in Topbar and navigates correctly
-- [ ] 1.6 Valid password change shows success message and actually changes the password
-- [ ] 1.7 Invalid password change shows client-side error, does not submit
-- [ ] 1.8 A second session for the same user is signed out after a password change
+- [x] 1.4 `/settings` redirects to `/auth/signin` when not logged in
+- [x] 1.5 "Settings" link appears in Topbar and navigates correctly
+- [x] 1.6 Valid password change shows success message and actually changes the password
+- [x] 1.7 Invalid password change shows client-side error, does not submit
+- [x] 1.8 A second session for the same user is signed out after a password change
 
 ### Phase 2: Account deletion
 
@@ -452,9 +452,9 @@ migration.
 
 #### Manual
 
-- [ ] 2.4 Confirm dialog appears on delete; cancelling leaves the account untouched
-- [ ] 2.5 Confirming deletion redirects to sign-in with the success message
-- [ ] 2.6 Deleted email can sign up again as a new account
+- [x] 2.4 Confirm dialog appears on delete; cancelling leaves the account untouched
+- [x] 2.5 Confirming deletion redirects to sign-in with the success message
+- [x] 2.6 Deleted email can sign up again as a new account
 - [ ] 2.7 Deleted user's questionnaire/plan rows are actually gone (DB spot-check)
 - [ ] 2.8 Missing service-role key shows a graceful "temporarily unavailable" message
 
@@ -462,10 +462,10 @@ migration.
 
 #### Automated
 
-- [x] 3.1 New unit tests pass: `npm run test`
-- [x] 3.2 Lint passes: `npm run lint`
-- [x] 3.3 Build passes: `npm run build`
+- [x] 3.1 New unit tests pass: `npm run test` — 1e3fc3e
+- [x] 3.2 Lint passes: `npm run lint` — 1e3fc3e
+- [x] 3.3 Build passes: `npm run build` — 1e3fc3e
 
 #### Manual
 
-- [ ] 3.4 Full end-to-end click-through of both flows after all phases, no regressions
+- [x] 3.4 Full end-to-end click-through of both flows after all phases, no regressions
