@@ -49,7 +49,7 @@ PrepToClimb turns a short input flow into a usable weekly climbing-training plan
 | S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | done |
 | S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | done |
 | S-04 | plan-deletion-flow | delete their generated weekly plan and be returned to grade/injury selection | — | MS-02 | done |
-| S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | in-progress |
+| S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | done |
 
 ## Streams
 
@@ -142,7 +142,7 @@ than one downstream slice or it's over-engineering).
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** No hard dependency on the other slices, but shares `QuestionnaireForm.tsx` with S-02 — building both at the same time risks overlapping edits to the same component; sequence or coordinate closely if they overlap in time.
-- **Status:** in-progress
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -178,3 +178,4 @@ None — the architecture, injury-taxonomy, and gating decisions this milestone 
 - **S-02: user completes the questionnaire through a multi-step flow (grade step, then an injuries step with a searchable, multi-select control) instead of one long single-page form.** — Archived 2026-09-08 → `context/archive/2026-09-08-questionnaire-wizard-flow/`. Lesson: —.
 - **S-03: user can change their password and delete their account from a settings page.** — Archived 2026-09-08 → `context/archive/2026-09-08-account-settings/`. Lesson: —.
 - **S-04: user can delete their generated weekly plan; once deleted, they are asked again to select grade and injuries.** — Archived 2026-09-08 → `context/archive/2026-09-08-plan-deletion-flow/`. Lesson: —.
+- **S-05: user sees a visual design that reads as climbing/rock/nature-specific rather than generic, and the app scales correctly on mobile browsers.** — Archived 2026-09-08 → `context/archive/2026-09-08-climbing-theme-mobile-redesign/`. Lesson: —.
