@@ -455,7 +455,7 @@ migration.
 - [x] 2.4 Confirm dialog appears on delete; cancelling leaves the account untouched
 - [x] 2.5 Confirming deletion redirects to sign-in with the success message
 - [x] 2.6 Deleted email can sign up again as a new account
-- [ ] 2.7 Deleted user's questionnaire/plan rows are actually gone (DB spot-check)
+- [x] 2.7 Deleted user's questionnaire/plan rows are actually gone (DB spot-check)
 - [ ] 2.8 Missing service-role key shows a graceful "temporarily unavailable" message
 
 ### Phase 3: Verification & tests
