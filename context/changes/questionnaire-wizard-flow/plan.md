@@ -349,9 +349,9 @@ Not applicable — no data model or persisted-data changes.
 
 #### Manual
 
-- [ ] 1.4 Valid step-by-step run reaches the injuries step and submits successfully
-- [ ] 1.5 Next blocked with missing required field shows existing error, does not advance
-- [ ] 1.6 Back navigation preserves previously entered field values
+- [x] 1.4 Valid step-by-step run reaches the injuries step and submits successfully
+- [x] 1.5 Next blocked with missing required field shows existing error, does not advance
+- [x] 1.6 Back navigation preserves previously entered field values
 
 ### Phase 2: Searchable injuries step
 
@@ -363,20 +363,20 @@ Not applicable — no data model or persisted-data changes.
 
 #### Manual
 
-- [ ] 2.4 Searching by body part filters the list
-- [ ] 2.5 Clearing search restores all 20 injuries
-- [ ] 2.6 Selected-but-filtered-out injury still shows in "Selected" section with status toggle
-- [ ] 2.7 Status toggle behaves identically to today
+- [x] 2.4 Searching by body part filters the list
+- [x] 2.5 Clearing search restores all 20 injuries
+- [x] 2.6 Selected-but-filtered-out injury still shows in "Selected" section with status toggle
+- [x] 2.7 Status toggle behaves identically to today
 
 ### Phase 3: Verification & cookbook update
 
 #### Automated
 
 - [x] 3.1 New unit tests pass: `npm run test` — 6183f44
-- [ ] 3.2 New e2e spec passes: `npm run test:e2e`
+- [x] 3.2 New e2e spec passes: `npm run test:e2e` — verified green in CI run 34250519038 (all 3 wizard tests passed; flaky on first attempt, passed on Playwright's automatic retry — same pattern also hit one pre-existing login-session.spec.ts test, so likely a shared-test-user/fullyParallel timing issue, not specific to this spec)
 - [x] 3.3 Lint passes: `npm run lint` — 6183f44
 - [x] 3.4 Build passes: `npm run build` — 6183f44
 
 #### Manual
 
-- [ ] 3.5 `test-plan.md` §6.6 reads clearly as a reference for the next contributor
+- [x] 3.5 `test-plan.md` §6.6 reads clearly as a reference for the next contributor

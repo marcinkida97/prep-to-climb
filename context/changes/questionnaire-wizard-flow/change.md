@@ -1,7 +1,7 @@
 ---
 change_id: questionnaire-wizard-flow
 title: "Multi-step questionnaire wizard with a searchable injury multi-select"
-status: impl_reviewed
+status: implemented
 created: 2026-09-08
 updated: 2026-09-08
 ---
