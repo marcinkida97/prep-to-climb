@@ -456,7 +456,7 @@ migration.
 - [x] 2.5 Confirming deletion redirects to sign-in with the success message
 - [x] 2.6 Deleted email can sign up again as a new account
 - [x] 2.7 Deleted user's questionnaire/plan rows are actually gone (DB spot-check)
-- [ ] 2.8 Missing service-role key shows a graceful "temporarily unavailable" message
+- [ ] 2.8 Missing service-role key shows a graceful "temporarily unavailable" message — intentionally skipped: deliberately breaking the production secret again wasn't worth it given the earlier key-mixup incidents; the code path (`createAdminClient()` null-check) was reviewed instead
 
 ### Phase 3: Verification & tests
 
