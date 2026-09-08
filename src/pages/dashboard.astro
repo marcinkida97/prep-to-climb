@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Topbar from "@/components/Topbar.astro";
+import PageShell from "@/components/PageShell.astro";
 import DashboardPlanShell from "@/components/plans/DashboardPlanShell";
 import type { DashboardInitialState } from "@/lib/plan-flow-types";
 import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
@@ -93,19 +93,14 @@ function isUsableSavedPlan(plan: PersistedCurrentPlan) {
 ---
 
 <Layout title="Planning dashboard | PrepToClimb">
-  <div class="bg-cosmic min-h-screen p-4 sm:p-8">
-    <div class="relative z-10 mx-auto max-w-5xl">
-      <Topbar />
+  <PageShell maxWidth="5xl">
+    <div class="mb-6 max-w-3xl text-white">
+      <p class="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Weekly planning dashboard</p>
+      <p class="mt-3 text-base leading-7 text-blue-100/78">
+        This protected page is the real planning surface now: answer the questionnaire, review the saved seven-day week,
+        and regenerate the plan from the same place when your training context changes.
+      </p>
     </div>
-    <div class="mx-auto max-w-5xl py-6">
-      <div class="mb-6 max-w-3xl text-white">
-        <p class="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Weekly planning dashboard</p>
-        <p class="mt-3 text-base leading-7 text-blue-100/78">
-          This protected page is the real planning surface now: answer the questionnaire, review the saved seven-day
-          week, and regenerate the plan from the same place when your training context changes.
-        </p>
-      </div>
-      <DashboardPlanShell client:load initialState={initialState} userEmail={user?.email ?? null} />
-    </div>
-  </div>
+    <DashboardPlanShell client:load initialState={initialState} userEmail={user?.email ?? null} />
+  </PageShell>
 </Layout>

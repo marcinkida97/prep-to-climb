@@ -361,10 +361,10 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 Astro types refresh cleanly: `npx astro sync`
-- [ ] 1.4 No remaining `.dark`/`bg-cosmic` references (post Phase 2)
+- [x] 1.1 Lint passes: `npm run lint` — 38f175b
+- [x] 1.2 Build passes: `npm run build` — 38f175b
+- [x] 1.3 Astro types refresh cleanly: `npx astro sync` — 38f175b
+- [x] 1.4 No remaining `.dark`/`bg-cosmic` references (post Phase 2)
 
 #### Manual
 
@@ -376,9 +376,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 `grep -rn "bg-cosmic" src/` returns nothing
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 `grep -rn "bg-cosmic" src/` returns nothing
 - [ ] 2.4 Existing e2e specs still pass unmodified
 
 #### Manual

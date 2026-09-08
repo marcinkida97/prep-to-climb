@@ -1,0 +1,33 @@
+---
+import Topbar from "@/components/Topbar.astro";
+
+interface Props {
+  maxWidth?: "3xl" | "4xl" | "5xl";
+  variant?: "default" | "centered";
+}
+
+const { maxWidth = "3xl", variant = "default" } = Astro.props;
+
+const maxWidthClass = {
+  "3xl": "max-w-3xl",
+  "4xl": "max-w-4xl",
+  "5xl": "max-w-5xl",
+}[maxWidth];
+---
+
+{
+  variant === "centered" ? (
+    <div class="bg-background flex min-h-screen items-center justify-center p-4">
+      <slot />
+    </div>
+  ) : (
+    <div class="bg-background min-h-screen p-4 sm:p-8">
+      <div class:list={["relative z-10 mx-auto", maxWidthClass]}>
+        <Topbar />
+      </div>
+      <div class:list={["mx-auto py-6", maxWidthClass]}>
+        <slot />
+      </div>
+    </div>
+  )
+}

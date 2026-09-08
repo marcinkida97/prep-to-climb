@@ -8,7 +8,7 @@ export default function WeeklyPlanView({ plan }: WeeklyPlanViewProps) {
   return (
     <section className="space-y-6">
       <div className="rounded-[1.75rem] border border-emerald-300/20 bg-emerald-400/10 p-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="space-y-3">
             <p className="text-sm font-medium tracking-[0.24em] text-emerald-100/80 uppercase">Saved weekly plan</p>
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">Your current seven-day structure</h2>
@@ -38,7 +38,7 @@ export default function WeeklyPlanView({ plan }: WeeklyPlanViewProps) {
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {plan.weeklyPlan.days.map((day) => (
           <article
             key={day.id}

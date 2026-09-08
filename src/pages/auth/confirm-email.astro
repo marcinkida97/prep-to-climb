@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/PageShell.astro";
 
 const isAutoConfirmed = import.meta.env.DEV;
 
@@ -20,7 +21,7 @@ const content = isAutoConfirmed
 ---
 
 <Layout title={content.heading}>
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
+  <PageShell variant="centered">
     <div
       class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl"
     >
@@ -33,5 +34,5 @@ const content = isAutoConfirmed
         {content.linkText}
       </a>
     </div>
-  </div>
+  </PageShell>
 </Layout>

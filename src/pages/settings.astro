@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Topbar from "@/components/Topbar.astro";
+import PageShell from "@/components/PageShell.astro";
 import ChangePasswordForm from "@/components/auth/ChangePasswordForm";
 import { ServerError } from "@/components/auth/ServerError";
 
@@ -11,47 +11,42 @@ const delError = Astro.url.searchParams.get("delError");
 ---
 
 <Layout title="Account settings | PrepToClimb">
-  <div class="bg-cosmic min-h-screen p-4 sm:p-8">
-    <div class="relative z-10 mx-auto max-w-3xl">
-      <Topbar />
+  <PageShell maxWidth="3xl">
+    <div class="mb-6 max-w-2xl text-white">
+      <p class="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Account settings</p>
+      <p class="mt-3 text-base leading-7 text-blue-100/78">
+        Managing account: <span class="font-medium text-white">{user?.email ?? "your account"}</span>
+      </p>
     </div>
-    <div class="mx-auto max-w-3xl py-6">
-      <div class="mb-6 max-w-2xl text-white">
-        <p class="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Account settings</p>
-        <p class="mt-3 text-base leading-7 text-blue-100/78">
-          Managing account: <span class="font-medium text-white">{user?.email ?? "your account"}</span>
+
+    <div
+      class="space-y-8 rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8"
+    >
+      <section>
+        <h2 class="mb-4 text-xl font-semibold text-white">Change password</h2>
+        <ChangePasswordForm serverError={pwError} successMessage={pwSuccess} client:load />
+      </section>
+
+      <section class="border-t border-white/10 pt-8">
+        <h2 class="mb-2 text-xl font-semibold text-white">Delete account</h2>
+        <p class="mb-4 text-sm leading-6 text-blue-100/70">
+          Permanently delete your account and all saved data. This cannot be undone.
         </p>
-      </div>
-
-      <div
-        class="space-y-8 rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8"
-      >
-        <section>
-          <h2 class="mb-4 text-xl font-semibold text-white">Change password</h2>
-          <ChangePasswordForm serverError={pwError} successMessage={pwSuccess} client:load />
-        </section>
-
-        <section class="border-t border-white/10 pt-8">
-          <h2 class="mb-2 text-xl font-semibold text-white">Delete account</h2>
-          <p class="mb-4 text-sm leading-6 text-blue-100/70">
-            Permanently delete your account and all saved data. This cannot be undone.
-          </p>
-          <ServerError message={delError} />
-          <form
-            method="POST"
-            action="/api/account/delete-account"
-            onsubmit="return confirm('Delete your account? This cannot be undone.')"
-            class="mt-4"
+        <ServerError message={delError} />
+        <form
+          method="POST"
+          action="/api/account/delete-account"
+          onsubmit="return confirm('Delete your account? This cannot be undone.')"
+          class="mt-4"
+        >
+          <button
+            type="submit"
+            class="rounded-lg border border-red-500/40 bg-red-900/30 px-4 py-2 font-medium text-red-200 transition-colors hover:bg-red-900/50"
           >
-            <button
-              type="submit"
-              class="rounded-lg border border-red-500/40 bg-red-900/30 px-4 py-2 font-medium text-red-200 transition-colors hover:bg-red-900/50"
-            >
-              Delete account
-            </button>
-          </form>
-        </section>
-      </div>
+            Delete account
+          </button>
+        </form>
+      </section>
     </div>
-  </div>
+  </PageShell>
 </Layout>

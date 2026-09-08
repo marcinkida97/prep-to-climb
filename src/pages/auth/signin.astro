@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/PageShell.astro";
 import SignInForm from "@/components/auth/SignInForm";
 import { SuccessMessage } from "@/components/auth/SuccessMessage";
 
@@ -8,7 +9,7 @@ const message = Astro.url.searchParams.get("message");
 ---
 
 <Layout title="Sign in | PrepToClimb">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
+  <PageShell variant="centered">
     <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
       <h1
         class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-2xl font-bold text-transparent"
@@ -30,5 +31,5 @@ const message = Astro.url.searchParams.get("message");
         Need an account first? <a href="/auth/signup" class="text-purple-300 hover:underline">Create one here</a>
       </p>
     </div>
-  </div>
+  </PageShell>
 </Layout>

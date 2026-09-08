@@ -102,7 +102,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
 
   return (
     <section className="w-full rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8">
-      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr]">
         <div>
           <p className="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Protected planning space</p>
           <h1 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
