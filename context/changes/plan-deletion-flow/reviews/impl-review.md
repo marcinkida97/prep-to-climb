@@ -28,7 +28,7 @@
 - **Location**: src/pages/api/plans/delete.ts:24
 - **Detail**: `error instanceof PlanPersistenceError || error instanceof Error` is redundant since `PlanPersistenceError extends Error` (plan-persistence.ts:49). This is a pre-existing pattern copied verbatim from `generate.ts:82` per the plan's explicit instruction to mirror that file's convention — inherited debt, not new debt introduced by this change.
 - **Fix**: Simplify to `error instanceof Error` in both `delete.ts` and `generate.ts` together, in a separate follow-up (out of this plan's scope to touch `generate.ts`).
-- **Decision**: PENDING
+- **Decision**: FIXED — caf5386
 
 ## Automated Verification (re-run at review time)
 
