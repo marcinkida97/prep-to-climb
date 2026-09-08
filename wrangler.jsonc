@@ -11,7 +11,7 @@
     "not_found_handling": "404-page",
   },
   "secrets": {
-    "required": ["SUPABASE_URL", "SUPABASE_KEY"],
+    "required": ["SUPABASE_URL", "SUPABASE_KEY", "SUPABASE_SERVICE_ROLE_KEY"],
   },
   "observability": {
     "enabled": true,

@@ -1,8 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import SignInForm from "@/components/auth/SignInForm";
+import { SuccessMessage } from "@/components/auth/SuccessMessage";
 
 const error = Astro.url.searchParams.get("error");
+const message = Astro.url.searchParams.get("message");
 ---
 
 <Layout title="Sign in | PrepToClimb">
@@ -16,6 +18,13 @@ const error = Astro.url.searchParams.get("error");
       <p class="mb-6 text-center text-sm leading-6 text-blue-100/70">
         Return to your protected planning space and pick up where your training flow left off.
       </p>
+      {
+        message ? (
+          <div class="mb-4">
+            <SuccessMessage message={message} />
+          </div>
+        ) : null
+      }
       <SignInForm serverError={error} client:load />
       <p class="mt-4 text-center text-sm text-blue-100/60">
         Need an account first? <a href="/auth/signup" class="text-purple-300 hover:underline">Create one here</a>
