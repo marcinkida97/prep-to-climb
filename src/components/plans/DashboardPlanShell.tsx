@@ -197,7 +197,14 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
         </div>
       ) : null}
 
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <Dialog
+        open={isDeleteDialogOpen}
+        onOpenChange={(open) => {
+          if (!isDeleting) {
+            setIsDeleteDialogOpen(open);
+          }
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete this weekly plan?</DialogTitle>

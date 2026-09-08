@@ -14,7 +14,7 @@ interface Props {
   serverError?: string | null;
 }
 
-export function DeleteAccountForm({ serverError }: Props) {
+export default function DeleteAccountForm({ serverError }: Props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (

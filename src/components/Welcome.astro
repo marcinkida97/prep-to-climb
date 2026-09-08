@@ -55,7 +55,7 @@ import Topbar from "@/components/Topbar.astro";
     <!-- Feature cards -->
     <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-4 pb-24 sm:grid-cols-3">
       <div class="border-border bg-card rounded-xl border p-6">
-        <Anchor className="text-secondary mb-4 size-6" />
+        <Anchor className="text-secondary mb-4 size-6" aria-hidden="true" />
         <h3 class="text-foreground mb-2 text-lg font-semibold">Protected planning space</h3>
         <p class="text-muted-foreground text-sm leading-relaxed">
           Save your account, sign in securely, and keep the planning flow behind authenticated access.
@@ -63,7 +63,7 @@ import Topbar from "@/components/Topbar.astro";
       </div>
 
       <div class="border-border bg-card rounded-xl border p-6">
-        <Route className="text-secondary mb-4 size-6" />
+        <Route className="text-secondary mb-4 size-6" aria-hidden="true" />
         <h3 class="text-foreground mb-2 text-lg font-semibold">Fast weekly plan setup</h3>
         <p class="text-muted-foreground text-sm leading-relaxed">
           The MVP is built to get you from account access to a usable weekly climbing plan without unnecessary steps.
@@ -71,7 +71,7 @@ import Topbar from "@/components/Topbar.astro";
       </div>
 
       <div class="border-border bg-card rounded-xl border p-6">
-        <ShieldCheck className="text-secondary mb-4 size-6" />
+        <ShieldCheck className="text-secondary mb-4 size-6" aria-hidden="true" />
         <h3 class="text-foreground mb-2 text-lg font-semibold">Safer recommendations</h3>
         <p class="text-muted-foreground text-sm leading-relaxed">
           PrepToClimb is being shaped to steer training around your declared limitations while keeping your week
