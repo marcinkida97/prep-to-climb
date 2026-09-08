@@ -446,9 +446,9 @@ migration.
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Existing unit tests still pass: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint` — 11acfbe
+- [x] 2.2 Build passes: `npm run build` — 11acfbe
+- [x] 2.3 Existing unit tests still pass: `npm run test` — 11acfbe
 
 #### Manual
 
@@ -462,9 +462,9 @@ migration.
 
 #### Automated
 
-- [ ] 3.1 New unit tests pass: `npm run test`
-- [ ] 3.2 Lint passes: `npm run lint`
-- [ ] 3.3 Build passes: `npm run build`
+- [x] 3.1 New unit tests pass: `npm run test`
+- [x] 3.2 Lint passes: `npm run lint`
+- [x] 3.3 Build passes: `npm run build`
 
 #### Manual
 
