@@ -1,10 +1,10 @@
 ---
 change_id: plan-deletion-flow
 title: "Plan deletion flow: delete the saved weekly plan and re-onboard"
-status: impl_reviewed
+status: archived
 created: 2026-09-08
 updated: 2026-09-08
-archived_at: null
+archived_at: 2026-09-08T19:37:03Z
 ---
 
 ## Notes
