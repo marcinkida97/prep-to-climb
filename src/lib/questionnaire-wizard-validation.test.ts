@@ -58,6 +58,12 @@ describe("getStepErrors", () => {
       expect(getStepErrors("profile", baseDraft({ sessionsPerWeek: 7 }))).toEqual({});
     });
 
+    it("rejects a fractional sessions per week value", () => {
+      expect(getStepErrors("profile", baseDraft({ sessionsPerWeek: 3.5 }))).toEqual({
+        sessionsPerWeek: "Choose how many sessions per week you can train (1-7).",
+      });
+    });
+
     it("reports every missing required field at once", () => {
       expect(getStepErrors("profile", baseDraft({ climbingGrade: "", trainingAge: "", sessionsPerWeek: "" }))).toEqual({
         climbingGrade: "Choose your current climbing grade before generating a plan.",

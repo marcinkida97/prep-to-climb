@@ -372,10 +372,10 @@ Not applicable — no data model or persisted-data changes.
 
 #### Automated
 
-- [x] 3.1 New unit tests pass: `npm run test`
+- [x] 3.1 New unit tests pass: `npm run test` — 6183f44
 - [ ] 3.2 New e2e spec passes: `npm run test:e2e`
-- [x] 3.3 Lint passes: `npm run lint`
-- [x] 3.4 Build passes: `npm run build`
+- [x] 3.3 Lint passes: `npm run lint` — 6183f44
+- [x] 3.4 Build passes: `npm run build` — 6183f44
 
 #### Manual
 

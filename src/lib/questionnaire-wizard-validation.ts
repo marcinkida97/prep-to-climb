@@ -22,7 +22,12 @@ export function getStepErrors(step: WizardStepId, draft: QuestionnaireDraftInput
       if (!draft.trainingAge) {
         errors.trainingAge = "Choose how long you've been training before generating a plan.";
       }
-      if (draft.sessionsPerWeek === "" || draft.sessionsPerWeek < 1 || draft.sessionsPerWeek > 7) {
+      if (
+        draft.sessionsPerWeek === "" ||
+        !Number.isInteger(draft.sessionsPerWeek) ||
+        draft.sessionsPerWeek < 1 ||
+        draft.sessionsPerWeek > 7
+      ) {
         errors.sessionsPerWeek = "Choose how many sessions per week you can train (1-7).";
       }
 

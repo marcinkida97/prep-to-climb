@@ -46,7 +46,7 @@ PrepToClimb turns a short input flow into a usable weekly climbing-training plan
 | ID | Change ID | Outcome (user can ...) | Prerequisites | Scope anchors | Status |
 |---|---|---|---|---|---|
 | S-01 | plan-generation-strategy | receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling | — | MS-05, MS-06 | done |
-| S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | proposed |
+| S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | in-progress |
 | S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | ready |
 | S-04 | plan-deletion-flow | delete their generated weekly plan and be returned to grade/injury selection | — | MS-02 | ready |
 | S-05 | climbing-theme-mobile-redesign | use the app on a climbing/rock/nature-themed, correctly-scaled mobile interface | — | MS-03 | ready |
@@ -106,7 +106,7 @@ than one downstream slice or it's over-engineering).
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Building this before S-01 ships means redesigning it again once S-01's field list lands — sequencing after S-01 avoids that rework.
-- **Status:** proposed
+- **Status:** in-progress
 
 ### S-03: Account settings — password change and account deletion
 

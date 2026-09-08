@@ -69,6 +69,7 @@ export default function QuestionnaireStepInjuries({
               <button
                 key={status}
                 type="button"
+                aria-pressed={declared.status === status}
                 onClick={() => {
                   onSetInjuryStatus(option.id, status);
                 }}
@@ -106,6 +107,11 @@ export default function QuestionnaireStepInjuries({
           value={searchTerm}
           onChange={(event) => {
             setSearchTerm(event.target.value);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+            }
           }}
           placeholder="Search by body part or injury..."
           aria-label="Search injuries"

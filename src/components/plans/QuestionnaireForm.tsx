@@ -96,6 +96,10 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (pending) {
+      return;
+    }
+
     const stepErrors = getStepErrors(currentStep, value);
     if (Object.keys(stepErrors).length > 0) {
       setErrors((current) => ({ ...current, ...stepErrors }));
@@ -126,7 +130,7 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
           Answer a few training-context questions and flag any injuries that should change the exercise choices. The
           full plan still stays on <code>/dashboard</code>.
         </p>
-        <p className="pt-2 text-xs font-medium tracking-[0.18em] text-blue-100/60 uppercase">
+        <p aria-live="polite" className="pt-2 text-xs font-medium tracking-[0.18em] text-blue-100/60 uppercase">
           Step {stepIndex + 1} of {WIZARD_STEPS.length}: {STEP_TITLES[currentStep]}
         </p>
       </div>
@@ -176,6 +180,7 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
             type="button"
             variant="outline"
             onClick={goBack}
+            disabled={pending}
             className="rounded-xl border-white/20 bg-white/5 px-4 py-3 font-medium text-white hover:bg-white/10"
           >
             <ChevronLeft className="size-4" />
