@@ -3,7 +3,7 @@ project: PrepToClimb
 version: 1
 status: active
 created: 2026-05-31
-updated: 2026-09-07
+updated: 2026-09-08
 prd_version: 1
 main_goal: quality
 top_blocker: none
@@ -45,7 +45,7 @@ PrepToClimb turns a short input flow into a usable weekly climbing-training plan
 
 | ID | Change ID | Outcome (user can ...) | Prerequisites | Scope anchors | Status |
 |---|---|---|---|---|---|
-| S-01 | plan-generation-strategy | receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling | — | MS-05, MS-06 | in-progress |
+| S-01 | plan-generation-strategy | receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling | — | MS-05, MS-06 | done |
 | S-02 | questionnaire-wizard-flow | complete the questionnaire through a multi-step flow with a searchable, multi-select injuries step | S-01 | MS-04 | proposed |
 | S-03 | account-settings | change their password or delete their account from a settings page | — | MS-01 | ready |
 | S-04 | plan-deletion-flow | delete their generated weekly plan and be returned to grade/injury selection | — | MS-02 | ready |
@@ -94,7 +94,7 @@ than one downstream slice or it's over-engineering).
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Already fully researched and planned (`context/changes/plan-generation-strategy/`); remaining risk is execution — a 5-phase schema migration + assembler rewrite — not decision risk.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-02: Multi-step questionnaire wizard
 
@@ -174,3 +174,4 @@ None — the architecture, injury-taxonomy, and gating decisions this milestone 
 - **S-02: complete the questionnaire and immediately see a weekly plan with recommended exercises** — Archived 2026-09-07 → `context/archive/2026-06-14-first-weekly-plan-flow/`. Lesson: —.
 - **F-01: (foundation) minimal persistence exists for questionnaire answers and generated weekly plans so later slices can save and reload real user data.** — Archived 2026-09-07 → `context/archive/2026-06-14-minimal-plan-persistence-contract/`. Lesson: —.
 - **S-03: sign back in later and see the saved weekly plan across sessions** — Archived 2026-09-07 → `context/archive/2026-06-14-persisted-plan-return-flow/`. Lesson: —.
+- **S-01: receive a weekly plan personalized by training age, sessions/week, equipment, and goal, with safe acute/chronic injury handling** — Archived 2026-09-08 → `context/archive/2026-09-07-plan-generation-strategy/`. Lesson: —.
