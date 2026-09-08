@@ -12,3 +12,4 @@ When creating a roadmap or plan suggest when we should use skill $10x-research <
 5. The theme and colours in ui should reffer to rock climbing.
 6. The algorithm to get the best excercices should be smart, probably powered by AI.
 7. Verify if we could use some libraries and dependencies to make the project easier to maintain, easier to read, and have better quality.
+8. After regenerating the weekly plan, there's no clear confirmation that a new plan was actually generated (vs. still showing the old one) — the plan generator is deterministic, so unchanged answers produce identical-looking output, and the only "Generated" timestamp shown is minute-precision, so back-to-back regenerations can look the same even though a new plan row was created. Add an explicit success confirmation (e.g. a toast) after regenerate.
