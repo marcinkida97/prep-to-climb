@@ -405,10 +405,10 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Automated
 
-- [x] 4.1 Lint passes: `npm run lint`
-- [x] 4.2 Build passes: `npm run build`
-- [x] 4.3 No remaining `window.confirm`/inline `confirm(` usage
-- [x] 4.4 Existing account/plan-deletion unit tests still pass
+- [x] 4.1 Lint passes: `npm run lint` — 10c676f
+- [x] 4.2 Build passes: `npm run build` — 10c676f
+- [x] 4.3 No remaining `window.confirm`/inline `confirm(` usage — 10c676f
+- [x] 4.4 Existing account/plan-deletion unit tests still pass — 10c676f
 
 #### Manual
 
@@ -422,8 +422,8 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 - [ ] 5.1 New spec passes: `npm run test:e2e -- mobile-viewport.spec.ts`
 - [ ] 5.2 Full e2e suite still passes: `npm run test:e2e`
-- [ ] 5.3 Lint passes: `npm run lint`
-- [ ] 5.4 Build passes: `npm run build`
+- [x] 5.3 Lint passes: `npm run lint`
+- [x] 5.4 Build passes: `npm run build`
 
 #### Manual
 
