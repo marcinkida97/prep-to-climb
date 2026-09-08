@@ -1,7 +1,7 @@
 ---
 change_id: climbing-theme-mobile-redesign
 title: "Climbing-themed, mobile-correct visual redesign"
-status: implementing
+status: implemented
 created: 2026-09-08
 updated: 2026-09-08
 archived_at: null

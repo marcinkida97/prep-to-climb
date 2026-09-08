@@ -368,9 +368,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Manual
 
-- [ ] 1.5 New palette applied via body/:root tokens on any page
-- [ ] 1.6 Heading text renders in the new display font; body text unaffected
-- [ ] 1.7 No visual regression in existing error/destructive states
+- [x] 1.5 New palette applied via body/:root tokens on any page
+- [x] 1.6 Heading text renders in the new display font; body text unaffected
+- [x] 1.7 No visual regression in existing error/destructive states
 
 ### Phase 2: Shared PageShell + page wiring + breakpoint retrofit
 
@@ -383,9 +383,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Manual
 
-- [ ] 2.5 No horizontal scroll at 320px/375px/768px on all 7 pages
-- [ ] 2.6 Topbar does not overflow at 320px with a long email
-- [ ] 2.7 Each page's container width matches its pre-redesign width
+- [x] 2.5 No horizontal scroll at 320px/375px/768px on all 7 pages
+- [x] 2.6 Topbar does not overflow at 320px with a long email
+- [x] 2.7 Each page's container width matches its pre-redesign width
 
 ### Phase 3: Component-level restyling + custom illustrations
 
@@ -397,9 +397,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Manual
 
-- [ ] 3.4 All components read as one consistent earthy rock/nature system
-- [ ] 3.5 Landing hero and feature cards show climbing-relevant imagery
-- [ ] 3.6 Questionnaire wizard, plan view, and auth forms remain fully functional
+- [x] 3.4 All components read as one consistent earthy rock/nature system
+- [x] 3.5 Landing hero and feature cards show climbing-relevant imagery
+- [x] 3.6 Questionnaire wizard, plan view, and auth forms remain fully functional
 
 ### Phase 4: Dialog primitive + destructive-action reskin
 
@@ -412,9 +412,9 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 #### Manual
 
-- [ ] 4.5 Account-deletion Dialog opens and confirms/cancels correctly
-- [ ] 4.6 Plan-deletion Dialog opens and confirms/cancels correctly
-- [ ] 4.7 Cancelling either Dialog leaves data untouched
+- [x] 4.5 Account-deletion Dialog opens and confirms/cancels correctly
+- [x] 4.6 Plan-deletion Dialog opens and confirms/cancels correctly
+- [x] 4.7 Cancelling either Dialog leaves data untouched
 
 ### Phase 5: Mobile/visual verification
 
@@ -422,10 +422,10 @@ Not applicable — this is a UI-only visual change with no data model or persist
 
 - [ ] 5.1 New spec passes: `npm run test:e2e -- mobile-viewport.spec.ts`
 - [ ] 5.2 Full e2e suite still passes: `npm run test:e2e`
-- [x] 5.3 Lint passes: `npm run lint`
-- [x] 5.4 Build passes: `npm run build`
+- [x] 5.3 Lint passes: `npm run lint` — 2dc098d
+- [x] 5.4 Build passes: `npm run build` — 2dc098d
 
 #### Manual
 
-- [ ] 5.5 Multimodal review confirms climbing/rock/nature look on 3 critical screens
-- [ ] 5.6 Real-device mobile spot-check shows no horizontal scroll, legible text
+- [x] 5.5 Multimodal review confirms climbing/rock/nature look on 3 critical screens
+- [x] 5.6 Real-device mobile spot-check shows no horizontal scroll, legible text
