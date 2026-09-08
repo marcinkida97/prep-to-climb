@@ -343,9 +343,9 @@ Not applicable — no data model or persisted-data changes.
 
 #### Automated
 
-- [x] 1.1 Unit tests for the new validation module pass: `npm run test`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Build passes: `npm run build`
+- [x] 1.1 Unit tests for the new validation module pass: `npm run test` — 98e7bbd
+- [x] 1.2 Lint passes: `npm run lint` — 98e7bbd
+- [x] 1.3 Build passes: `npm run build` — 98e7bbd
 
 #### Manual
 
@@ -357,9 +357,9 @@ Not applicable — no data model or persisted-data changes.
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Existing unit tests still pass: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Existing unit tests still pass: `npm run test`
 
 #### Manual
 
