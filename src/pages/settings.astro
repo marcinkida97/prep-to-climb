@@ -12,24 +12,22 @@ const delError = Astro.url.searchParams.get("delError");
 
 <Layout title="Account settings | PrepToClimb">
   <PageShell maxWidth="3xl">
-    <div class="mb-6 max-w-2xl text-white">
-      <p class="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Account settings</p>
-      <p class="mt-3 text-base leading-7 text-blue-100/78">
-        Managing account: <span class="font-medium text-white">{user?.email ?? "your account"}</span>
+    <div class="text-foreground mb-6 max-w-2xl">
+      <p class="text-secondary text-sm font-medium tracking-[0.28em] uppercase">Account settings</p>
+      <p class="text-muted-foreground mt-3 text-base leading-7">
+        Managing account: <span class="text-foreground font-medium">{user?.email ?? "your account"}</span>
       </p>
     </div>
 
-    <div
-      class="space-y-8 rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8"
-    >
+    <div class="border-border bg-card text-foreground space-y-8 rounded-[2rem] border p-6 shadow-2xl sm:p-8">
       <section>
-        <h2 class="mb-4 text-xl font-semibold text-white">Change password</h2>
+        <h2 class="text-foreground mb-4 text-xl font-semibold">Change password</h2>
         <ChangePasswordForm serverError={pwError} successMessage={pwSuccess} client:load />
       </section>
 
-      <section class="border-t border-white/10 pt-8">
-        <h2 class="mb-2 text-xl font-semibold text-white">Delete account</h2>
-        <p class="mb-4 text-sm leading-6 text-blue-100/70">
+      <section class="border-border border-t pt-8">
+        <h2 class="text-foreground mb-2 text-xl font-semibold">Delete account</h2>
+        <p class="text-muted-foreground mb-4 text-sm leading-6">
           Permanently delete your account and all saved data. This cannot be undone.
         </p>
         <ServerError message={delError} />
@@ -41,7 +39,7 @@ const delError = Astro.url.searchParams.get("delError");
         >
           <button
             type="submit"
-            class="rounded-lg border border-red-500/40 bg-red-900/30 px-4 py-2 font-medium text-red-200 transition-colors hover:bg-red-900/50"
+            class="border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-lg border px-4 py-2 font-medium transition-colors"
           >
             Delete account
           </button>

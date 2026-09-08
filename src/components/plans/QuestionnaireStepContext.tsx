@@ -33,7 +33,7 @@ export default function QuestionnaireStepContext({
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="primary-goal" className="mb-1 block text-sm text-blue-100/80">
+        <label htmlFor="primary-goal" className="text-muted-foreground mb-1 block text-sm">
           Primary goal
         </label>
         <select
@@ -42,24 +42,24 @@ export default function QuestionnaireStepContext({
           onChange={(event) => {
             onPrimaryGoalChange(event.target.value);
           }}
-          className={`w-full rounded-lg border bg-white/10 px-3 py-2 text-white ring-2 transition-colors focus:outline-none ${
-            errors.primaryGoal ? "border-red-400/60 focus:ring-red-400" : "border-white/20 focus:ring-purple-400"
+          className={`bg-card text-foreground w-full rounded-lg border px-3 py-2 ring-2 transition-colors focus:outline-none ${
+            errors.primaryGoal ? "border-destructive focus:ring-destructive" : "border-input focus:ring-ring"
           }`}
         >
-          <option value="" className="text-slate-950">
+          <option value="" className="text-foreground">
             Select your primary goal
           </option>
           {PRIMARY_GOALS.map((goal) => (
-            <option key={goal} value={goal} className="text-slate-950">
+            <option key={goal} value={goal} className="text-foreground">
               {PRIMARY_GOAL_LABELS[goal]}
             </option>
           ))}
         </select>
-        {errors.primaryGoal ? <p className="mt-1 text-xs text-red-300">{errors.primaryGoal}</p> : null}
+        {errors.primaryGoal ? <p className="text-destructive mt-1 text-xs">{errors.primaryGoal}</p> : null}
       </div>
 
       <div>
-        <p className="mb-2 text-sm text-blue-100/80">Equipment access</p>
+        <p className="text-muted-foreground mb-2 text-sm">Equipment access</p>
         <div className="flex flex-wrap gap-3">
           {EQUIPMENT_OPTIONS.map((equipment) => {
             const selected = equipmentAccess.includes(equipment);
@@ -69,8 +69,8 @@ export default function QuestionnaireStepContext({
                 key={equipment}
                 className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-colors ${
                   selected
-                    ? "border-cyan-300/40 bg-cyan-400/10 text-white"
-                    : "border-white/10 bg-white/5 text-blue-100/80 hover:border-white/20"
+                    ? "border-secondary/40 bg-secondary/10 text-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-input"
                 }`}
               >
                 <input
@@ -79,14 +79,14 @@ export default function QuestionnaireStepContext({
                   onChange={() => {
                     onToggleEquipment(equipment);
                   }}
-                  className="size-4 rounded border-white/20 accent-cyan-300"
+                  className="border-input accent-secondary size-4 rounded"
                 />
                 {EQUIPMENT_LABELS[equipment]}
               </label>
             );
           })}
         </div>
-        <p className="mt-2 text-xs leading-5 text-blue-100/60">
+        <p className="text-muted-foreground mt-2 text-xs leading-5">
           Leave all unchecked if you only train bodyweight or outdoors.
         </p>
       </div>

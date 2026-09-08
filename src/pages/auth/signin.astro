@@ -10,13 +10,13 @@ const message = Astro.url.searchParams.get("message");
 
 <Layout title="Sign in | PrepToClimb">
   <PageShell variant="centered">
-    <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+    <div class="border-border bg-card text-foreground w-full max-w-sm rounded-2xl border p-8">
       <h1
-        class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-2xl font-bold text-transparent"
+        class="from-primary to-secondary mb-6 bg-gradient-to-r bg-clip-text text-center font-[family-name:var(--font-display)] text-2xl font-bold text-transparent"
       >
         Sign in to PrepToClimb
       </h1>
-      <p class="mb-6 text-center text-sm leading-6 text-blue-100/70">
+      <p class="text-muted-foreground mb-6 text-center text-sm leading-6">
         Return to your protected planning space and pick up where your training flow left off.
       </p>
       {
@@ -27,8 +27,8 @@ const message = Astro.url.searchParams.get("message");
         ) : null
       }
       <SignInForm serverError={error} client:load />
-      <p class="mt-4 text-center text-sm text-blue-100/60">
-        Need an account first? <a href="/auth/signup" class="text-purple-300 hover:underline">Create one here</a>
+      <p class="text-muted-foreground mt-4 text-center text-sm">
+        Need an account first? <a href="/auth/signup" class="text-primary hover:underline">Create one here</a>
       </p>
     </div>
   </PageShell>

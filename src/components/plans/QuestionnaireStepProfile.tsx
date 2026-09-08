@@ -30,11 +30,11 @@ export default function QuestionnaireStepProfile({
   return (
     <div className="space-y-6">
       <div>
-        <label htmlFor="climbing-grade" className="mb-1 block text-sm text-blue-100/80">
+        <label htmlFor="climbing-grade" className="text-muted-foreground mb-1 block text-sm">
           Current climbing grade
         </label>
         <div className="relative">
-          <span className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-white/40">
+          <span className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2">
             <Dumbbell className="size-4" />
           </span>
           <select
@@ -43,29 +43,29 @@ export default function QuestionnaireStepProfile({
             onChange={(event) => {
               onGradeChange(event.target.value);
             }}
-            className={`w-full appearance-none rounded-lg border bg-white/10 py-2 pr-10 pl-10 text-white ring-2 transition-colors focus:outline-none ${
-              errors.climbingGrade ? "border-red-400/60 focus:ring-red-400" : "border-white/20 focus:ring-purple-400"
+            className={`bg-card text-foreground w-full appearance-none rounded-lg border py-2 pr-10 pl-10 ring-2 transition-colors focus:outline-none ${
+              errors.climbingGrade ? "border-destructive focus:ring-destructive" : "border-input focus:ring-ring"
             }`}
           >
-            <option value="" className="text-slate-950">
+            <option value="" className="text-foreground">
               Select your current level
             </option>
             {CLIMBING_GRADES.map((grade) => (
-              <option key={grade} value={grade} className="text-slate-950">
+              <option key={grade} value={grade} className="text-foreground">
                 {grade}
               </option>
             ))}
           </select>
-          <span className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-white/40">
+          <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2">
             <ChevronDown className="size-4" />
           </span>
         </div>
-        {errors.climbingGrade ? <p className="mt-1 text-xs text-red-300">{errors.climbingGrade}</p> : null}
+        {errors.climbingGrade ? <p className="text-destructive mt-1 text-xs">{errors.climbingGrade}</p> : null}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="training-age" className="mb-1 block text-sm text-blue-100/80">
+          <label htmlFor="training-age" className="text-muted-foreground mb-1 block text-sm">
             Training age
           </label>
           <select
@@ -74,24 +74,24 @@ export default function QuestionnaireStepProfile({
             onChange={(event) => {
               onTrainingAgeChange(event.target.value);
             }}
-            className={`w-full rounded-lg border bg-white/10 px-3 py-2 text-white ring-2 transition-colors focus:outline-none ${
-              errors.trainingAge ? "border-red-400/60 focus:ring-red-400" : "border-white/20 focus:ring-purple-400"
+            className={`bg-card text-foreground w-full rounded-lg border px-3 py-2 ring-2 transition-colors focus:outline-none ${
+              errors.trainingAge ? "border-destructive focus:ring-destructive" : "border-input focus:ring-ring"
             }`}
           >
-            <option value="" className="text-slate-950">
+            <option value="" className="text-foreground">
               Select training age
             </option>
             {TRAINING_AGES.map((age) => (
-              <option key={age} value={age} className="text-slate-950">
+              <option key={age} value={age} className="text-foreground">
                 {TRAINING_AGE_LABELS[age]}
               </option>
             ))}
           </select>
-          {errors.trainingAge ? <p className="mt-1 text-xs text-red-300">{errors.trainingAge}</p> : null}
+          {errors.trainingAge ? <p className="text-destructive mt-1 text-xs">{errors.trainingAge}</p> : null}
         </div>
 
         <div>
-          <label htmlFor="sessions-per-week" className="mb-1 block text-sm text-blue-100/80">
+          <label htmlFor="sessions-per-week" className="text-muted-foreground mb-1 block text-sm">
             Sessions per week
           </label>
           <input
@@ -103,11 +103,11 @@ export default function QuestionnaireStepProfile({
             onChange={(event) => {
               onSessionsPerWeekChange(event.target.value);
             }}
-            className={`w-full rounded-lg border bg-white/10 px-3 py-2 text-white ring-2 transition-colors focus:outline-none ${
-              errors.sessionsPerWeek ? "border-red-400/60 focus:ring-red-400" : "border-white/20 focus:ring-purple-400"
+            className={`bg-card text-foreground w-full rounded-lg border px-3 py-2 ring-2 transition-colors focus:outline-none ${
+              errors.sessionsPerWeek ? "border-destructive focus:ring-destructive" : "border-input focus:ring-ring"
             }`}
           />
-          {errors.sessionsPerWeek ? <p className="mt-1 text-xs text-red-300">{errors.sessionsPerWeek}</p> : null}
+          {errors.sessionsPerWeek ? <p className="text-destructive mt-1 text-xs">{errors.sessionsPerWeek}</p> : null}
         </div>
       </div>
     </div>

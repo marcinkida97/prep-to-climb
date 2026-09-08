@@ -124,13 +124,13 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
   return (
     <form className="space-y-6" onSubmit={handleSubmit} noValidate>
       <div className="space-y-2">
-        <p className="text-sm font-medium tracking-[0.24em] text-emerald-200/75 uppercase">First run</p>
-        <h2 className="text-2xl font-semibold text-white">Build your first weekly plan</h2>
-        <p className="text-sm leading-6 text-blue-100/75">
+        <p className="text-secondary text-sm font-medium tracking-[0.24em] uppercase">First run</p>
+        <h2 className="text-foreground text-2xl font-semibold">Build your first weekly plan</h2>
+        <p className="text-muted-foreground text-sm leading-6">
           Answer a few training-context questions and flag any injuries that should change the exercise choices. The
           full plan still stays on <code>/dashboard</code>.
         </p>
-        <p aria-live="polite" className="pt-2 text-xs font-medium tracking-[0.18em] text-blue-100/60 uppercase">
+        <p aria-live="polite" className="text-muted-foreground pt-2 text-xs font-medium tracking-[0.18em] uppercase">
           Step {stepIndex + 1} of {WIZARD_STEPS.length}: {STEP_TITLES[currentStep]}
         </p>
       </div>
@@ -166,9 +166,9 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
       ) : null}
 
       {error ? (
-        <div className="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-50/90">
+        <div className="border-chart-3/30 bg-chart-3/10 text-foreground rounded-2xl border p-4 text-sm leading-6">
           <div className="flex items-start gap-2">
-            <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-200" />
+            <AlertTriangle className="text-chart-3 mt-0.5 size-4 shrink-0" />
             <p>{error}</p>
           </div>
         </div>
@@ -176,26 +176,16 @@ export default function QuestionnaireForm({ error, pending, value, onChange, onS
 
       <div className="flex items-center gap-3">
         {stepIndex > 0 ? (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={goBack}
-            disabled={pending}
-            className="rounded-xl border-white/20 bg-white/5 px-4 py-3 font-medium text-white hover:bg-white/10"
-          >
+          <Button type="button" variant="outline" onClick={goBack} disabled={pending} className="rounded-xl px-4 py-3">
             <ChevronLeft className="size-4" />
             Back
           </Button>
         ) : null}
 
-        <Button
-          type="submit"
-          disabled={pending}
-          className="flex-1 rounded-xl bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition-colors hover:bg-cyan-300"
-        >
+        <Button type="submit" disabled={pending} className="flex-1 rounded-xl px-4 py-3">
           {pending ? (
             <span className="flex items-center gap-2">
-              <span className="size-4 animate-spin rounded-full border-2 border-slate-950/25 border-t-slate-950" />
+              <span className="border-primary-foreground/25 border-t-primary-foreground size-4 animate-spin rounded-full border-2" />
               Generating your weekly plan...
             </span>
           ) : isLastStep ? (

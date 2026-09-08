@@ -101,27 +101,27 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
   }
 
   return (
-    <section className="w-full rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8">
+    <section className="border-border bg-card text-foreground w-full rounded-[2rem] border p-6 shadow-2xl sm:p-8">
       <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <p className="text-sm font-medium tracking-[0.28em] text-cyan-200/75 uppercase">Protected planning space</p>
-          <h1 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <p className="text-secondary text-sm font-medium tracking-[0.28em] uppercase">Protected planning space</p>
+          <h1 className="text-foreground mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
             {hasSavedPlan
               ? "Your saved weekly plan is ready to train from."
               : recoveryMessage
                 ? "Review your answers and rebuild your saved weekly plan."
                 : "Your first weekly plan starts with a short check-in."}
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-blue-100/78">
+          <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-7">
             PrepToClimb keeps the questionnaire, saved week, and regenerate path on the same protected dashboard. When a
             saved plan is available, the dashboard opens there first; if recovery is needed, you can regenerate from the
             same page without leaving <code>/dashboard</code>.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm text-blue-100/70">
-            <span className="rounded-full border border-white/10 bg-slate-950/30 px-3 py-1">
+          <div className="text-muted-foreground mt-6 flex flex-wrap gap-3 text-sm">
+            <span className="border-border bg-muted rounded-full border px-3 py-1">
               Signed in as {userEmail ?? "your account"}
             </span>
-            <span className="rounded-full border border-cyan-300/20 bg-cyan-400/10 px-3 py-1">
+            <span className="border-secondary/20 bg-secondary/10 rounded-full border px-3 py-1">
               {hasSavedPlan
                 ? "Saved-plan-first dashboard"
                 : recoveryMessage
@@ -131,7 +131,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
           </div>
         </div>
 
-        <aside className="rounded-[1.5rem] border border-white/10 bg-slate-950/25 p-5">
+        <aside className="border-border bg-muted rounded-[1.5rem] border p-5">
           {hasSavedPlan && currentPlan && !showQuestionnaire ? (
             <SavedPlanActions
               onRegenerate={() => {
@@ -148,25 +148,22 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
           ) : (
             <div className="space-y-4">
               {recoveryMessage ? (
-                <div className="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-50/90">
-                  <p className="text-sm font-medium tracking-[0.24em] text-amber-100/80 uppercase">
-                    Saved-plan recovery
-                  </p>
+                <div className="border-chart-3/30 bg-chart-3/10 text-foreground rounded-2xl border p-4 text-sm leading-6">
+                  <p className="text-chart-3 text-sm font-medium tracking-[0.24em] uppercase">Saved-plan recovery</p>
                   <p className="mt-2">{recoveryMessage}</p>
                 </div>
               ) : null}
               {hasSavedPlan ? (
-                <div className="flex items-start justify-between gap-3 rounded-2xl border border-fuchsia-300/20 bg-fuchsia-400/10 p-4">
+                <div className="border-accent bg-accent/40 flex items-start justify-between gap-3 rounded-2xl border p-4">
                   <div>
-                    <p className="text-sm font-medium tracking-[0.24em] text-fuchsia-100/80 uppercase">Regenerate</p>
-                    <p className="mt-2 text-sm leading-6 text-fuchsia-50/85">
+                    <p className="text-accent-foreground text-sm font-medium tracking-[0.24em] uppercase">Regenerate</p>
+                    <p className="text-accent-foreground/85 mt-2 text-sm leading-6">
                       Adjust your grade or limitations, then submit again to replace the current saved plan.
                     </p>
                   </div>
                   <Button
                     type="button"
                     variant="ghost"
-                    className="border border-white/15 text-white hover:bg-white/10 hover:text-white"
                     onClick={() => {
                       setShowQuestionnaire(false);
                       setSubmissionError(null);
@@ -189,7 +186,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
       </div>
 
       {hasSavedPlan && currentPlan ? (
-        <div className="mt-8 border-t border-white/10 pt-8">
+        <div className="border-border mt-8 border-t pt-8">
           <WeeklyPlanView plan={currentPlan} />
         </div>
       ) : null}
@@ -210,39 +207,35 @@ function SavedPlanActions({
 }) {
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium tracking-[0.24em] text-fuchsia-200/75 uppercase">Returning user</p>
-      <h2 className="text-2xl font-semibold text-white">Saved-plan-first state</h2>
-      <p className="text-sm leading-6 text-blue-100/75">
+      <p className="text-secondary text-sm font-medium tracking-[0.24em] uppercase">Returning user</p>
+      <h2 className="text-foreground text-2xl font-semibold">Saved-plan-first state</h2>
+      <p className="text-muted-foreground text-sm leading-6">
         This dashboard reopens on your current saved plan first and keeps regenerate as the explicit way to replace the
         week with a new questionnaire submission.
       </p>
-      <dl className="grid gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-blue-50/90">
+      <dl className="border-border bg-muted text-muted-foreground grid gap-3 rounded-2xl border p-4 text-sm">
         <div className="flex items-start justify-between gap-4">
-          <dt className="text-blue-100/60">Climbing grade</dt>
-          <dd className="text-right font-medium text-white">{plan.questionnaire.climbingGrade}</dd>
+          <dt>Climbing grade</dt>
+          <dd className="text-foreground text-right font-medium">{plan.questionnaire.climbingGrade}</dd>
         </div>
         <div className="flex items-start justify-between gap-4">
-          <dt className="text-blue-100/60">Injury limitations</dt>
-          <dd className="text-right font-medium text-white">
+          <dt>Injury limitations</dt>
+          <dd className="text-foreground text-right font-medium">
             {plan.questionnaire.injuryLimitations.length > 0
               ? `${plan.questionnaire.injuryLimitations.length} selected`
               : "None selected"}
           </dd>
         </div>
         <div className="flex items-start justify-between gap-4">
-          <dt className="text-blue-100/60">Plan cadence</dt>
-          <dd className="text-right font-medium text-white">{plan.weeklyPlan.days.length} saved days</dd>
+          <dt>Plan cadence</dt>
+          <dd className="text-foreground text-right font-medium">{plan.weeklyPlan.days.length} saved days</dd>
         </div>
         <div className="flex items-start justify-between gap-4">
-          <dt className="text-blue-100/60">Last generated</dt>
-          <dd className="text-right font-medium text-white">{formatGeneratedAt(plan.weeklyPlan.createdAt)}</dd>
+          <dt>Last generated</dt>
+          <dd className="text-foreground text-right font-medium">{formatGeneratedAt(plan.weeklyPlan.createdAt)}</dd>
         </div>
       </dl>
-      <Button
-        type="button"
-        className="w-full rounded-xl bg-fuchsia-300 px-4 py-3 font-medium text-slate-950 transition-colors hover:bg-fuchsia-200"
-        onClick={onRegenerate}
-      >
+      <Button type="button" className="w-full rounded-xl" onClick={onRegenerate}>
         Regenerate this weekly plan
       </Button>
       <Button type="button" variant="destructive" className="w-full" disabled={isDeleting} onClick={onDelete}>

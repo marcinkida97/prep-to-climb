@@ -42,9 +42,7 @@ export default function QuestionnaireStepInjuries({
       <div
         key={option.id}
         className={`flex flex-col gap-3 rounded-2xl border p-4 transition-colors sm:flex-row sm:items-start sm:justify-between ${
-          selected
-            ? "border-cyan-300/40 bg-cyan-400/10"
-            : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/8"
+          selected ? "border-secondary/40 bg-secondary/10" : "border-border bg-card hover:border-input hover:bg-muted"
         }`}
       >
         <label className="flex flex-1 cursor-pointer gap-3">
@@ -54,17 +52,17 @@ export default function QuestionnaireStepInjuries({
             onChange={() => {
               onToggleInjury(option.id);
             }}
-            className="mt-1 size-4 rounded border-white/20 accent-cyan-300"
+            className="border-input accent-secondary mt-1 size-4 rounded"
           />
           <span className="block">
-            <span className="block text-sm font-medium text-white">
+            <span className="text-foreground block text-sm font-medium">
               {option.bodyPart}: {option.label}
             </span>
-            <span className="mt-1 block text-xs leading-5 text-blue-100/65">{option.summary}</span>
+            <span className="text-muted-foreground mt-1 block text-xs leading-5">{option.summary}</span>
           </span>
         </label>
         {declared ? (
-          <div className="flex shrink-0 gap-1 self-start rounded-lg border border-white/10 bg-slate-950/30 p-1 text-xs">
+          <div className="border-border bg-muted flex shrink-0 gap-1 self-start rounded-lg border p-1 text-xs">
             {(["acute", "chronic"] as const).map((status) => (
               <button
                 key={status}
@@ -74,7 +72,9 @@ export default function QuestionnaireStepInjuries({
                   onSetInjuryStatus(option.id, status);
                 }}
                 className={`rounded-md px-2 py-1 capitalize transition-colors ${
-                  declared.status === status ? "bg-cyan-400/30 text-white" : "text-blue-100/60 hover:text-white"
+                  declared.status === status
+                    ? "bg-secondary/30 text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {status}
@@ -89,17 +89,17 @@ export default function QuestionnaireStepInjuries({
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
-        <HeartPulse className="size-4 text-cyan-200" />
-        <p className="text-sm text-blue-100/80">Injury limitations</p>
+        <HeartPulse className="text-secondary size-4" />
+        <p className="text-muted-foreground text-sm">Injury limitations</p>
       </div>
-      <p className="mb-4 text-xs leading-5 text-blue-100/60">
+      <p className="text-muted-foreground mb-4 text-xs leading-5">
         These options are selected, not free-typed, so the generator and persistence layer can use the same injury
         vocabulary later in the flow. Mark a declared injury &ldquo;acute&rdquo; only if it&rsquo;s currently active and
         undiagnosed — acute injuries get conservative guidance instead of specific substitutions.
       </p>
 
       <div className="relative mb-4">
-        <span className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-white/40">
+        <span className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2">
           <Search className="size-4" />
         </span>
         <input
@@ -115,7 +115,7 @@ export default function QuestionnaireStepInjuries({
           }}
           placeholder="Search by body part or injury..."
           aria-label="Search injuries"
-          className="w-full rounded-lg border border-white/20 bg-white/10 py-2 pr-3 pl-10 text-white ring-2 ring-transparent transition-colors placeholder:text-white/40 focus:ring-purple-400 focus:outline-none"
+          className="bg-card text-foreground placeholder:text-muted-foreground border-input focus:ring-ring w-full rounded-lg border py-2 pr-3 pl-10 ring-2 ring-transparent transition-colors focus:outline-none"
         />
       </div>
 
@@ -123,13 +123,13 @@ export default function QuestionnaireStepInjuries({
         {filteredOptions.length > 0 ? (
           filteredOptions.map((option) => renderInjuryCard(option))
         ) : (
-          <p className="text-xs text-blue-100/60">No injuries match &ldquo;{searchTerm}&rdquo;.</p>
+          <p className="text-muted-foreground text-xs">No injuries match &ldquo;{searchTerm}&rdquo;.</p>
         )}
       </div>
 
       {selectedHiddenOptions.length > 0 ? (
         <div className="mt-4">
-          <p className="mb-2 text-xs font-medium tracking-[0.18em] text-blue-100/60 uppercase">Selected</p>
+          <p className="text-muted-foreground mb-2 text-xs font-medium tracking-[0.18em] uppercase">Selected</p>
           <div className="grid gap-3">{selectedHiddenOptions.map((option) => renderInjuryCard(option))}</div>
         </div>
       ) : null}
