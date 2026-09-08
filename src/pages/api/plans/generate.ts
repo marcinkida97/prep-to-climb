@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { isInjuryOptionId, isInjuryStatus } from "@/lib/injury-options";
-import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
+import { createPlanPersistence } from "@/lib/plan-persistence";
 import { generateWeeklyPlan } from "@/lib/plan-generator";
 import type { PlanQuestionnaireResponse } from "@/lib/plan-flow-types";
 import { createClient } from "@/lib/supabase";
@@ -78,10 +78,7 @@ export const POST: APIRoute = async (context) => {
       200,
     );
   } catch (error) {
-    const message =
-      error instanceof PlanPersistenceError || error instanceof Error
-        ? error.message
-        : "Plan generation failed unexpectedly.";
+    const message = error instanceof Error ? error.message : "Plan generation failed unexpectedly.";
 
     return jsonResponse<PlanQuestionnaireResponse>(
       {

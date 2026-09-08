@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
+import { createPlanPersistence } from "@/lib/plan-persistence";
 import type { PlanDeleteResponse } from "@/lib/plan-flow-types";
 import { createClient } from "@/lib/supabase";
 
@@ -20,10 +20,7 @@ export const POST: APIRoute = async (context) => {
 
     return jsonResponse<PlanDeleteResponse>({ ok: true }, 200);
   } catch (error) {
-    const message =
-      error instanceof PlanPersistenceError || error instanceof Error
-        ? error.message
-        : "Plan deletion failed unexpectedly.";
+    const message = error instanceof Error ? error.message : "Plan deletion failed unexpectedly.";
 
     return jsonResponse<PlanDeleteResponse>(
       {
