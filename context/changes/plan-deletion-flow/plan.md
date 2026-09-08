@@ -313,9 +313,9 @@ permit this via the session-bound client.
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 New and existing unit tests pass: `npm run test`
+- [x] 1.1 Lint passes: `npm run lint` — 9d28dd8
+- [x] 1.2 Build passes: `npm run build` — 9d28dd8
+- [x] 1.3 New and existing unit tests pass: `npm run test` — 9d28dd8
 
 #### Manual
 
@@ -327,9 +327,9 @@ permit this via the session-bound client.
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Existing unit tests still pass: `npm run test`
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Existing unit tests still pass: `npm run test`
 
 #### Manual
 

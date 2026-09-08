@@ -4,7 +4,11 @@ import Topbar from "@/components/Topbar.astro";
 import DashboardPlanShell from "@/components/plans/DashboardPlanShell";
 import type { DashboardInitialState } from "@/lib/plan-flow-types";
 import { createPlanPersistence, PlanPersistenceError } from "@/lib/plan-persistence";
-import type { PersistedCurrentPlan, QuestionnaireDraftInput } from "@/lib/plan-types";
+import {
+  createEmptyQuestionnaireDraft,
+  type PersistedCurrentPlan,
+  type QuestionnaireDraftInput,
+} from "@/lib/plan-types";
 import { createClient } from "@/lib/supabase";
 
 const { user } = Astro.locals;
@@ -63,17 +67,6 @@ function createRecoveryState(
     mode: "recovery",
     draftQuestionnaire,
     recoveryMessage,
-  };
-}
-
-function createEmptyQuestionnaireDraft(): QuestionnaireDraftInput {
-  return {
-    climbingGrade: "",
-    injuryLimitations: [],
-    trainingAge: "",
-    sessionsPerWeek: "",
-    equipmentAccess: [],
-    primaryGoal: "",
   };
 }
 

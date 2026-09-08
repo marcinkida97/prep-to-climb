@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import type {
   DashboardInitialState,
   DashboardQuestionnaireValue,
+  PlanDeleteResponse,
   PlanQuestionnaireRequest,
   PlanQuestionnaireResponse,
 } from "@/lib/plan-flow-types";
-import type { PersistedCurrentPlan } from "@/lib/plan-types";
+import { createEmptyQuestionnaireDraft, type PersistedCurrentPlan } from "@/lib/plan-types";
 
 interface DashboardPlanShellProps {
   initialState: DashboardInitialState;
@@ -24,6 +25,7 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
     initialState.draftQuestionnaire,
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [recoveryMessage, setRecoveryMessage] = useState(
     initialState.mode === "recovery" ? initialState.recoveryMessage : null,
@@ -65,6 +67,39 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
     }
   }
 
+  async function handleDeletePlan() {
+    if (!window.confirm("Delete your saved weekly plan? You'll need to answer the questionnaire again.")) {
+      return;
+    }
+
+    setIsDeleting(true);
+
+    try {
+      const response = await fetch("/api/plans/delete", {
+        method: "POST",
+      });
+
+      const data: unknown = await response.json();
+
+      if (response.ok && isPlanDeleteSuccessResponse(data)) {
+        setCurrentPlan(null);
+        setDraftQuestionnaire(createEmptyQuestionnaireDraft());
+        setShowQuestionnaire(true);
+        setRecoveryMessage(null);
+        setSubmissionError(null);
+        return;
+      }
+
+      const errorMessage = getPlanRouteErrorMessage(data);
+
+      setSubmissionError(errorMessage);
+    } catch {
+      setSubmissionError("The protected plan route could not be reached. Please retry.");
+    } finally {
+      setIsDeleting(false);
+    }
+  }
+
   return (
     <section className="w-full rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-xl sm:p-8">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
@@ -103,6 +138,11 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
                 setSubmissionError(null);
                 setShowQuestionnaire(true);
               }}
+              onDelete={() => {
+                setSubmissionError(null);
+                void handleDeletePlan();
+              }}
+              isDeleting={isDeleting}
               plan={currentPlan}
             />
           ) : (
@@ -157,7 +197,17 @@ export default function DashboardPlanShell({ initialState, userEmail }: Dashboar
   );
 }
 
-function SavedPlanActions({ onRegenerate, plan }: { onRegenerate: () => void; plan: PersistedCurrentPlan }) {
+function SavedPlanActions({
+  onRegenerate,
+  onDelete,
+  isDeleting,
+  plan,
+}: {
+  onRegenerate: () => void;
+  onDelete: () => void;
+  isDeleting: boolean;
+  plan: PersistedCurrentPlan;
+}) {
   return (
     <div className="space-y-4">
       <p className="text-sm font-medium tracking-[0.24em] text-fuchsia-200/75 uppercase">Returning user</p>
@@ -195,6 +245,9 @@ function SavedPlanActions({ onRegenerate, plan }: { onRegenerate: () => void; pl
       >
         Regenerate this weekly plan
       </Button>
+      <Button type="button" variant="destructive" className="w-full" disabled={isDeleting} onClick={onDelete}>
+        Delete this weekly plan
+      </Button>
     </div>
   );
 }
@@ -217,6 +270,14 @@ function isPlanQuestionnaireSuccessResponse(data: unknown): data is Extract<Plan
   }
 
   return "ok" in data && data.ok === true && "plan" in data;
+}
+
+function isPlanDeleteSuccessResponse(data: unknown): data is Extract<PlanDeleteResponse, { ok: true }> {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+
+  return "ok" in data && data.ok === true;
 }
 
 function getPlanRouteErrorMessage(data: unknown) {

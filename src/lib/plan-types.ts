@@ -88,3 +88,14 @@ export interface PersistedCurrentPlan {
   questionnaire: QuestionnaireResponseInput;
   weeklyPlan: WeeklyPlan;
 }
+
+export function createEmptyQuestionnaireDraft(): QuestionnaireDraftInput {
+  return {
+    climbingGrade: "",
+    injuryLimitations: [],
+    trainingAge: "",
+    sessionsPerWeek: "",
+    equipmentAccess: [],
+    primaryGoal: "",
+  };
+}
